@@ -1,0 +1,24 @@
+.auth{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: grid;
+
+	&__select{
+		padding: 8px 14px;
+		border: 1px solid var(--special-accent);
+		border-radius: var(--radius-def);
+		font-size: 16px;
+	}
+
+	&__btn{
+		border-radius: var(--radius-def);
+		background-color: var(--special-accent);
+		padding: 10px;
+		border: none;
+		color: var(--white);
+		font-size: 16px;
+		margin-top: 20px;
+	}
+}

@@ -1,0 +1,40 @@
+.header {
+	width: 100%;
+	background-color: var(--special-accent);
+	position: relative;
+	display: grid;
+	grid-auto-flow: column;
+	gap: 10px;
+	padding: 12px 18px;
+
+	// Back btn
+	&__back_btn {
+		position: absolute;
+		top: 50%;
+		left: var(--container-pad);
+		transform: translateY(-50%) rotate(180deg);
+		border: none;
+		background-color: transparent;
+	}
+
+
+	// Burger
+	&__burger_btn {
+		position: absolute;
+		top: 50%;
+		right: 11px;
+		transform: translateY(-50%);
+		border: none;
+		background-color: transparent;
+		display: flex;
+		align-items: center;
+	}
+
+	// Title
+	&__title {
+		color: var(--white);
+		text-align: center;
+		font-size: 20px;
+		font-weight: 600;
+	}
+}

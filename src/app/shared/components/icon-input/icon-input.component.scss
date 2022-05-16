@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.input__icon__wrapper {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 21px;
+    padding-right: 21px;
+    
+    position: relative;
+}
+
+input {
+    box-sizing: border-box;
+}
+

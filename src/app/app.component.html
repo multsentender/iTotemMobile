@@ -1,1 +1,12 @@
+<header class="header">
+	<a routerLink="/login" class="header__back_btn">
+		<img src="assets/icons/arrow.svg">
+	</a>
+	<h4 class="header__title">Menu</h4>
+	<button class="header__burger_btn" (click)="toggleModal()">
+		<img src="assets/icons/burger.svg">
+	</button>
+</header>
+<app-menu *ngIf="getValue()"></app-menu>
+
 <router-outlet></router-outlet>

@@ -1,0 +1,29 @@
+FIELD_ACCOUNT_ID: |-
+  ID аккаунта
+
+FIELD_USERNAME: |-
+  Имя пользователя
+
+FIELD_PASSWORD: |-
+  Пароль
+
+FIELD_EMAIL: |-
+  Email
+
+FIELD_PHONE: |-
+  Номер телефона
+
+FIELD_LANGUAGE: |-
+  Язык
+
+FIELD_N_A: |-
+  н/д
+
+FIELD_SUBSCRIPTION: |-
+  {appName} новости и бонусы
+
+CONFIRM_NEW_PASSWORD: |-
+  Подтвердите новый пароль
+
+MY_PROFILE: |-
+  Мой профиль

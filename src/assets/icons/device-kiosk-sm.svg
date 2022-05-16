@@ -1,0 +1,24 @@
+<svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 73">
+<rect id="Rectangle 180" y="6" width="22" height="22" rx="5" fill="url(#paint0_linear_1411_4777)"/>
+<g id="Group 609">
+<g id="Group 631">
+<g id="Rectangle 182">
+<mask id="path-2-inside-1_1411_4777" fill="white">
+<rect x="11" width="16" height="23" rx="1"/>
+</mask>
+<rect x="11" width="16" height="23" rx="1" stroke="#1C1939" stroke-width="3" mask="url(#path-2-inside-1_1411_4777)"/>
+</g>
+<rect id="Rectangle 182_2" x="14.75" y="3.75" width="8.5" height="5.5" stroke="#1C1939" stroke-width="1.5"/>
+<path id="Vector" d="M18.5 12H14.5C14.2239 12 14 12.2239 14 12.5V13.6591C14 13.9352 14.2239 14.1591 14.5 14.1591H18.5C18.7761 14.1591 19 13.9352 19 13.6591V12.5C19 12.2239 18.7761 12 18.5 12Z" fill="#1C1939"/>
+<path id="Vector_2" d="M23.5 12H21.5C21.2239 12 21 12.2239 21 12.5V14.7386C21 15.0148 21.2239 15.2386 21.5 15.2386H23.5C23.7761 15.2386 24 15.0148 24 14.7386V12.5C24 12.2239 23.7761 12 23.5 12Z" fill="#1C1939"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1411_4777" x1="11" y1="6" x2="11" y2="28" gradientUnits="userSpaceOnUse">
+<stop stop-color="#96D9EE" stop-opacity="0.15"/>
+<stop offset="1" stop-color="#96D9EE"/>
+</linearGradient>
+</defs>
+</svg>

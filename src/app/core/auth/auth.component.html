@@ -1,0 +1,11 @@
+<section class="auth">
+	<label for="user">User: </label>
+	<select
+		[(ngModel)]="selectedUser"
+		id="user"
+		class="auth__select">
+		<option *ngFor="let u of users" [ngValue]="u">{{u.j_username}}</option>
+	</select>
+
+	<button class="auth__btn" (click)="onAuth()">Log in!</button>
+</section>

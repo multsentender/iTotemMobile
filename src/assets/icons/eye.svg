@@ -1,0 +1,17 @@
+<svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 56">
+<g id="EyeHiden" clip-path="url(#clip0_1411_4760)">
+<g id="Vector">
+<mask id="path-1-inside-1_1411_4760" fill="white">
+<path d="M8 0C4.5 0 1.4 2.1 0 5.1C0 5.2 0 5.3 0 5.4C1.4 8.4 4.4 10.5 8 10.5C11.6 10.5 14.6 8.4 16 5.4C16 5.3 16 5.2 16 5.1C14.6 2.1 11.5 0 8 0ZM8 2.9C9.3 2.9 10.3 3.9 10.3 5.2C10.3 6.5 9.3 7.5 8 7.5C6.7 7.5 5.7 6.5 5.7 5.2C5.7 3.9 6.7 2.9 8 2.9Z"/>
+</mask>
+<path d="M8 0C4.5 0 1.4 2.1 0 5.1C0 5.2 0 5.3 0 5.4C1.4 8.4 4.4 10.5 8 10.5C11.6 10.5 14.6 8.4 16 5.4C16 5.3 16 5.2 16 5.1C14.6 2.1 11.5 0 8 0ZM8 2.9C9.3 2.9 10.3 3.9 10.3 5.2C10.3 6.5 9.3 7.5 8 7.5C6.7 7.5 5.7 6.5 5.7 5.2C5.7 3.9 6.7 2.9 8 2.9Z" stroke="#9EA6BE" stroke-width="2" mask="url(#path-1-inside-1_1411_4760)"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_1411_4760">
+<rect width="16" height="10.5" fill="white"/>
+</clipPath>
+</defs>
+</svg>

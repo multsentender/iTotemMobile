@@ -1,0 +1,20 @@
+<svg width="29" height="22" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 75">
+<rect id="Rectangle 181" width="22" height="22" rx="5" fill="url(#paint0_linear_1411_4779)"/>
+<g id="Group 660">
+<g id="Rectangle 182">
+<mask id="path-2-inside-1_1411_4779" fill="white">
+<rect x="12" y="3" width="16" height="11" rx="1"/>
+</mask>
+<rect x="12" y="3" width="16" height="11" rx="1" stroke="#1C1939" stroke-width="3" mask="url(#path-2-inside-1_1411_4779)"/>
+</g>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M11 15V15.5C11 16.0523 11.4477 16.5 12 16.5H28C28.5523 16.5 29 16.0523 29 15.5V15H27.5H12.5H11Z" fill="#1C1939"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1411_4779" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D0DCFF" stop-opacity="0.15"/>
+<stop offset="1" stop-color="#9DB2ED"/>
+</linearGradient>
+</defs>
+</svg>

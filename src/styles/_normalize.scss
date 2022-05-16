@@ -1,0 +1,29 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'NotoSans', sans-serif;
+	line-height: 1.375;
+}
+
+body {
+	min-height: 100vh;
+	width: 100%;
+	background-color: var(--light-bg);
+}
+
+a {
+	text-decoration: none;
+}
+
+ul {
+	list-style: none;
+}
+
+.modal {
+	position: fixed;
+	width: 100%;
+	z-index: 99;
+}

@@ -1,0 +1,48 @@
+<main class="modal">
+	<nav class="agent">
+		<ul class="agent__list">
+			<li class="agent__list--item item_current">
+				Agent N
+			</li>
+			<li class="agent__list--item">
+				Agent M
+			</li>
+			<li class="agent__list--item item_disable">
+				Agent X
+			</li>
+		</ul>
+	</nav>
+	<section class="menu">
+		<ul class="menu__list">
+			<li class="menu__list--item" routerLink="profile">
+				<div class="menu__icon">
+					<img src="assets/icons/person.svg" alt="person">
+				</div>
+				<p class="menu__title">My profile</p>
+			</li>
+			<li class="menu__list--item" (click)="logOut()">
+				<div class="menu__icon">
+					<img src="assets/icons/logout.svg" alt="logout">
+				</div>
+				<p class="menu__title">Logout</p>
+			</li>
+			<li class="menu__list--item">
+				<div class="menu__icon">
+					<img src="assets/icons/language.svg" alt="lang">
+				</div>
+				<p class="menu__title">
+					Language
+					<span>Eng</span>
+				</p>
+			</li>
+			<li class="menu__list--item">
+				<div class="menu__icon">
+					<img src="assets/icons/messages.svg" alt="messages">
+				</div>
+				<p class="menu__title">Contact support</p>
+			</li>
+		</ul>
+
+		<a href="#" class="switch">Switch to desktop version</a>
+	</section>
+</main>
