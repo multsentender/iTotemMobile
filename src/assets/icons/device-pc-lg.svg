@@ -1,0 +1,22 @@
+<svg width="38" height="29" viewBox="0 0 38 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 72">
+<g id="Group 619">
+<rect id="Rectangle 182" width="28.3103" height="28.3103" rx="5" fill="url(#paint0_linear_1411_4776)"/>
+<g id="Group 607">
+<g id="Rectangle 182_2">
+<mask id="path-2-inside-1_1411_4776" fill="white">
+<rect x="15.4419" y="3.8606" width="20.5893" height="14.1552" rx="1"/>
+</mask>
+<rect x="15.4419" y="3.8606" width="20.5893" height="14.1552" rx="1" stroke="#1C1939" stroke-width="3" mask="url(#path-2-inside-1_1411_4776)"/>
+</g>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M14.1548 19V19.2328C14.1548 19.7851 14.6025 20.2328 15.1548 20.2328H36.3178C36.8701 20.2328 37.3178 19.7851 37.3178 19.2328V19H14.1548Z" fill="#1C1939"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1411_4776" x1="14.1552" y1="0" x2="14.1552" y2="28.3103" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D0DCFF" stop-opacity="0.15"/>
+<stop offset="1" stop-color="#9DB2ED"/>
+</linearGradient>
+</defs>
+</svg>

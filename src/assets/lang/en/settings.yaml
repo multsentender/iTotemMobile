@@ -1,0 +1,29 @@
+FIELD_ACCOUNT_ID: |-
+  Account ID
+
+FIELD_USERNAME: |-
+  User name
+
+FIELD_PASSWORD: |-
+  Password
+
+FIELD_EMAIL: |-
+  Email
+
+FIELD_PHONE: |-
+  Phone number
+
+FIELD_LANGUAGE: |-
+  Language
+
+FIELD_N_A: |-
+  n/a
+
+FIELD_SUBSCRIPTION: |-
+  {appName} news and bonuses
+
+CONFIRM_NEW_PASSWORD: |-
+  Confirm New Password
+
+MY_PROFILE: |-
+  My profile

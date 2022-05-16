@@ -1,0 +1,25 @@
+<section class="profile profile__container">
+    <form>
+        <div class="mainColumn" [formGroup]="profileForm">
+
+            <app-icon-input alt="person" type="text" formControlName="name" icon="person" [form]="profileForm">
+            </app-icon-input>
+
+            <app-icon-input alt="letter" type="email" icon="letter" formControlName="email" [form]="profileForm">
+            </app-icon-input>
+
+            <app-password-input formControlName="password"></app-password-input>
+
+            <app-password-input
+                [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input':''"
+                [placeholder]="'CONFIRM_NEW_PASSWORD' | translate" formControlName="passwordRep"></app-password-input>
+
+            <button class="button__profile" (click)="confirm()">{{'CONFIRM' | translate}}</button>
+
+        </div>
+
+        <div class="button__wrap">
+            <button class="button__transparent" (click)="cancel()">{{'CANCEL' | translate}}</button>
+        </div>
+    </form>
+</section>

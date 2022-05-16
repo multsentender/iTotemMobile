@@ -1,0 +1,5 @@
+<div class="input__wrapper input__icon__wrapper" 
+[class]="(form.touched && form.get(formControlName)?.invalid) ? 'alert__input': ''">
+    <img *ngIf="icon" src="assets/icons/{{icon}}.svg" [alt]=alt>
+    <input class="input-text" [type]=type  [formControl]="tmpForm"/>
+</div>

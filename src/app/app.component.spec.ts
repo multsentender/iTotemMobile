@@ -1,15 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { IconInputComponent} from './shared/components/icon-input/icon-input.component'
+import { ComponentsModule} from './shared/components/components.module'
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        ComponentsModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        IconInputComponent
       ],
     }).compileComponents();
   });

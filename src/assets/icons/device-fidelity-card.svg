@@ -1,0 +1,24 @@
+<svg width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 69">
+<g id="Frame 43">
+<rect id="Rectangle 168" width="28" height="25.2593" rx="5" fill="url(#paint0_linear_1411_4773)"/>
+<g id="Group 624">
+<g id="Rectangle 200">
+<mask id="path-2-inside-1_1411_4773" fill="white">
+<rect x="9.5127" y="2.25928" width="22.1538" height="16" rx="1"/>
+</mask>
+<rect x="9.5127" y="2.25928" width="22.1538" height="16" rx="1" stroke="#1C1939" stroke-width="3" mask="url(#path-2-inside-1_1411_4773)"/>
+</g>
+<rect id="Rectangle 201" x="9.5127" y="5.95166" width="22.1538" height="2.46154" fill="#1C1939"/>
+<rect id="Rectangle 202" x="13.2048" y="13.3361" width="4.92308" height="1.23077" rx="0.615385" fill="#1C1939"/>
+<rect id="Rectangle 203" x="13.2048" y="10.8746" width="8.61538" height="1.23077" rx="0.615385" fill="#1C1939"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1411_4773" x1="14" y1="0" x2="14" y2="25.2593" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D89CED" stop-opacity="0.15"/>
+<stop offset="1" stop-color="#D89CED"/>
+</linearGradient>
+</defs>
+</svg>
