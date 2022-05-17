@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   cancel() {
     this.location.back();
   }
-  
+
   checkPasswords(group: FormGroup) {
     return (group.controls['password'].value === group.controls['passwordRep'].value) ? null :
       { passwordMatchError: 'passwords_not_equal' } as ValidationErrors
