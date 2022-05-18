@@ -1,19 +1,45 @@
 @import "src/styles/variables";
 
-.input__icon__wrapper {
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 12px;
 
-    padding-top: 16px;
-    padding-bottom: 16px;
-    padding-left: 21px;
-    padding-right: 21px;
-    
+
+.input__wrapper {
     position: relative;
+    box-sizing:border-box;
 }
 
-input {
-    box-sizing: border-box;
+// Input icon
+
+.input__icon {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
 }
 
+// Input
+
+.input__form {
+    width: 100%;
+    height: 52px;
+    border: none;
+    font-size: 14px;
+    color: var(--special-text-cl);
+    padding: 17px;
+    padding-left: 3.4em;
+    border-radius: var(--radius-def);
+    outline: none;
+
+    &::placeholder {
+        font-size: 14px;
+        color: var(--special-gray);
+    }
+    &:focus-within {
+        border: 1px solid var(--special-accent);
+    }
+
+
+    // Theme no-icon
+    &__no_icon {
+        padding-left: 17px;
+    }
+}

@@ -14,13 +14,13 @@ import { FormControl, FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from 
 })
 
 export class IconInputComponent implements ControlValueAccessor, OnInit {
-  @Input() alt?: string;
   @Input() type: string = "text";
-  @Input() formControlName: string = "";
-  @Input() form: FormGroup = new FormGroup({});
+  @Input() form!: FormGroup;
+  @Input() formControlName!: string;
 
   @Input() placeholder: string = "";
   @Input() icon?: string;
+  @Input() alt?: string;
 
   constructor() { }
 

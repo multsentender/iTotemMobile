@@ -2,50 +2,13 @@
 @import './normalize';
 @import './fonts';
 
-.input-text {
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  width: 100%;
-
-  color: var(--special-text-cl);
+// Theme Invalid inputs and selects
+.alert__input {
+	border: 1px solid var(--special-red);
+	color: var(--special-red);
 }
-
-.input__wrapper {
-  font-size: 14px;
-  margin-bottom: 6px;
-  color: var(--special-accent);
-  background: var(--white);
-  cursor: text;
-
-  border-radius: var(--radius-def);
-  border: 1px solid transparent;
-  height: calc(50px - 16px*2);
-  align-content: center;
-  align-items: center;
-  box-sizing: content-box;
-}
-
-.input__wrapper:focus-within {
-  border: 1px solid var(--special-accent);
-}
-
-.input__wrapper>input {
-  outline: none;
-  border: none;
-  background: transparent;
-}
-
-.input__wrapper.alert__input {
-  border: 1px solid var(--special-red) !important;
-}
-
-.input__wrapper.alert__input>.input-text {
-  color: var(--special-red);
-}
-
-.alert__input>.input__wrapper {
-  border: 1px solid var(--special-red) !important;
+// FIXME Remove remove me please
+.alert__input_inside > input {
+	border: 1px solid var(--special-red) !important;
+	color: var(--special-red);
 }

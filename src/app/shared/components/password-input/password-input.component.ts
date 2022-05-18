@@ -18,7 +18,7 @@ export class PasswordInputComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = "";
   hidePass: boolean = true;
 
-  @Input() formControlName: string = '';
+  @Input() formControlName!: string;
   control: FormControl = new FormControl();
 
   constructor(
@@ -36,8 +36,6 @@ export class PasswordInputComponent implements ControlValueAccessor, OnInit {
   registerOnTouched() {}
 
   writeValue() {}
-
-  setDisabledState() {}
 
   hidePassword() {
     this.hidePass = !this.hidePass;

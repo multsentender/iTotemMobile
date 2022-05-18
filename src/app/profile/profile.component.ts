@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { AgentInfo } from '@shared/models/agentInfo';
 import { environment } from 'src/environments/environment';
 import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 
@@ -12,7 +11,7 @@ import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup = this._fb.group({
+  profileForm: FormGroup = this.fb.group({
     name: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
     email: ['', Validators.compose([Validators.required, Validators.email])],
     password: ['', Validators.required],
@@ -21,7 +20,7 @@ export class ProfileComponent implements OnInit {
 
 
   constructor(
-    private _fb: FormBuilder,
+    private fb: FormBuilder,
     private location: Location,
     private http: HttpClient
   ) { }
@@ -34,8 +33,8 @@ export class ProfileComponent implements OnInit {
           console.log(data);
 
           this.profileForm.patchValue({
-            name: data.agentName,
-            email: data.email,
+            name: data.login,
+            email: data.originalLogin,
             password: data.password,
             passwordRep: data.password
           })
