@@ -12,7 +12,6 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { MultiTranslateLoader } from './core/multi-translate-loader';
 import { MenuComponent } from './core/menu/menu.component';
-import { ProfileModule } from './profile/profile.module';
 
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
@@ -32,7 +31,6 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ProfileModule,
     CoreModule,
     ComponentsModule,
     HttpClientModule,

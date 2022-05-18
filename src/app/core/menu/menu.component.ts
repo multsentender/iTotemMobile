@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@shared/auth/auth.service';
+import { TreeNodeService } from '@shared/tree-node.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-menu',
@@ -9,15 +11,19 @@ import { AuthService } from '@shared/auth/auth.service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-
   constructor(
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private treeNodeService: TreeNodeService,
+    private cookies: CookieService) {}
+
+    public agents = this.treeNodeService.agents.value
+    public rooms = this.treeNodeService.rooms.value
 
   logOut(): void {
     const throwDownToDefault = () => {
       this.authService.isAuth.next(false)
-      sessionStorage.removeItem('isAuth')
+      localStorage.removeItem('isAuth')
       this.router.navigate(['/login'])
     }
 
@@ -29,5 +35,9 @@ export class MenuComponent {
         url ? throwDownToDefault() : console.error(err)
       }
     })
+  }
+
+  noMobile() {
+    this.cookies.set('noMobile', 'true', {domain: "test-a.itotem.net"})
   }
 }

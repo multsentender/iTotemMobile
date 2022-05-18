@@ -1,14 +1,22 @@
 <main class="modal">
 	<nav class="agent">
 		<ul class="agent__list">
-			<li class="agent__list--item item_current">
-				Agent N
+			<!-- FIXME Исправить логику темы "item_current" -->
+			<li
+				*ngFor="let item of agents"
+				[ngClass]="{
+					'agent__list--item': true,
+					'item_current': true,
+					'item_disable': item.deleted || item.blocked}"
+				routerLink="/agent/{{item.id}}">
+				{{item.label}}
 			</li>
-			<li class="agent__list--item">
-				Agent M
-			</li>
-			<li class="agent__list--item item_disable">
-				Agent X
+			<li *ngFor="let item of rooms"
+				[ngClass]="{
+					'agent__list--item': true,
+					'item_disable': item.deleted}"
+				routerLink="/room/{{item.id}}">
+				{{item.label}}
 			</li>
 		</ul>
 	</nav>
@@ -35,7 +43,7 @@
 					<span>Eng</span>
 				</p>
 			</li>
-			<li class="menu__list--item">
+			<li class="menu__list--item" routerLink="support">
 				<div class="menu__icon">
 					<img src="assets/icons/messages.svg" alt="messages">
 				</div>
@@ -43,6 +51,6 @@
 			</li>
 		</ul>
 
-		<a href="#" class="switch">Switch to desktop version</a>
+		<a (click)="noMobile()" href="https://test-a.itotem.net" class="switch">Switch to desktop version</a>
 	</section>
 </main>

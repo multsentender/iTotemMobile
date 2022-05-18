@@ -25,5 +25,6 @@ ul {
 .modal {
 	position: fixed;
 	width: 100%;
+	height: calc(100vh - 52px);
 	z-index: 99;
 }

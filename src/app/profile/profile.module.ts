@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    ProfileComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

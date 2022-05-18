@@ -39,10 +39,11 @@ export class AuthService {
         this.isAuth.next(JSON.parse(localStorageData))
       }
     }
+
     return this.isAuth.value
   }
 
-  getAgentProfile(): Observable<AgentLoginInfo> {
+  getTreeChildren(): Observable<AgentLoginInfo> {
     return this.http.post(`${environment.apiUrl}getTreeChildren`, {}, {withCredentials: true})
   }
 }

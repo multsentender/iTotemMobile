@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
-
-interface Profile {
-  name: string,
-  email: string,
-  password: string,
-  passwordRep: string
-}
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { AgentInfo } from '@shared/models/agentInfo';
+import { environment } from 'src/environments/environment';
+import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 
 @Component({
   selector: 'app-profile',
@@ -26,22 +23,25 @@ export class ProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private location: Location,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
-    //STATIC
-    const data: Profile = {
-      name: "name",
-      email: "email@f.com",
-      password: "password",
-      passwordRep: ""
-    }
+    this.http.get<AgentLoginInfo>(
+      `${environment.apiUrl}getCurrentUserProfile`,
+      {withCredentials: true}).subscribe({
+        next: (data) => {
+          console.log(data);
 
-    this.profileForm.patchValue({
-      name: data.name,
-      email: data.email,
-      password: data.password
-    });
+          this.profileForm.patchValue({
+            name: data.agentName,
+            email: data.email,
+            password: data.password,
+            passwordRep: data.password
+          })
+        },
+        error: (err: HttpErrorResponse) => new Error(err.message)
+      })
   }
 
   confirm() {

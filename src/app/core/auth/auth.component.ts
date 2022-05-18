@@ -36,8 +36,9 @@ export class AuthComponent {
     private router: Router) { }
 
   onAuth() {
-    const getProfile = () => this.auth.getAgentProfile().subscribe({
+    const getProfile = () => this.auth.getTreeChildren().subscribe({
       next: () => {
+        this.auth.isAuth.next(true)
         this.auth.saveUserToLocalStorage(true)
         this.router.navigate(['/'])
       },
