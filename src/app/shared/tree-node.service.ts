@@ -36,7 +36,7 @@ export class TreeNodeService {
             if(isRoom(el)) rooms.push(el)
           })
           return val
-      })).subscribe((data) => {
+      })).subscribe(() => {
         this.agents.next(agents)
         this.rooms.next(rooms)
       })

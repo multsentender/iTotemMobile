@@ -5,10 +5,20 @@
 // Theme Invalid inputs and selects
 .alert__input {
 	border: 1px solid var(--special-red);
-	color: var(--special-red);
 }
 // FIXME Remove remove me please
-.alert__input_inside > input {
+.alert__input_inside input {
 	border: 1px solid var(--special-red) !important;
-	color: var(--special-red);
+}
+
+
+.modal{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 99;
+	padding: var(--container-pad);
+	background-color: #a6aaad;
 }

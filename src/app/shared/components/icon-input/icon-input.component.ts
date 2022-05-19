@@ -24,7 +24,8 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   get tmpForm() {
     return this.form.get(this.formControlName) as FormControl;

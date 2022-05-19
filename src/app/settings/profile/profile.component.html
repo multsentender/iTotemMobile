@@ -1,6 +1,5 @@
 <section class="profile profile__container">
     <div class="mainColumn" [formGroup]="profileForm">
-
         <app-icon-input
             type="text"
             formControlName="name"
@@ -30,3 +29,19 @@
             (click)="cancel()">{{'CANCEL' | translate}}</button>
     </div>
 </section>
+<!--
+<div class="modal confirm__modal">
+    <div class="modal__container">
+        <div class="modal__text">
+            <h6 class="modal__title">Password update</h6>
+            <p class="modal__description">
+                Enter your current password to confirm changes
+            </p>
+        </div>
+        <app-password-input placeholder="Confirm Password"></app-password-input>
+        <button class="button__profile">{{'CONFIRM' | translate}}</button>
+        <div class="button__wrap">
+            <button class="button__transparent">{{'CANCEL' | translate}}</button>
+        </div>
+    </div>
+</div> -->
