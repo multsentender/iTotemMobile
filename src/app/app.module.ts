@@ -14,6 +14,7 @@ import { MultiTranslateLoader } from './core/multi-translate-loader';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileModule } from './profile/profile.module';
 
+import '../styles/styles.scss';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const localPath = 'assets/lang/';

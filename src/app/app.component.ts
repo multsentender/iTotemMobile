@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']//not ./app.component.scss - webpack error
 })
 export class AppComponent {
   menuModalActive: BehaviorSubject<boolean>;
