@@ -5,8 +5,8 @@
         src="assets/icons/{{icon}}.svg"
         [alt]=alt>
     <input
-        [ngClass]="{'input__form': true, 'input__form__no_icon': !icon, 'alert__input': form.touched && form.get(formControlName)?.invalid}"
+        [ngClass]="{'input__form': true, 'input__form__no_icon': !icon}"
         [placeholder]=placeholder
         [type]=type
-        [formControl]="tmpForm"/>
+        [formControl]="formControl"/>
 </div>

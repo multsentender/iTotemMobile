@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, first, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AgentLoginInfo } from './models/agentLoginInfo';
-import { UpdateCurrentUserPasswordRequest, ValidationStatus } from './models/models';
+import { UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidationStatus } from './models/models';
 import { ValidateEMailRequest } from './models/validateEMailRequest';
 
 @Injectable()
@@ -25,15 +25,30 @@ export class ProfileService {
       })
   }
 
-  validEmail(email: ValidateEMailRequest): Observable<ValidationStatus> {
-    return this.http.post(`${environment.apiUrl}validateEMail`,
+  validEmail(email: ValidateEMailRequest, cb: Function): void {
+    this.http.post<ValidationStatus>(`${environment.apiUrl}validateEMail`,
     email,
+    {withCredentials: true})
+    .pipe(first()).subscribe(data => cb(data))
+  }
+
+  validPassword(password: ValidateAgentPasswordRequest, cb: Function): void {
+    this.http.post<ValidationStatus>(
+      `${environment.apiUrl}validateCurrentUserPassword`,
+      password,
+      {withCredentials: true})
+      .pipe(first()).subscribe(data => cb(data))
+  }
+
+  updateUserProfile(profile: UpdateCurrentUserProfileRequest): Observable<AgentLoginInfo>{
+    return this.http.post(`${environment.apiUrl}updateCurrentUserProfile`,
+    profile,
     {withCredentials: true})
   }
 
-  updateUserProfile(profile: UpdateCurrentUserPasswordRequest): Observable<AgentLoginInfo>{
-    return this.http.post(`${environment}updateCurrentUserProfile`,
-    profile,
+  updateUserPassword(passwords: UpdateCurrentUserPasswordRequest): Observable<any> {
+    return this.http.post(`${environment.apiUrl}updateCurrentUserPassword`,
+    passwords,
     {withCredentials: true})
   }
 }

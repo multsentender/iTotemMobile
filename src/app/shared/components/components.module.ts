@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IconInputComponent } from './icon-input/icon-input.component'
 import { PasswordInputComponent } from './password-input/password-input.component'
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   imports: [
@@ -14,11 +15,13 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
     IconInputComponent,
     PasswordInputComponent,
     CheckboxComponent,
+    ModalComponent,
   ],
   exports: [
     IconInputComponent,
     PasswordInputComponent,
     CheckboxComponent,
+    ModalComponent
   ],
 })
 export class ComponentsModule { }

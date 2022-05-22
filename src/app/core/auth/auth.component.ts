@@ -13,7 +13,7 @@ export class AuthComponent {
   users: Array<UserAuth> = [
     {
       j_username: 'mobileadmindev1',
-      j_password: 'qaz123'
+      j_password: 'qwe122'
     },
     {
       j_username: 'mobileadmindev2',

@@ -2,46 +2,36 @@
     <div class="mainColumn" [formGroup]="profileForm">
         <app-icon-input
             type="text"
-            formControlName="name"
-            [form]="profileForm"
+            [formControl]="getFormControl('name')"
             icon="person"
             alt="person"
             placeholder="Your login"></app-icon-input>
         <app-icon-input
             type="email"
-            formControlName="email"
-            [form]="profileForm"
+            [formControl]="getFormControl('email')"
             icon="letter"
             alt="letter"
             placeholder="Email"></app-icon-input>
         <app-password-input
-            formControlName="password"
-            placeholder="Password"></app-password-input>
+            placeholder="Password"
+            [formControl]="getFormControl('password')"></app-password-input>
         <app-password-input
-            [class]="profileForm?.hasError('passwordMatchError')
-            && profileForm?.touched ? 'alert__input_inside': ''"
-            [placeholder]="'CONFIRM_NEW_PASSWORD' | translate" formControlName="passwordRep"></app-password-input>
-        <button class="button__profile" (click)="confirm()">{{'CONFIRM' | translate}}</button>
+            [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
+            [placeholder]="'CONFIRM_NEW_PASSWORD' | translate"
+            [formControl]="getFormControl('passwordConf')"></app-password-input>
+        <button class="btn__secect" (click)="confirm()">{{'CONFIRM' | translate}}</button>
     </div>
-    <div class="button__wrap">
+    <div class="btn__cancel__wrap">
         <button
-            class="button__transparent"
+            class="btn__cancel"
             (click)="cancel()">{{'CANCEL' | translate}}</button>
     </div>
 </section>
-<!--
-<div class="modal confirm__modal">
-    <div class="modal__container">
-        <div class="modal__text">
-            <h6 class="modal__title">Password update</h6>
-            <p class="modal__description">
-                Enter your current password to confirm changes
-            </p>
-        </div>
-        <app-password-input placeholder="Confirm Password"></app-password-input>
-        <button class="button__profile">{{'CONFIRM' | translate}}</button>
-        <div class="button__wrap">
-            <button class="button__transparent">{{'CANCEL' | translate}}</button>
-        </div>
-    </div>
-</div> -->
+<app-modal
+    title="Password update"
+    message="Enter your current password to confirm changes"
+    [modalActive]="modalActive"
+    (modalActiveEvent)="modalActive = $event"
+    [withForm]=true
+    (cbEvent)="checkCurrentPassword($event)"
+></app-modal>
