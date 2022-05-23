@@ -23,7 +23,7 @@ declare const userEmail: string;// - email текущего пользовате
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']//not ./app.component.scss - webpack error
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   menuModalActive: BehaviorSubject<boolean>;
   currentRoute!: string;
 
@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
   ) {
     translate.addLangs(['en', 'ru']);
     translate.setDefaultLang('en');
-    translate.use('en');
 
     this.menuModalActive = new BehaviorSubject<boolean>(false)
     this.router.events.subscribe((event: Event) => {
@@ -41,9 +40,7 @@ export class AppComponent implements OnInit {
         this.menuModalActive.next(false)
       }
     });
-  }
 
-  ngOnInit(): void {
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
       environment.baseRouteUrl = baseRouteUrl;
@@ -61,6 +58,8 @@ export class AppComponent implements OnInit {
     try { environment.freshchatToken = freshchatToken; } catch (e) { }
     try { environment.freshchatHost = freshchatHost; } catch (e) { }
     try { environment.userEmail = userEmail; } catch (e) { }
+
+    translate.use(environment.lang);
   }
 
   getValue(): boolean {
