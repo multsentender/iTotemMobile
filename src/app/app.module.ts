@@ -12,6 +12,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { MultiTranslateLoader } from './core/multi-translate-loader';
 
+import '../styles/styles.scss';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const localPath = 'assets/lang/';

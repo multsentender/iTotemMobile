@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{appName}}</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body style="margin: 0">
+  <script>
+    {{#if baseAssetsUrl }} const baseAssetsUrl = "{{baseAssetsUrl}}"; {{/if}}
+    {{#if baseRouteUrl }} const baseRouteUrl = "{{baseRouteUrl}}"; {{/if}}
+    {{#if baseApiUrl }} const baseApiUrl = "{{baseApiUrl}}"; {{/if}}
+    {{#if baseRootUrl }} const baseRootUrl = "{{baseRootUrl}}"; {{/if}}
+    {{#if appName }} const appName = "{{appName}}"; {{/if}}
+    {{#if backofficeAppName }} const backofficeAppName = "{{backofficeAppName}}"; {{/if}}
+    {{#if version }} const version  = "{{version}}"; {{/if}}
+    {{#if logConfig }} const logConfig = "{{logConfig}}"; {{/if}}
+    {{#if userID }} const userID = "{{userID}}"; {{/if}}
+    {{#if lang }} const lang = "{{lang}}"; {{/if}};
+    {{#if freshchatToken }} const freshchatToken = "{{freshchatToken}}"; {{/if}}
+    {{#if freshchatHost }} const freshchatHost = "{{freshchatHost}}"; {{/if}}
+    {{#if userEmail }} const userEmail = "{{userEmail}}"; {{/if}}
+  </script>
+
+  <app-root></app-root>
+</body>
+
+</html>
