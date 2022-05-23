@@ -15,10 +15,11 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
   ],
 })
 export class PasswordInputComponent implements ControlValueAccessor {
+  @Input() formControl!: FormControl;
   @Input() placeholder: string = "";
+  @Input() errorMessage?: string;
   hidePass: boolean = true;
 
-  @Input() formControl!: FormControl;
 
   constructor() { }
 

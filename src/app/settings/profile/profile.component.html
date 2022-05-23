@@ -9,11 +9,13 @@
         <app-icon-input
             type="email"
             [formControl]="getFormControl('email')"
+            [errorMessage]="formValidation['email']"
             icon="letter"
             alt="letter"
             placeholder="Email"></app-icon-input>
         <app-password-input
             placeholder="Password"
+            [errorMessage]="formValidation['password']"
             [formControl]="getFormControl('password')"></app-password-input>
         <app-password-input
             [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"

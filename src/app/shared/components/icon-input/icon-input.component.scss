@@ -46,3 +46,14 @@
         padding-left: 17px;
     }
 }
+
+
+// Error message
+
+.input__error {
+    color: var(--special-red);
+    font-size: 12px;
+    position: absolute;
+    left: 2px;
+    top: -17px;
+}

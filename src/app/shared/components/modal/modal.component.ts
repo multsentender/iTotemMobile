@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
@@ -16,7 +16,7 @@ export class ModalComponent implements OnInit {
   @Output() modalActiveEvent = new EventEmitter<boolean>(this.modalActive);
   @Output() cbEvent = new EventEmitter<string>();
 
-  form = new FormControl('', {initialValueIsDefault: true});
+  form = new FormControl('', {validators: Validators.required});
 
   constructor() {}
 
@@ -24,10 +24,10 @@ export class ModalComponent implements OnInit {
   }
 
   formHandler() {
-    if(this.withForm) {
-      this.cbEvent.emit(this.form.value)
-    } else {
+    if(!this.withForm) {
       this.cbEvent.emit()
+    } else if(this.form.valid) {
+      this.cbEvent.emit(this.form.value)
     }
   }
 

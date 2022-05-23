@@ -4,7 +4,7 @@
 
 // Theme Invalid inputs and selects
 .alert__input {
-	border: 1px solid var(--special-red);
+	border: 1px solid var(--special-red) !important;
 }
 // FIXME Remove remove me please
 .alert__input_inside input {

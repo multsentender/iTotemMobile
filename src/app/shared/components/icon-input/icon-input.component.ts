@@ -17,6 +17,7 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
   @Input() type: string = "text";
   @Input() formControl!: FormControl;
 
+  @Input() errorMessage?: string;
   @Input() placeholder: string = "";
   @Input() icon?: string;
   @Input() alt?: string;

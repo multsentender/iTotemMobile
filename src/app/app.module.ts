@@ -24,7 +24,7 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
