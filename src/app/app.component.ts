@@ -1,36 +1,47 @@
-import { Component } from '@angular/core';
-import { NavigationStart, Router, Event } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '@shared/auth/auth.service';
+import { TreeNodeService } from '@shared/tree-node.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  menuModalActive: BehaviorSubject<boolean>;
+export class AppComponent implements OnInit {
   currentRoute!: string;
   constructor(
+    private authService: AuthService,
+    private treeNodeService: TreeNodeService,
     translate: TranslateService,
-    private router: Router) {
+    private router: Router,
+    private location: Location) {
     translate.addLangs(['en', 'ru']);
     translate.setDefaultLang('en');
     translate.use('en');
+  }
 
-    this.menuModalActive = new BehaviorSubject<boolean>(false)
-    this.router.events.subscribe((event: Event) => {
-        if (event instanceof NavigationStart) {
-            this.menuModalActive.next(false)
+  ngOnInit(): void {
+    this.authService.loadUserFromLocalStorage()
+    this.authService.getTreeChildren()
+      .subscribe({
+        error: () => {
+          if(this.authService.isAuth) {
+            this.authService.isAuth.next(false)
+            localStorage.removeItem('isAuth')
+            this.router.navigate(['/login'])
+          }
         }
-    });
+      })
+
+    if(this.authService.isAuth) {
+      this.treeNodeService.sortAgentAndRoom(this.treeNodeService.loadTreeNode())
+    }
   }
 
-  getValue(): boolean {
-    return this.menuModalActive.getValue()
-  }
-
-  toggleModal() {
-    this.menuModalActive.next(!this.getValue())
+  toggleMenu() {
+    this.router.isActive('settings', true) ? this.location.back() : this.router.navigate(['settings'])
   }
 }

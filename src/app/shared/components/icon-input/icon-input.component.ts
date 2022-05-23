@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { FormControl, FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
@@ -14,21 +14,17 @@ import { FormControl, FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from 
 })
 
 export class IconInputComponent implements ControlValueAccessor, OnInit {
-  @Input() alt?: string;
   @Input() type: string = "text";
-  @Input() formControlName: string = "";
-  @Input() form: FormGroup = new FormGroup({});
+  @Input() formControl!: FormControl;
 
+  @Input() errorMessage?: string;
   @Input() placeholder: string = "";
   @Input() icon?: string;
+  @Input() alt?: string;
 
   constructor() { }
 
   ngOnInit(): void {}
-
-  get tmpForm() {
-    return this.form.get(this.formControlName) as FormControl;
-  }
 
   registerOnChange(fn: any) {
   }

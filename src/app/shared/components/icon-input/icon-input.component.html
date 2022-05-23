@@ -1,5 +1,13 @@
-<div class="input__wrapper input__icon__wrapper" 
-[class]="(form.touched && form.get(formControlName)?.invalid) ? 'alert__input': ''">
-    <img *ngIf="icon" src="assets/icons/{{icon}}.svg" [alt]=alt>
-    <input class="input-text" [type]=type  [formControl]="tmpForm"/>
+<div class="input__wrapper">
+    <span class="input__error">{{errorMessage}}</span>
+    <img
+        class="input__icon"
+        *ngIf="icon"
+        src="assets/icons/{{icon}}.svg"
+        [alt]=alt>
+    <input
+        [ngClass]="{'input__form': true, 'input__form__no_icon': !icon,'alert__input': formControl.touched && formControl.invalid || errorMessage && errorMessage !== ''}"
+        [placeholder]=placeholder
+        [type]=type
+        [formControl]="formControl"/>
 </div>
