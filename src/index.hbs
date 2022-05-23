@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{appName}}</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body style="margin: 0">
+  <script>
+    {{#if baseAssetsUrl }} const baseAssetsUrl = {{baseAssetsUrl}}; {{/if}}// – базовый урл к каталогу assets
+    {{#if baseRouteUrl }} const baseRouteUrl = {{baseRouteUrl }}; {{/if}}// – базовый урл для HTML5 роунтина
+    {{#if baseApiUrl }} const baseApiUrl = {{baseApiUrl}}; {{/if}}// – базовый урл для АПИ
+    {{#if baseRootUrl }} const baseRootUrl = {{baseRootUrl}}; {{/if}}// - корень сайта, используется только для logout и переключение в Desktop режим
+    {{#if appName }} const appName = {{appName}}; {{/if}}// – название продукта (Playpoint)
+    {{#if backofficeAppName }} const backofficeAppName = {{backofficeAppName}}; {{/if}}// – название продукта Backoffice (Playpoint Backoffice)
+    {{#if version }} const version  = {{version}}; {{/if}}// - версия UI, должна использоваться в URL загрузки статики
+    {{#if logConfig }} const logConfig = {{logConfig}}; {{/if}}// - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
+    {{#if userID }} const userID = {{userID}}; {{/if}}// - ID пользователя для целей логирования
+    {{#if lang }} const lang = {{lang}}; {{/if}};// - текущий язык пользователя (en, it, pt, pt-BR, ..)
+    {{#if freshchatToken }} const freshchatToken = {{freshchatToken}}; {{/if}}// - токен freshChat (может быть пустыми если для пользователя отключен чат)
+    {{#if freshchatHost }} const freshchatHost = {{freshchatHost}}; {{/if}}// - хост freshChat (может быть пустыми если для пользователя отключен чат)
+    {{#if userEmail }} const userEmail = {{userEmail}}; {{/if}}// - email текущего пользователя, для freshChat. Может быть пустым.
+  </script>
+
+  <app-root></app-root>
+</body>
+
+</html>

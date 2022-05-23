@@ -1,19 +1,18 @@
-//webpack.config.js
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const CopyPlugin = require("copy-webpack-plugin");
 const AngularWebpackPlugin = require('@ngtools/webpack').AngularWebpackPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-
 module.exports = (env) => {
   return {
-
     mode: env.production ? "production" : "development",
     devtool: env.production ? false : "eval",
 
     context: path.resolve(__dirname),
     entry: {
+      polyfills: './src/polyfills.ts',
       app: path.resolve(__dirname, "src/main.ts"),
       index: ["./src/main.ts"]
     },
@@ -22,12 +21,12 @@ module.exports = (env) => {
       clean: true,
       path: path.resolve(__dirname, "dist"),
       publicPath: '/',
-      filename: env.production ? "[name].[chunkhash].js" : "[name].js"
+      filename: env.production ? "assets/js/[name].[chunkhash].js" : "assets/js/[name].js",
     },
 
 
     resolve: {
-      extensions: [".ts", ".js"]
+      extensions: [".ts", ".js", '.html']
     },
 
     module: {
@@ -66,7 +65,7 @@ module.exports = (env) => {
         },
 
 
-        {//styleUrls
+        {
           test: /\.?(css|scss)$/,
           exclude: /\/node_modules\//,
           oneOf: [
@@ -83,7 +82,6 @@ module.exports = (env) => {
             {
               type: "asset/source",
               loader: "postcss-loader",
-              //use: ["postcss-loader"]
               options: {
                 postcssOptions: {
                   ident: 'postcss',
@@ -94,7 +92,7 @@ module.exports = (env) => {
           ],
           exclude: path.join(__dirname, 'src/app')
         },
-        {//styleUrls
+        {
           test: /\.?(css|scss)$/,
           exclude: /\/node_modules\//,
           use: [{ loader: 'to-string-loader' }, //'style-loader' to user styleUrls
@@ -103,6 +101,13 @@ module.exports = (env) => {
           include: path.join(__dirname, 'src/app')
         },
 
+        {//fonts to folder
+          test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'assets/fonts/[name].[contenthash:8][ext]'
+          }
+        },
       ]
     },
     devServer: {
@@ -110,28 +115,38 @@ module.exports = (env) => {
         directory: path.resolve(__dirname, "dist"),
       },
       port: 4200,
-      //hot: true,
       open: false,
       client: {
         overlay: {
           errors: true,
           warnings: false,
-        }
+        },
+        logging: 'info'
       },
       historyApiFallback: true//route not found
     },
 
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          handlebarsLoader: {}
+        }
+      }),
       new HtmlWebpackPlugin({
-        filename: path.resolve(__dirname, "dist", "index.html"),
-        template: path.resolve(__dirname, "src/index.html")
-      }),
+        filename: path.resolve(__dirname, "dist", "index.hbs"),
+        template: path.resolve(__dirname, "src/index.hbs"),
 
+        inject: 'body',
+      }),
+      new webpack.ContextReplacementPlugin(
+        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/
+      ),
+      //styles to css folder
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: "[name].css"
+        filename: 'assets/css/[name].[contenthash:8].css',//'[name].css',
+        chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'//"[name].css"
       }),
-
+      //copy assets in dist
       new CopyPlugin({
         patterns: [
           {
@@ -146,11 +161,10 @@ module.exports = (env) => {
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
         jitMode: false,
       }),
-
-
     ],
 
     optimization: {
+      minimize: false,
       splitChunks: {
         chunks: 'all'
       }
