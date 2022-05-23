@@ -1,0 +1,39 @@
+<section class="profile profile__container">
+    <div class="mainColumn" [formGroup]="profileForm">
+        <app-icon-input
+            type="text"
+            [formControl]="getFormControl('name')"
+            icon="person"
+            alt="person"
+            placeholder="Your login"></app-icon-input>
+        <app-icon-input
+            type="email"
+            [formControl]="getFormControl('email')"
+            [errorMessage]="formValidation['email']"
+            icon="letter"
+            alt="letter"
+            placeholder="Email"></app-icon-input>
+        <app-password-input
+            placeholder="Password"
+            [errorMessage]="formValidation['password']"
+            [formControl]="getFormControl('password')"></app-password-input>
+        <app-password-input
+            [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
+            [placeholder]="'CONFIRM_NEW_PASSWORD' | translate"
+            [formControl]="getFormControl('passwordConf')"></app-password-input>
+        <button class="btn__secect" (click)="confirm()">{{'CONFIRM' | translate}}</button>
+    </div>
+    <div class="btn__cancel__wrap">
+        <button
+            class="btn__cancel"
+            (click)="cancel()">{{'CANCEL' | translate}}</button>
+    </div>
+</section>
+<app-modal
+    title="Password update"
+    message="Enter your current password to confirm changes"
+    [modalActive]="modalActive"
+    (modalActiveEvent)="modalActive = $event"
+    [withForm]=true
+    (cbEvent)="checkCurrentPassword($event)"
+></app-modal>

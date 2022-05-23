@@ -3,6 +3,9 @@ import { NavigationStart, Router, Event } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Location } from '@angular/common';
+import { AuthService } from '@shared/auth/auth.service';
+import { TreeNodeService } from '@shared/tree-node.service';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -18,28 +21,24 @@ declare const freshchatToken: string;// - токен freshChat (может бы�
 declare const freshchatHost: string;// - хост freshChat (может быть пустыми если для пользователя отключен чат)
 declare const userEmail: string;// - email текущего пользователя, для freshChat. Может быть пустым.
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']//not ./app.component.scss - webpack error
 })
-export class AppComponent {
-  menuModalActive: BehaviorSubject<boolean>;
+export class AppComponent implements OnInit {
   currentRoute!: string;
 
   constructor(
+    private authService: AuthService,
+    private treeNodeService: TreeNodeService,
     translate: TranslateService,
-    private router: Router
-  ) {
+    private router: Router,
+    private location: Location
+    ) {
     translate.addLangs(['en', 'ru']);
     translate.setDefaultLang('en');
-
-    this.menuModalActive = new BehaviorSubject<boolean>(false)
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.menuModalActive.next(false)
-      }
-    });
 
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
@@ -62,11 +61,25 @@ export class AppComponent {
     translate.use(environment.lang);
   }
 
-  getValue(): boolean {
-    return this.menuModalActive.getValue()
+  ngOnInit(): void {
+    this.authService.loadUserFromLocalStorage()
+    this.authService.getTreeChildren()
+      .subscribe({
+        error: () => {
+          if(this.authService.isAuth) {
+            this.authService.isAuth.next(false)
+            localStorage.removeItem('isAuth')
+            this.router.navigate(['/login'])
+          }
+        }
+      })
+
+    if(this.authService.isAuth) {
+      this.treeNodeService.sortAgentAndRoom(this.treeNodeService.loadTreeNode())
+    }
   }
 
-  toggleModal() {
-    this.menuModalActive.next(!this.getValue())
+  toggleMenu() {
+    this.router.isActive('settings', true) ? this.location.back() : this.router.navigate(['settings'])
   }
 }
