@@ -11,19 +11,19 @@
 
 <body style="margin: 0">
   <script>
-    {{#if baseAssetsUrl }} const baseAssetsUrl = {{baseAssetsUrl}}; {{/if}}// – базовый урл к каталогу assets
-    {{#if baseRouteUrl }} const baseRouteUrl = {{baseRouteUrl }}; {{/if}}// – базовый урл для HTML5 роунтина
-    {{#if baseApiUrl }} const baseApiUrl = {{baseApiUrl}}; {{/if}}// – базовый урл для АПИ
-    {{#if baseRootUrl }} const baseRootUrl = {{baseRootUrl}}; {{/if}}// - корень сайта, используется только для logout и переключение в Desktop режим
-    {{#if appName }} const appName = {{appName}}; {{/if}}// – название продукта (Playpoint)
-    {{#if backofficeAppName }} const backofficeAppName = {{backofficeAppName}}; {{/if}}// – название продукта Backoffice (Playpoint Backoffice)
-    {{#if version }} const version  = {{version}}; {{/if}}// - версия UI, должна использоваться в URL загрузки статики
-    {{#if logConfig }} const logConfig = {{logConfig}}; {{/if}}// - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
-    {{#if userID }} const userID = {{userID}}; {{/if}}// - ID пользователя для целей логирования
-    {{#if lang }} const lang = {{lang}}; {{/if}};// - текущий язык пользователя (en, it, pt, pt-BR, ..)
-    {{#if freshchatToken }} const freshchatToken = {{freshchatToken}}; {{/if}}// - токен freshChat (может быть пустыми если для пользователя отключен чат)
-    {{#if freshchatHost }} const freshchatHost = {{freshchatHost}}; {{/if}}// - хост freshChat (может быть пустыми если для пользователя отключен чат)
-    {{#if userEmail }} const userEmail = {{userEmail}}; {{/if}}// - email текущего пользователя, для freshChat. Может быть пустым.
+    {{#if baseAssetsUrl }} const baseAssetsUrl = {{baseAssetsUrl}}.toString(); {{/if}}
+    {{#if baseRouteUrl }} const baseRouteUrl = {{baseRouteUrl}}.toString(); {{/if}}
+    {{#if baseApiUrl }} const baseApiUrl = {{baseApiUrl}}.toString(); {{/if}}
+    {{#if baseRootUrl }} const baseRootUrl = {{baseRootUrl}}.toString(); {{/if}}
+    {{#if appName }} const appName = {{appName}}.toString(); {{/if}}
+    {{#if backofficeAppName }} const backofficeAppName = {{backofficeAppName}}.toString(); {{/if}}
+    {{#if version }} const version  = {{version}}.toString(); {{/if}}
+    {{#if logConfig }} const logConfig = {{logConfig}}.toString(); {{/if}}
+    {{#if userID }} const userID = {{userID}}.toString(); {{/if}}
+    {{#if lang }} const lang = {{lang}}.toString(); {{/if}};
+    {{#if freshchatToken }} const freshchatToken = {{freshchatToken}}.toString(); {{/if}}
+    {{#if freshchatHost }} const freshchatHost = {{freshchatHost}}.toString(); {{/if}}
+    {{#if userEmail }} const userEmail = {{userEmail}}.toString(); {{/if}}
   </script>
 
   <app-root></app-root>

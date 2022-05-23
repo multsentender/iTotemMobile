@@ -105,7 +105,7 @@ module.exports = (env) => {
           test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
           type: 'asset/resource',
           generator: {
-            filename: 'assets/fonts/[name].[contenthash:8][ext]'
+            filename: env.production ? 'assets/fonts/[name].[chunkhash][ext]' : 'assets/fonts/[name].[ext]'
           }
         },
       ]
@@ -133,9 +133,8 @@ module.exports = (env) => {
         }
       }),
       new HtmlWebpackPlugin({
-        filename: path.resolve(__dirname, "dist", "index.hbs"),
-        template: path.resolve(__dirname, "src/index.hbs"),
-
+        filename: path.resolve(__dirname, "dist", `index.${env.production ? "hbs" : "html"}`),
+        template: path.resolve(__dirname, `src/index.${env.production ? "hbs" : "html"}`),
         inject: 'body',
       }),
       new webpack.ContextReplacementPlugin(
@@ -143,8 +142,8 @@ module.exports = (env) => {
       ),
       //styles to css folder
       new MiniCssExtractPlugin({
-        filename: 'assets/css/[name].[contenthash:8].css',//'[name].css',
-        chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'//"[name].css"
+        filename: env.production ? 'assets/css/[name].[chunkhash].css' : 'assets/css/[name].css',
+        chunkFilename: env.production ? 'assets/css/[name].[chunkhash].chunk.css' : "assets/css/[name].css"
       }),
       //copy assets in dist
       new CopyPlugin({

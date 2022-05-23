@@ -11,7 +11,7 @@ declare const baseRootUrl: string;// - корень сайта, использу
 declare const appName: string;// – название продукта (Playpoint)
 declare const backofficeAppName: string;// – название продукта Backoffice (Playpoint Backoffice)
 declare const version: string;// - версия UI, должна использоваться в URL загрузки статики
-declare const logConfig: object;//? - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
+declare const logConfig: string;//? - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
 declare const userID: string;// - ID пользователя для целей логирования
 declare const lang: string;// - текущий язык пользователя (en, it, pt, pt-BR, ..)
 declare const freshchatToken: string;// - токен freshChat (может быть пустыми если для пользователя отключен чат)
