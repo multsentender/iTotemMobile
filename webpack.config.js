@@ -116,6 +116,14 @@ module.exports = (env) => {
       },
       port: 4200,
       open: false,
+      proxy: {
+        '/api': {
+          target: 'https://test-a.itotem.net',
+          secure: false,
+          changeOrigin: true,
+          pathRewrite: { '^/api': '' },
+        },
+      },
       client: {
         overlay: {
           errors: true,
@@ -123,7 +131,7 @@ module.exports = (env) => {
         },
         logging: 'info'
       },
-      historyApiFallback: true//route not found
+      historyApiFallback: true, //route not found
     },
 
     plugins: [
