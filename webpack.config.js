@@ -20,7 +20,7 @@ module.exports = (env) => {
     output: {
       clean: true,
       path: path.resolve(__dirname, "dist"),
-      publicPath: '/',
+      //publicPath: '/',
       filename: env.production ? "assets/js/[name].[chunkhash].js" : "assets/js/[name].js",
     },
 
@@ -133,7 +133,7 @@ module.exports = (env) => {
         }
       }),
       new HtmlWebpackPlugin({
-        filename: path.resolve(__dirname, "dist", `index.${env.production ? "hbs" : "html"}`),
+        filename: path.resolve(__dirname, env.production ? "dist/assets/pages" : "dist", `index.${env.production ? "hbs" : "html"}`),
         template: path.resolve(__dirname, `src/index.${env.production ? "hbs" : "html"}`),
         inject: 'body',
       }),

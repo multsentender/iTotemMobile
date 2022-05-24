@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 import { UserAuth } from '@shared/models/userAuth.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
