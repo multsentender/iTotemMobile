@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, first, map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { AgentInfo } from './models/agentInfo';
 import { AgentTreeNode } from './models/agentTreeNode';
 import { RoomInfo } from './models/roomInfo';

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, first, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { AgentLoginInfo } from './models/agentLoginInfo';
 import { UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidationStatus } from './models/models';
 import { ValidateEMailRequest } from './models/validateEMailRequest';
