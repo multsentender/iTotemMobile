@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, first, map, pairwise, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AgentInfo } from './models/agentInfo';
 import { AgentTreeNode } from './models/agentTreeNode';
@@ -22,6 +22,7 @@ export class TreeNodeService {
         {withCredentials: true})
   }
 
+  // FIXME Оптимизировать (сверять с prev value)
   sortAgentAndRoom(req:
     Observable<Array<AgentTreeNode
     | AgentInfo
@@ -30,13 +31,14 @@ export class TreeNodeService {
       const agents: Array<AgentInfo | AgentTreeNode> = []
       const rooms: Array<RoomInfo | RoomTreeNode> = []
       req.pipe(
-        map(val => {
+        map((val) => {
           val.forEach(el => {
             if(isAgent(el)) agents.push(el)
             if(isRoom(el)) rooms.push(el)
           })
           return val
-      })).subscribe(() => {
+        }))
+        .subscribe(() => {
         this.agents.next(agents)
         this.rooms.next(rooms)
       })

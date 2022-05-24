@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private treeNodeService: TreeNodeService,
     translate: TranslateService,
     private router: Router,
     private location: Location
@@ -73,10 +72,6 @@ export class AppComponent implements OnInit {
           }
         }
       })
-
-    if(this.authService.isAuth) {
-      this.treeNodeService.sortAgentAndRoom(this.treeNodeService.loadTreeNode())
-    }
   }
 
   toggleMenu() {
