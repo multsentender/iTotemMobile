@@ -1,0 +1,45 @@
+image: atlassian/default-image:2
+
+options:
+  docker: true
+
+definitions:
+
+  caches:
+    node-ui: node_modules
+
+  steps:
+    - step: &build
+        name: Compile Mobile Admin
+        image: node:16
+        caches:
+          - node-ui
+        script:
+          - npm install
+          - npm run webpack:build
+        artifacts:
+          - dist/**
+
+    - step: &deploy
+        name: Deploy to Test
+        oidc: true
+        trigger: manual
+        deployment: test
+        script:
+         - pipe: atlassian/aws-s3-deploy:0.5.0
+           variables:
+             AWS_OIDC_ROLE_ARN: "${AWS_OIDC_ROLE_ARN}"
+             S3_BUCKET: ${S3_BASE_PATH}
+             ACL: "public-read"
+             LOCAL_PATH: 'dist'
+             CACHE_CONTROL: 'public,max-age=31536000'
+             DELETE_FLAG: 'true'
+
+pipelines:
+
+  custom:
+    update-admin:
+      - step: *build
+      - step: *deploy
+
+
