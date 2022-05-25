@@ -17,7 +17,7 @@ export class TreeNodeService {
 
   loadTreeNode() {
       return this.http.post<Array<AgentTreeNode | AgentInfo | RoomTreeNode | RoomInfo>>(
-        `${environment.apiUrl}getTreeChildren`,
+        `${environment.baseApiUrl}/getTreeChildren`,
         {parent: null},
         {withCredentials: true})
   }

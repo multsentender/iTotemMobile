@@ -4,13 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:4200/api/rest/",
-  rootUrl: "http://localhost:4200/api/",
-
+  baseApiUrl: "http://localhost:4200/api/rest",
   baseAssetsUrl: "https://localhost:4200/assets",// – базовый урл к каталогу assets
   baseRouteUrl: "http://localhost:4200/mobile",// – базовый урл для HTML5 роунтина
-  baseApiUrl: "https://test-a.itotem.net/rest",// – базовый урл для АПИ
-  baseRootUrl: "http://localhost:4200/",// - корень сайта, используется только для logout и переключение в Desktop режим
+  baseRootUrl: "http://localhost:4200/api",// - корень сайта, используется только для logout и переключение в Desktop режим
   appName: "Playpoint",// – название продукта (Playpoint)
   backofficeAppName: "Playpoint BackOffice",// – название продукта Backoffice (Playpoint Backoffice)
   version: "0.1",// - версия UI, должна использоваться в URL загрузки статики

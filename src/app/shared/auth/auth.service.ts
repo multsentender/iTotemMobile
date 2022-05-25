@@ -17,13 +17,13 @@ export class AuthService {
 
   login(user: UserAuth) {
     return this.http.post(
-      `${environment.rootUrl}j_spring_security_check?${Object.entries(user).map(([key, val]) => `${key}=${val}`).join('&')}`,
+      `${environment.baseRootUrl}/j_spring_security_check?${Object.entries(user).map(([key, val]) => `${key}=${val}`).join('&')}`,
       {}, {withCredentials: true}
     )
   }
 
   logout() {
-    return this.http.post(`${environment.rootUrl}logout`, {}, {withCredentials: true})
+    return this.http.post(`${environment.baseRootUrl}/logout`, {}, {withCredentials: true})
   }
 
   saveUserToLocalStorage(userAuth: boolean) {
@@ -44,6 +44,6 @@ export class AuthService {
   }
 
   getTreeChildren(): Observable<AgentLoginInfo> {
-    return this.http.post(`${environment.apiUrl}getTreeChildren`, {}, {withCredentials: true})
+    return this.http.post(`${environment.baseApiUrl}/getTreeChildren`, {}, {withCredentials: true})
   }
 }
