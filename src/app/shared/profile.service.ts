@@ -17,7 +17,7 @@ export class ProfileService {
 
   loadAgentProfile(): void {
     this.http.get<AgentLoginInfo>(
-      `${environment.apiUrl}getCurrentUserProfile`,
+      `${environment.baseApiUrl}/getCurrentUserProfile`,
       {withCredentials: true})
       .subscribe({
         next: (data) => this.profile.next(data),
@@ -26,7 +26,7 @@ export class ProfileService {
   }
 
   validEmail(email: ValidateEMailRequest, cb: Function): void {
-    this.http.post<ValidationStatus>(`${environment.apiUrl}validateEMail`,
+    this.http.post<ValidationStatus>(`${environment.baseApiUrl}/validateEMail`,
     email,
     {withCredentials: true})
     .pipe(first()).subscribe(data => cb(data))
@@ -34,20 +34,20 @@ export class ProfileService {
 
   validPassword(password: ValidateAgentPasswordRequest, cb: Function): void {
     this.http.post<ValidationStatus>(
-      `${environment.apiUrl}validateCurrentUserPassword`,
+      `${environment.baseApiUrl}/validateCurrentUserPassword`,
       password,
       {withCredentials: true})
       .pipe(first()).subscribe(data => cb(data))
   }
 
   updateUserProfile(profile: UpdateCurrentUserProfileRequest): Observable<AgentLoginInfo>{
-    return this.http.post(`${environment.apiUrl}updateCurrentUserProfile`,
+    return this.http.post(`${environment.baseApiUrl}/updateCurrentUserProfile`,
     profile,
     {withCredentials: true})
   }
 
   updateUserPassword(passwords: UpdateCurrentUserPasswordRequest): Observable<any> {
-    return this.http.post(`${environment.apiUrl}updateCurrentUserPassword`,
+    return this.http.post(`${environment.baseApiUrl}/updateCurrentUserPassword`,
     passwords,
     {withCredentials: true})
   }

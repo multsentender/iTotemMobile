@@ -42,8 +42,8 @@ export class AppComponent implements OnInit {
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
       environment.baseRouteUrl = baseRouteUrl;
-      environment.baseApiUrl = baseApiUrl;
-      environment.baseRootUrl = baseRootUrl;
+      environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
+      environment.baseRootUrl = `${baseRootUrl}/api`;
       environment.version = version;
     } catch (e) { }
     try {
