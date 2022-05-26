@@ -26,23 +26,6 @@ export class AuthService {
     return this.http.post(`${environment.baseRootUrl}/logout`, {}, {withCredentials: true})
   }
 
-  saveUserToLocalStorage(userAuth: boolean) {
-    this.isAuth.next(userAuth)
-    localStorage.setItem('isAuth', JSON.stringify(userAuth))
-  }
-
-  loadUserFromLocalStorage(): Boolean {
-    if(!this.isAuth.value) {
-      const localStorageData = localStorage.getItem('isAuth')
-
-      if(localStorageData) {
-        this.isAuth.next(JSON.parse(localStorageData))
-      }
-    }
-
-    return this.isAuth.value
-  }
-
   getTreeChildren(): Observable<AgentLoginInfo> {
     return this.http.post(`${environment.baseApiUrl}/getTreeChildren`, {}, {withCredentials: true})
   }

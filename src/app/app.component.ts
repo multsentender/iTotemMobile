@@ -61,15 +61,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.loadUserFromLocalStorage()
     this.authService.getTreeChildren()
       .subscribe({
+        next: () => {
+          this.authService.isAuth.next(true)
+        },
         error: () => {
-          if(this.authService.isAuth) {
-            this.authService.isAuth.next(false)
-            localStorage.removeItem('isAuth')
-            this.router.navigate(['/login'])
-          }
+          this.authService.isAuth.next(false)
+          this.router.navigate(['/login'])
         }
       })
   }

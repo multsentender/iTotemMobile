@@ -39,7 +39,6 @@ export class AuthComponent {
     const getProfile = () => this.auth.getTreeChildren().subscribe({
       next: () => {
         this.auth.isAuth.next(true)
-        this.auth.saveUserToLocalStorage(true)
         this.router.navigate(['/'])
       },
       error: (err) => {
