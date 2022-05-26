@@ -105,7 +105,7 @@ module.exports = (env) => {
           test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
           type: 'asset/resource',
           generator: {
-            filename: env.production ? 'assets/fonts/[name].[chunkhash][ext]' : 'assets/fonts/[name].[ext]'
+            filename: env.production ? 'assets/fonts/[name].[contenthash][ext]' : 'assets/fonts/[name].[ext]'
           }
         },
       ]
@@ -166,7 +166,7 @@ module.exports = (env) => {
 
       new AngularWebpackPlugin({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
-        jitMode: false,
+        jitMode: true//false,
       }),
     ],
 
