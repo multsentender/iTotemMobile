@@ -32,7 +32,6 @@ export class MenuComponent implements OnInit {
     logOut(): void {
     const throwDownToDefault = () => {
       this.authService.isAuth.next(false)
-      localStorage.removeItem('isAuth')
       this.router.navigate(['/login'])
     }
 
