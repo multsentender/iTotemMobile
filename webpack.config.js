@@ -12,7 +12,7 @@ module.exports = (env) => {
 
     context: path.resolve(__dirname),
     entry: {
-      polyfills: './src/polyfills.ts',
+      //polyfills: './src/polyfills.ts',
       app: path.resolve(__dirname, "src/main.ts"),
       index: ["./src/main.ts"]
     },
