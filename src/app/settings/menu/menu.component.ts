@@ -32,14 +32,14 @@ export class MenuComponent implements OnInit {
     logOut(): void {
     const throwDownToDefault = () => {
       this.authService.isAuth.next(false)
-      this.router.navigate(['/login'])
+      this.router.navigate(['/devLogin'])
     }
 
     // FIXME Вынести логику редиректа запроса в interceptor
     this.authService.logout().subscribe({
       next: () => throwDownToDefault(),
       error: (err: HttpErrorResponse) => {
-        const url = err.url?.includes('/login/')
+        const url = err.url?.includes('/devLogin/')
         url ? throwDownToDefault() : console.error(err)
       }
     })

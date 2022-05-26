@@ -116,14 +116,6 @@ module.exports = (env) => {
       },
       port: 4200,
       open: false,
-      proxy: {
-        '/api': {
-          target: 'https://test-a.itotem.net',
-          secure: false,
-          changeOrigin: true,
-          pathRewrite: { '^/api': '' },
-        },
-      },
       client: {
         overlay: {
           errors: true,
