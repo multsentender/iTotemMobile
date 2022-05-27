@@ -46,6 +46,6 @@ export class MenuComponent implements OnInit {
   }
 
   noMobile() {
-    this.cookies.set('noMobile', 'true', {domain: "test-a.itotem.net"})
+    this.cookies.set('noMobile', 'true', {path: '/', sameSite: 'Strict'})
   }
 }
