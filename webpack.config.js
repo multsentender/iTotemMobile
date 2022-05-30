@@ -115,15 +115,8 @@ module.exports = (env) => {
         directory: path.resolve(__dirname, "dist"),
       },
       port: 4200,
+
       open: false,
-      proxy: {
-        '/api': {
-          target: 'https://test-a.itotem.net',
-          secure: false,
-          changeOrigin: true,
-          pathRewrite: { '^/api': '' },
-        },
-      },
       client: {
         overlay: {
           errors: true,
@@ -144,7 +137,9 @@ module.exports = (env) => {
         filename: path.resolve(__dirname, env.production ? "dist/assets/pages" : "dist", `index.${env.production ? "hbs" : "html"}`),
         template: path.resolve(__dirname, `src/index.${env.production ? "hbs" : "html"}`),
         inject: 'body',
+        baseUrl: env.production ? env.production.baseRouteUrl.replace(env.production.baseRootUrl, '') : '/'
       }),
+
       new webpack.ContextReplacementPlugin(
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/
       ),

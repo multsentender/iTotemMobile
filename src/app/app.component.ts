@@ -42,8 +42,10 @@ export class AppComponent implements OnInit {
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
       environment.baseRouteUrl = baseRouteUrl;
-      environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
-      environment.baseRootUrl = `${baseRootUrl}/api`;
+      // environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
+      environment.baseApiUrl = baseApiUrl;
+      environment.baseRootUrl = baseRootUrl;
+      // environment.baseRootUrl = `${baseRootUrl}/api`;
       environment.version = version;
     } catch (e) { }
     try {
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit {
         },
         error: () => {
           this.authService.isAuth.next(false)
-          this.router.navigate(['/login'])
+          this.router.navigate(['/devLogin'])
         }
       })
   }

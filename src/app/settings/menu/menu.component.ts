@@ -6,6 +6,7 @@ import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 import { TreeNodeService } from '@shared/tree-node.service';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-menu',
@@ -13,6 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  public logoutLink = `${environment.baseRootUrl}/logout`
   public agents: Array<AgentInfo | AgentTreeNode> = [];
   public rooms: Array<AgentInfo | AgentTreeNode> = [];
   constructor(
@@ -30,22 +32,10 @@ export class MenuComponent implements OnInit {
     }
 
     logOut(): void {
-    const throwDownToDefault = () => {
       this.authService.isAuth.next(false)
-      this.router.navigate(['/login'])
     }
 
-    // FIXME Вынести логику редиректа запроса в interceptor
-    this.authService.logout().subscribe({
-      next: () => throwDownToDefault(),
-      error: (err: HttpErrorResponse) => {
-        const url = err.url?.includes('/login/')
-        url ? throwDownToDefault() : console.error(err)
-      }
-    })
-  }
-
   noMobile() {
-    this.cookies.set('noMobile', 'true', {domain: "test-a.itotem.net"})
+    this.cookies.set('noMobile', 'true', {path: '/', sameSite: 'Strict'})
   }
 }

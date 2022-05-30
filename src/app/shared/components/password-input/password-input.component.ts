@@ -20,6 +20,7 @@ export class PasswordInputComponent implements ControlValueAccessor {
   @Input() errorMessage?: string;
   hidePass: boolean = true;
 
+  hideError: boolean = true
 
   constructor() { }
 
@@ -28,8 +29,4 @@ export class PasswordInputComponent implements ControlValueAccessor {
   registerOnTouched() {}
 
   writeValue() {}
-
-  hidePassword() {
-    this.hidePass = !this.hidePass;
-  }
 }
