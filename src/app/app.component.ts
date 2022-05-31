@@ -21,6 +21,7 @@ declare const freshchatToken: string;// - токен freshChat (может бы�
 declare const freshchatHost: string;// - хост freshChat (может быть пустыми если для пользователя отключен чат)
 declare const userEmail: string;// - email текущего пользователя, для freshChat. Может быть пустым.
 
+declare var  __webpack_public_path__:string;
 
 @Component({
   selector: 'app-root',
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit {
 
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
+      __webpack_public_path__ = baseAssetsUrl;
       environment.baseRouteUrl = baseRouteUrl;
       environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
       environment.baseRootUrl = `${baseRootUrl}/api`;
