@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
-      __webpack_public_path__ = baseAssetsUrl;
+      __webpack_public_path__ = baseAssetsUrl + "/";
       environment.baseRouteUrl = baseRouteUrl;
       environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
       environment.baseRootUrl = `${baseRootUrl}/api`;

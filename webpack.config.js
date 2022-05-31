@@ -20,7 +20,7 @@ module.exports = (env) => {
     output: {
       clean: true,
       path: path.resolve(__dirname, "dist/assets/"),
-      publicPath: "assets",//"auto",//"{{baseAssetsUrl}}",
+      publicPath: "assets/",//"auto",//"{{baseAssetsUrl}}",
       filename: env.production ? "js/[name].[chunkhash].js" : "assets/js/[name].js",
     },
 
