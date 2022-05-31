@@ -170,12 +170,12 @@ module.exports = (env) => {
       }),
     ],
 
-    optimization: {
-      minimize: false,
-      splitChunks: {
-        chunks: 'all'
-      }
-    }
+    // optimization: {
+    //   minimize: false,
+    //   splitChunks: {
+    //     chunks: 'all'
+    //   }
+    // }
 
   }
 }
