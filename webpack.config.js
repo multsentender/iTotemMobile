@@ -19,9 +19,9 @@ module.exports = (env) => {
     stats: 'normal',
     output: {
       clean: true,
-      path: path.resolve(__dirname, "dist"),
-      //publicPath: '/',
-      filename: env.production ? "assets/js/[name].[chunkhash].js" : "assets/js/[name].js",
+      path: path.resolve(__dirname, "dist/assets/"),
+      publicPath: "../../assets/",//"auto",//"{{baseAssetsUrl}}",
+      filename: env.production ? "js/[name].[chunkhash].js" : "assets/js/[name].js",
     },
 
 
@@ -105,7 +105,7 @@ module.exports = (env) => {
           test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
           type: 'asset/resource',
           generator: {
-            filename: env.production ? 'assets/fonts/[name].[contenthash][ext]' : 'assets/fonts/[name].[ext]'
+            filename: env.production ? 'fonts/[name].[contenthash][ext]' : 'assets/fonts/[name].[ext]'
           }
         },
       ]
@@ -144,8 +144,8 @@ module.exports = (env) => {
       ),
       //styles to css folder
       new MiniCssExtractPlugin({
-        filename: env.production ? 'assets/css/[name].[chunkhash].css' : 'assets/css/[name].css',
-        chunkFilename: env.production ? 'assets/css/[name].[chunkhash].chunk.css' : "assets/css/[name].css"
+        filename: env.production ? 'css/[name].[chunkhash].css' : 'assets/css/[name].css',
+        chunkFilename: env.production ? 'css/[name].[chunkhash].chunk.css' : "assets/css/[name].css"
       }),
       //copy assets in dist
       new CopyPlugin({
@@ -153,7 +153,7 @@ module.exports = (env) => {
           {
             context: "src/assets/",
             from: "**/*",
-            to: "assets/",
+            to: "./",
           }
         ]
       }),
@@ -164,12 +164,12 @@ module.exports = (env) => {
       }),
     ],
 
-    optimization: {
-      minimize: false,
-      splitChunks: {
-        chunks: 'all'
-      }
-    }
+    // optimization: {
+    //   minimize: false,
+    //   splitChunks: {
+    //     chunks: 'all'
+    //   }
+    // }
 
   }
 }
