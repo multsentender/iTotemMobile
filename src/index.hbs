@@ -11,7 +11,10 @@
 
 <body style="margin: 0">
   <script>
-    {{#if baseAssetsUrl }} const baseAssetsUrl = "{{baseAssetsUrl}}"; {{/if}}
+    {{#if baseAssetsUrl }} const baseAssetsUrl = "{{baseAssetsUrl}}"; 
+    window.__webpack_public_path__ = "https://some-cdn7.com/"
+    __webpack_public_path__ ="https://some-cdn6.com/"; //window.resourceBasePath;
+    {{/if}}
     {{#if baseRouteUrl }} const baseRouteUrl = "{{baseRouteUrl}}"; {{/if}}
     {{#if baseApiUrl }} const baseApiUrl = "{{baseApiUrl}}"; {{/if}}
     {{#if baseRootUrl }} const baseRootUrl = "{{baseRootUrl}}"; {{/if}}
