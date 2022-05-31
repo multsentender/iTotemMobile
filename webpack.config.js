@@ -137,7 +137,6 @@ module.exports = (env) => {
         filename: path.resolve(__dirname, env.production ? "dist/assets/pages" : "dist", `index.${env.production ? "hbs" : "html"}`),
         template: path.resolve(__dirname, `src/index.${env.production ? "hbs" : "html"}`),
         inject: 'body',
-        baseUrl: env.production ? env.production.baseRouteUrl.replace(env.production.baseRootUrl, '') : '/'
       }),
 
       new webpack.ContextReplacementPlugin(

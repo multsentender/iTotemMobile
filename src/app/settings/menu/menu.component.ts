@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@shared/auth/auth.service';
@@ -6,7 +5,7 @@ import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 import { TreeNodeService } from '@shared/tree-node.service';
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-menu',
