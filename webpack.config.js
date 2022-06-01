@@ -160,7 +160,7 @@ module.exports = (env) => {
 
       new AngularWebpackPlugin({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
-        jitMode: true//false,
+        jitMode: env.baseAssetsUrl ? true : false
       }),
     ],
 
