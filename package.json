@@ -9,7 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "webpack": "webpack-dev-server --env development ",
-    "webpack:build": "webpack --progress --env production",
+    "webpack:build": "webpack --progress --env production --env baseAssetsUrl=https://a.itotem.net/assets",
+    "webpack:build:stage": "webpack --progress --env production --env baseAssetsUrl=https://test-a.itotem.net/assets",
     "webpack:build:dev": "webpack --progress"
   },
   "private": true,
