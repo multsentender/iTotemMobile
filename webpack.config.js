@@ -19,8 +19,8 @@ module.exports = (env) => {
     stats: 'normal',
     output: {
       clean: true,
-      path: path.resolve(__dirname, "dist/assets/"),
-      publicPath: env.baseAssetsUrl ? env.baseAssetsUrl : "../../assets/",//"auto",//"{{baseAssetsUrl}}",
+      path: path.resolve(__dirname, env.production ? "dist/assets/" : "dist/"),
+      publicPath: env.baseAssetsUrl ? env.baseAssetsUrl : env.production ? "../assets/" : 'auto',
       filename: env.production ? "js/[name].[chunkhash].js" : "assets/js/[name].js",
     },
 
@@ -153,7 +153,7 @@ module.exports = (env) => {
           {
             context: "src/assets/",
             from: "**/*",
-            to: "./",
+            to: env.production ? "./" : "assets/",
           }
         ]
       }),
