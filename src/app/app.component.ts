@@ -69,10 +69,10 @@ export class AppComponent implements OnInit {
       .subscribe({
         next: () => {
           this.authService.isAuth.next(true)
+          this.router.navigate(['/'])
         },
         error: () => {
           this.authService.isAuth.next(false)
-          this.router.navigate(['/devLogin'])
         }
       })
   }

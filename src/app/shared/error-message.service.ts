@@ -6,13 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ErrorMessageService {
   errors: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([])
-  constructor() {
-    this.errors.subscribe(() => {
-      if(this.withErrors()) {
-        setTimeout(() => this.clearErrors(), 5000)
-      }
-    })
-  }
+  constructor() {}
 
   addError(message: string) {
     this.errors.next([...this.errors.value, message])

@@ -106,7 +106,10 @@ export class ProfileComponent implements OnInit {
           this.profileForm.patchValue({password: '', passwordConf: ''})
           this.updateProfileHandler()
         },
-        error: (err: HttpErrorResponse) => this.errorMessageService.addError(err.error?.errorMessage)
+        error: (err: HttpErrorResponse) => {
+          throw Error(err.error?.errorMessage)
+          // this.errorMessageService.addError(err.error?.errorMessage)
+        }
       })
 
       this.modalActive = false
