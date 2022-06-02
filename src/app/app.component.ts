@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationStart, Router, Event } from '@angular/router';
+import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Location } from '@angular/common';
 import { AuthService } from '@shared/auth/auth.service';
-import { TreeNodeService } from '@shared/tree-node.service';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина

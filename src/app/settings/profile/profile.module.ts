@@ -6,7 +6,7 @@ import { ComponentsModule } from '@shared/components/components.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { ProfileService } from '@shared/profile.service';
+import { ProfileService } from '@shared/services/profile.service';
 
 
 @NgModule({

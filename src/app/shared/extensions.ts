@@ -1,18 +1,23 @@
-import { mergeMap, Observable, retryWhen, of, throwError, delay } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
+import { mergeMap, Observable, retryWhen, of, filter, throwError, delay } from "rxjs";
 
-export function delayRetryPipe<T> (delayMs = 2000, maxRetry = 3) {
+export function delayRetryPipe<T> (
+	delayMs = 2000,
+	maxRetry = 3,
+	filterFunc: (error: HttpErrorResponse) => boolean = () => true ) {
 	let retries = maxRetry;
 	let subErrors: any[] = []
 
 	return (src: Observable<T>) : Observable<T> => {
 		return src.pipe(
 			retryWhen(errorObservable => errorObservable.pipe(
+				filter(error => filterFunc(error)),
 				delay(delayMs),
 				mergeMap(error => {
 					subErrors.push(error)
-					return --retries > 0 ?
+					return (--retries > 0) ?
 						of(error) :
-						throwError({ error: `Превышено максимальное количество попыток ${maxRetry}`, subErrors })
+						throwError(error)
 				})
 			))
 		)

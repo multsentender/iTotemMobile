@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { filter, first, pairwise } from 'rxjs';
-import { ProfileService } from '@shared/profile.service';
+import { ProfileService } from '@shared/services/profile.service'
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
-import { ErrorMessageService } from '@shared/error-message.service';
+import { ErrorMessageService } from '@shared/services/error-message.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -46,20 +46,24 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(!this.profileService.profile.value.userId){
-      this.profileService.loadAgentProfile()
-    }
+    this.profileService.loadAgentProfile()
+      .subscribe({
+        next: (data) => this.profileService.profile.next(data),
+        error: (err: HttpErrorResponse) => new Error(err.message)
+      })
 
     // Совмещение клиентской и серверной валдации
-    this.profileForm.valueChanges.pipe(pairwise())
-    .subscribe(([prev, next]) => {
+    this.profileForm.valueChanges
+    .subscribe((data) => {
       if(this.profileForm.valid) {
         Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
-        if(next.email && prev.email !== next.email) {
-          this.profileService.validEmail({email: next.email}, this.validQueryHandler('email'))
+        if(data.email) {
+          this.profileService.validEmail({email: data.email})
+            .subscribe(data => this.validQueryHandler('email', data))
         }
-        if (next.password) {
-          this.profileService.validPassword({password: next.password}, this.validQueryHandler('password'))
+        if (data.password) {
+          this.profileService.validPassword({password: data.password})
+            .subscribe(data => this.validQueryHandler('password', data))
         }
       } else {
         // Error message на клиентскую валидацию
@@ -71,11 +75,9 @@ export class ProfileComponent implements OnInit {
   }
 
   // Обработчик серверной валидации
-  validQueryHandler(key: string) {
-    return (status: ValidationStatus) => {
-      if(!status.isValid) this.formValidation[key] = status.message || ''
-      else delete this.formValidation[key]
-    }
+  validQueryHandler(key: string, status: ValidationStatus) {
+    if(!status.isValid) this.formValidation[key] = status.message || ''
+    else delete this.formValidation[key]
   }
 
   getFormControl(name: string) : FormControl {

@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import { ErrorMessageService } from './error-message.service';
+import { ErrorMessageService } from './services/error-message.service';
 
 @Injectable()
 export class GlobalErrorHandlerService implements ErrorHandler {

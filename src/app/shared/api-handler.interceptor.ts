@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
-  HttpResponse,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, mergeMap, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/auth.service';
@@ -25,50 +24,27 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
 
 
   return next.handle(request).pipe(
-  //   tap((event) => {
-  //     if (event instanceof HttpResponse)
-  //     console.log(request.method == 'GET');
-
-  //   },
-  //   (err) => {
-  //     if (err instanceof HttpErrorResponse) {
-  //       switch(err.status) {
-  //         case 400: throw Error('Internal error occured')
-  //         case 403: {
-  //           // Переадрессация на baseRootUrl при неавторизации
-  //           // FIXME убрать версию для dev'a
-  //           if(environment.production) window.location.href = environment.baseRootUrl
-  //           else {
-  //             this.authService.isAuth.next(false)
-  //             this.router.navigate(['/devLogin'])
-  //           }
-  //         }
-  //         case 500: throw Error(err.message)
-  //         case 503: {
-
-  //         }
-  //       }
-  //     }
-  //   })
-  );
+    tap(() => {},
+    err => {
+      switch(err.status) {
+        case 400: throw Error('Internal error occured')
+        case 403: {
+          if(environment.production) window.location.href = environment.baseRootUrl
+          else {
+            this.authService.isAuth.next(false)
+            this.router.navigate(['/devLogin'])
+          }
+        }
+        case 500: throw Error(err.message)
+        case 503: throw Error(err.message)
+        default: {
+          console.error(err)
+          break;
+        }
+      }
+    }),
+    delayRetryPipe(2000, 3, (error: HttpErrorResponse) =>
+      (![400, 401, 403, 404, 500].includes(error.status)) && request.method.toLowerCase() === 'get')
+  )
   }
 }
-
-
-// export function errorStatusHandler(error: HttpErrorResponse) {
-//   switch(error.status) {
-//     case 400: throw Error('Internal error occured')
-//     case 403: {
-//       // Переадрессация на baseRootUrl при неавторизации
-//       // FIXME убрать версию для dev'a
-//       if(environment.production) window.location.href = environment.baseRootUrl
-//       else {
-//         this.authService.isAuth.next(false)
-//         this.router.navigate(['/devLogin'])
-//       }
-//     }
-//     case 404: throw Error('Произошла непредвиденная ошибка!')
-//     case 500: throw Error(error.message)
-//     default {}
-//   }
-// }
