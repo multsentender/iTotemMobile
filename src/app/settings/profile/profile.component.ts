@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit {
     passwordConf: '',
   }, { validators: [checkConfirmPassword, atLeastOneValidator(['email', 'password']) ]});
 
-
   constructor(
     private fb: FormBuilder,
     private location: Location,

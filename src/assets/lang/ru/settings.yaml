@@ -27,3 +27,9 @@ CONFIRM_NEW_PASSWORD: |-
 
 MY_PROFILE: |-
   Мой профиль
+
+MODAL_TITLE:
+  Обновление пароля
+
+MODAL_MESSAGE:
+  Введите текущий пароль, чтобы подтвердить изменения

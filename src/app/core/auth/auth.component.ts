@@ -36,24 +36,21 @@ export class AuthComponent {
     private router: Router) { }
 
   onAuth() {
-    const getProfile = () => this.auth.getTreeChildren().subscribe({
-      next: () => {
-        this.auth.isAuth.next(true)
-        this.router.navigate(['/'])
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+    const getProfile = () => {
+      this.auth.isAuth.next(true)
+      this.router.navigate(['/'])
+    }
 
-
-    // FIXME Вынести логику редиректа запроса в interceptor
     this.auth.login(this.selectedUser).subscribe({
-      next: () => getProfile(),
+      next: () => {
+        console.log('next');
+        getProfile()
+      },
       error: (err: HttpErrorResponse) => {
         const url = err.url?.includes('/otp/')
+        console.log('err');
         url ? getProfile() : console.error(err)
-      }
+      },
     })
   }
 }

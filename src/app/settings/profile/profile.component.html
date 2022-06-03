@@ -5,16 +5,16 @@
             [formControl]="getFormControl('name')"
             icon="person"
             alt="person"
-            placeholder="Your login"></app-icon-input>
+            [placeholder]="'FIELD_USERNAME' | translate"></app-icon-input>
         <app-icon-input
             type="email"
             [formControl]="getFormControl('email')"
             [errorMessage]="formValidation['email']"
             icon="letter"
             alt="letter"
-            placeholder="Email"></app-icon-input>
+            [placeholder]="'FIELD_EMAIL' | translate"></app-icon-input>
         <app-password-input
-            placeholder="Password"
+            [placeholder]="'FIELD_PASSWORD' | translate"
             [errorMessage]="formValidation['password']"
             [formControl]="getFormControl('password')"></app-password-input>
         <app-password-input
@@ -30,8 +30,8 @@
     </div>
 </section>
 <app-modal
-    title="Password update"
-    message="Enter your current password to confirm changes"
+    [title]="'MODAL_TITLE' | translate"
+    [message]="'MODAL_MESSAGE' | translate"
     [modalActive]="modalActive"
     (modalActiveEvent)="modalActive = $event"
     [withForm]=true

@@ -29,7 +29,6 @@ export class ProfileService {
     return this.http.post(`${environment.baseApiUrl}/validateEMail`,
     email,
     {withCredentials: true})
-    // .pipe(first()).subscribe(data => cb(data))
   }
 
   @cachedRequests(function() {return this.cache})

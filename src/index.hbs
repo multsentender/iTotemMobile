@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang={{lang}}>
 
 <head>
   <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
 <body style="margin: 0">
   <script>
-    {{#if baseAssetsUrl }} const baseAssetsUrl = "{{baseAssetsUrl}}"; 
+    {{#if baseAssetsUrl }} const baseAssetsUrl = "{{baseAssetsUrl}}";
     window.__webpack_public_path__ = "{{baseAssetsUrl}}"
     __webpack_public_path__ ="{{baseAssetsUrl}}";
     {{/if}}

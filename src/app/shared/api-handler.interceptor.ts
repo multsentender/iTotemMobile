@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { catchError, delay, filter, mergeMap, Observable, of, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/auth.service';
@@ -44,7 +44,7 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
       }
     }),
     delayRetryPipe(2000, 3, (error: HttpErrorResponse) =>
-      (![400, 401, 403, 404, 500].includes(error.status)) && request.method.toLowerCase() === 'get')
+    (![400, 401, 403, 404, 500].includes(error.status)) && request.method.toLowerCase() === 'get')
   )
   }
 }

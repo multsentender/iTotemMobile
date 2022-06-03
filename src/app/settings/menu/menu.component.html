@@ -34,14 +34,24 @@
 				</div>
 				<p class="menu__title">Logout</p>
 			</li>
-			<li class="menu__list--item">
-				<div class="menu__icon">
-					<img src="assets/icons/language.svg" alt="lang">
+			<li class="menu__list--item menu__lang" [ngClass]="{lang__list_visible: langListVisible}">
+				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible">
+					<div class="menu__icon">
+						<img src="assets/icons/language.svg" alt="lang">
+					</div>
+					<p class="menu__title">
+						{{"LANGUAGE" | translate}}
+						<span>{{currentLocale | titlecase}}</span>
+					</p>
 				</div>
-				<p class="menu__title">
-					Language
-					<span>Eng</span>
-				</p>
+				<ul class="lang__list">
+					<li *ngFor="let lang of languages"
+						class="lang__list--item"
+						(click)="changeLocale(lang.code)">
+						<p>{{lang.localeName}}</p>
+						<span>{{lang.code}}</span>
+					</li>
+				</ul>
 			</li>
 			<li class="menu__list--item" routerLink="support">
 				<div class="menu__icon">
@@ -51,6 +61,6 @@
 			</li>
 		</ul>
 
-		<a (click)="noMobile()" href="https://test-a.itotem.net" class="switch">Switch to desktop version</a>
+		<a (click)="noMobile()" [href]="toDesktopLink" class="switch">Switch to desktop version</a>
 	</section>
 </main>
