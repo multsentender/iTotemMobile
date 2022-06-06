@@ -24,7 +24,6 @@ import { Logger, Log } from '@shared/services/log.service';
 export class ProfileComponent implements OnInit {
   modalActive: boolean = false
   formValidation: {[key: string]: string} = {}
-  private _log: Logger = Log.get(ProfileComponent.name);
 
   profileForm: FormGroup = this.fb.group({
     name: [{value: '', disabled: true}],
@@ -102,7 +101,6 @@ export class ProfileComponent implements OnInit {
     const passFormValue = this.getFormControl.bind(this)('password').value
     const params: UpdateCurrentUserPasswordRequest = {currentPassword}
     if(passFormValue) params.newPassword = passFormValue
-    this._log.info("password_change");
 
     this.profileService.updateUserPassword(params)
       .pipe(first())
@@ -111,9 +109,10 @@ export class ProfileComponent implements OnInit {
           this.profileForm.patchValue({password: '', passwordConf: ''})
           this.updateProfileHandler()
         },
-        error: (err: HttpErrorResponse) => {
-          throw Error(err.error?.errorMessage)
-          // this.errorMessageService.addError(err.error?.errorMessage)
+        error: (err) => {
+          console.log(err);
+          console.log(err.status);
+          this.errorMessageService.addError(err.error?.errorMessage)
         }
       })
 

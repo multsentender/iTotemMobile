@@ -15,6 +15,7 @@ import { LogService } from './shared/services/log.service';
 import { ApiHandlerInterceptor } from '@shared/api-handler.interceptor';
 
 import '../styles/styles.scss';
+import { ErrorMessageService } from '@shared/services/error-message.service';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const localPath = 'assets/lang/';
@@ -46,7 +47,12 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   providers: [
     CookieService,
     LogService,
-    {provide: HTTP_INTERCEPTORS, useClass: ApiHandlerInterceptor, multi: true}
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiHandlerInterceptor,
+      multi: true,
+      deps: [LogService, ErrorMessageService]
+    }
   ],
   bootstrap: [AppComponent]
 })
