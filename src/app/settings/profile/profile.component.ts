@@ -8,6 +8,7 @@ import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formVal
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 import { ErrorMessageService } from '@shared/error-message.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Logger, Log } from '@shared/services/log.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   modalActive: boolean = false
   formValidation: {[key: string]: string} = {}
-
+  private _log: Logger = Log.get(ProfileComponent.name);
 
   profileForm: FormGroup = this.fb.group({
     name: [{value: '', disabled: true}],
@@ -35,7 +36,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private profileService: ProfileService,
-    private errorMessageService: ErrorMessageService
+    private errorMessageService: ErrorMessageService,
   ) {
     this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._log.info("open");
     if(!this.profileService.profile.value.userId){
       this.profileService.loadAgentProfile()
     }
@@ -98,6 +100,7 @@ export class ProfileComponent implements OnInit {
     const passFormValue = this.getFormControl.bind(this)('password').value
     const params: UpdateCurrentUserPasswordRequest = {currentPassword}
     if(passFormValue) params.newPassword = passFormValue
+    this._log.info("password_change");
 
     this.profileService.updateUserPassword(params)
       .pipe(first())

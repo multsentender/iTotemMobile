@@ -12,6 +12,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { MultiTranslateLoader } from './core/multi-translate-loader';
 
+import { LogService } from './shared/services/log.service';
+
 import '../styles/styles.scss';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
@@ -41,7 +43,7 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
       }
     }),
   ],
-  providers: [CookieService],
+  providers: [CookieService, LogService],
   bootstrap: [AppComponent]
 })
 

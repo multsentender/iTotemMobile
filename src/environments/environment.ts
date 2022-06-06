@@ -2,6 +2,8 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { LogConfig } from "@shared/services/log.service";
+
 export const environment = {
   production: false,
   baseApiUrl: "http://localhost:4200/api/rest",
@@ -11,7 +13,7 @@ export const environment = {
   appName: "Playpoint",// – название продукта (Playpoint)
   backofficeAppName: "Playpoint BackOffice",// – название продукта Backoffice (Playpoint Backoffice)
   version: "0.1",// - версия UI, должна использоваться в URL загрузки статики
-  logConfig: {},// - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
+  logConfig: {appenders: [], logLevels: []} as LogConfig,// - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
   userID: "",// - ID пользователя для целей логирования
   lang: "ru",// - текущий язык пользователя (en, it, pt, pt-BR, ..)
   freshchatToken: "",// - токен freshChat (может быть пустыми если для пользователя отключен чат)

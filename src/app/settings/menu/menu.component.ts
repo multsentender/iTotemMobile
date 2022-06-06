@@ -6,6 +6,7 @@ import { AgentTreeNode } from '@shared/models/agentTreeNode';
 import { TreeNodeService } from '@shared/tree-node.service';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
+import { Logger, Log } from '@shared/services/log.service';
 
 @Component({
   selector: 'app-menu',
@@ -16,6 +17,7 @@ export class MenuComponent implements OnInit {
   public logoutLink = `${environment.baseRootUrl}/logout`
   public agents: Array<AgentInfo | AgentTreeNode> = [];
   public rooms: Array<AgentInfo | AgentTreeNode> = [];
+  private _log: Logger = Log.get(MenuComponent.name);
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -27,6 +29,7 @@ export class MenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      this._log.info("open");
       this.treeNodeService.sortAgentAndRoom(this.treeNodeService.loadTreeNode())
     }
 
