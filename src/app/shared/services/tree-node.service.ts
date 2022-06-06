@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delayRetry } from '@shared/extensions';
-import { BehaviorSubject, first, map, pairwise, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AgentInfo } from '../models/agentInfo';
 import { AgentTreeNode } from '../models/agentTreeNode';
@@ -16,7 +15,6 @@ export class TreeNodeService {
 
   constructor(private http: HttpClient) { }
 
-  @delayRetry()
   loadTreeNode() {
       return this.http.post<Array<AgentTreeNode | AgentInfo | RoomTreeNode | RoomInfo>>(
         `${environment.baseApiUrl}/getTreeChildren`,

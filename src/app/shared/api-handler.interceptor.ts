@@ -4,9 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delayRetryPipe } from './extensions';
 
 import { Router } from '@angular/router';
@@ -17,42 +16,39 @@ import { ErrorMessageService } from './services/error-message.service';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
+  private logger: Logger = Log.get('HTTP Error Request')
 
   constructor(
-    private authService: AuthService,
     private router: Router,
-    private logget: Logger = Log.get('HTTP Error Request'),
-    private errorMessageService: ErrorMessageService
+    private authService: AuthService,
+    private errorMessageService: ErrorMessageService,
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
   return next.handle(request).pipe(
-    tap(() => {},
-    err => {
+    delayRetryPipe(2000, 3, (err) => {
       switch(err.status) {
         case 400: {
-          this.logget.error(err)
+          this.logger.error(err)
           this.errorMessageService.addError('Internal error occured')
           throw Error('Internal error occured')
         }
         case 403: {
+          this.authService.isAuth.next(false)
           if(environment.production) window.location.href = environment.baseRootUrl
           else {
-            this.authService.isAuth.next(false)
             this.router.navigate(['/devLogin'])
           }
         }
         case 503: {
-          this.logget.error(err)
+          this.logger.error(err)
         }
         default: {
           console.error(err.message)
         }
       }
-    }),
-    // delayRetryPipe(2000, 3, (error: HttpErrorResponse) =>
-    // (![400, 401, 403, 404, 500].includes(error.status)) && request.method.toLowerCase() === 'get')
+    })
   )
   }
 }

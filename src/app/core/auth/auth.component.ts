@@ -43,12 +43,10 @@ export class AuthComponent {
 
     this.auth.login(this.selectedUser).subscribe({
       next: () => {
-        console.log('next');
         getProfile()
       },
       error: (err: HttpErrorResponse) => {
         const url = err.url?.includes('/otp/')
-        console.log('err');
         url ? getProfile() : console.error(err)
       },
     })

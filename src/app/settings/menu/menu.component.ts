@@ -13,7 +13,6 @@ import { environment } from '../../../environments/environment';
 import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 import { LanguageInfo } from '@shared/models/languageInfo';
-import { delayRetry } from '@shared/extensions';
 
 @Component({
   selector: 'app-menu',
@@ -62,13 +61,13 @@ export class MenuComponent implements OnInit {
   }
 
   @cachedRequests(function() {return this.cache})
-  @delayRetry()
   getLanguages() : Observable<LanguageInfo[]> {
     return this.http.get<LanguageInfo[]>(`${environment.baseApiUrl}/getSupportedLanguages`)
   }
   changeLocale(langCode: string) {
     this.cookies.set('customLocale', langCode, new Date('2035'))
     this.translate.use(langCode)
+    this.currentLocale = langCode
     // window.location.reload()
   }
 }

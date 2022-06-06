@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { CacheService } from '@shared/cache/cache.service';
-import { delayRetry } from '@shared/extensions';
 import { BehaviorSubject, first, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AgentLoginInfo } from '../models/agentLoginInfo';
@@ -19,7 +18,6 @@ export class ProfileService {
   ) { }
 
   @cachedRequests(function() {return this.cache})
-  @delayRetry()
   loadAgentProfile(): Observable<AgentLoginInfo> {
     return this.http.get(
       `${environment.baseApiUrl}/getCurrentUserProfile`,

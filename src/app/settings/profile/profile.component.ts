@@ -110,8 +110,6 @@ export class ProfileComponent implements OnInit {
           this.updateProfileHandler()
         },
         error: (err) => {
-          console.log(err);
-          console.log(err.status);
           this.errorMessageService.addError(err.error?.errorMessage)
         }
       })

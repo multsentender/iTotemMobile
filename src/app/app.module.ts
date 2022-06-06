@@ -16,6 +16,7 @@ import { ApiHandlerInterceptor } from '@shared/api-handler.interceptor';
 
 import '../styles/styles.scss';
 import { ErrorMessageService } from '@shared/services/error-message.service';
+import { AuthService } from '@shared/auth/auth.service';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const localPath = 'assets/lang/';
@@ -51,7 +52,6 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiHandlerInterceptor,
       multi: true,
-      deps: [LogService, ErrorMessageService]
     }
   ],
   bootstrap: [AppComponent]
