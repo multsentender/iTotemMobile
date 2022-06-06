@@ -11,6 +11,8 @@ import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formVal
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 
+import { Logger, Log } from '@shared/services/log.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +24,7 @@ import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 export class ProfileComponent implements OnInit {
   modalActive: boolean = false
   formValidation: {[key: string]: string} = {}
-
+  private _log: Logger = Log.get(ProfileComponent.name);
 
   profileForm: FormGroup = this.fb.group({
     name: [{value: '', disabled: true}],
@@ -35,7 +37,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private profileService: ProfileService,
-    private errorMessageService: ErrorMessageService
+    private errorMessageService: ErrorMessageService,
   ) {
     this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -100,6 +102,7 @@ export class ProfileComponent implements OnInit {
     const passFormValue = this.getFormControl.bind(this)('password').value
     const params: UpdateCurrentUserPasswordRequest = {currentPassword}
     if(passFormValue) params.newPassword = passFormValue
+    this._log.info("password_change");
 
     this.profileService.updateUserPassword(params)
       .pipe(first())

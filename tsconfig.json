@@ -19,6 +19,7 @@
   },
   "angularCompilerOptions": {
     "genDir": "compiled",
-    "skipMetadataEmit" : true
+    "skipMetadataEmit" : true,
+    "strictNullChecks": true
   }
 }

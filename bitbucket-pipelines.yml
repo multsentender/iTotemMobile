@@ -16,7 +16,7 @@ definitions:
           - node-ui
         script:
           - npm install
-          - npm run webpack:build
+          - npm run webpack:build:stage
         artifacts:
           - dist/**
 

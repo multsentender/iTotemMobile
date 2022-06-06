@@ -9,6 +9,7 @@ import { TreeNodeService } from '@shared/services/tree-node.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { CacheService } from '@shared/cache/cache.service';
 import { environment } from '../../../environments/environment';
+import { Logger, Log } from '@shared/services/log.service';
 
 import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
@@ -24,9 +25,10 @@ export class MenuComponent implements OnInit {
   public currentLocale = environment.lang
   public agents: Array<AgentInfo | AgentTreeNode> = [];
   public rooms: Array<AgentInfo | AgentTreeNode> = [];
-  public languages: Array<LanguageInfo> = []
 
+  public languages: Array<LanguageInfo> = []
   public langListVisible = false
+  private _log: Logger = Log.get(MenuComponent.name);
 
   constructor(
     private authService: AuthService,
@@ -50,8 +52,6 @@ export class MenuComponent implements OnInit {
         this.languages = data
       })
   }
-
-
 
   logOut(): void {
     this.authService.isAuth.next(false)
