@@ -10,7 +10,7 @@ import { Observable, tap } from 'rxjs';
 import { delayRetryPipe } from './extensions';
 
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { AuthService } from './auth/auth.service';
 import { Log, Logger } from './services/log.service';
 import { ErrorMessageService } from './services/error-message.service';
