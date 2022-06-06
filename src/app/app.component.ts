@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../environments/environment';
 import { Location } from '@angular/common';
+
 import { AuthService } from '@shared/auth/auth.service';
+import { environment } from '../environments/environment';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    translate: TranslateService,
+    private translate: TranslateService,
     private router: Router,
     private location: Location
     ) {

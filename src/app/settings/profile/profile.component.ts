@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { filter, first, pairwise } from 'rxjs';
-import { ProfileService } from '@shared/services/profile.service'
-import { ValidationStatus } from '@shared/models/validationStatus';
-import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
-import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
-import { ErrorMessageService } from '@shared/services/error-message.service';
+import { filter, first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { ProfileService } from '@shared/services/profile.service'
+import { ErrorMessageService } from '@shared/services/error-message.service';
+import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
+
+import { ValidationStatus } from '@shared/models/validationStatus';
+import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 
 
 @Component({
@@ -15,7 +17,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-
 
 // FIXME Добавить масштабирование (заменить проверку на email)
 export class ProfileComponent implements OnInit {

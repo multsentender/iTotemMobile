@@ -1,16 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+
 import { AuthService } from '@shared/auth/auth.service';
+import { TreeNodeService } from '@shared/services/tree-node.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { CacheService } from '@shared/cache/cache.service';
+import { environment } from '../../../environments/environment';
+
 import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 import { LanguageInfo } from '@shared/models/languageInfo';
-import { TreeNodeService } from '@shared/services/tree-node.service';
-import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-menu',
