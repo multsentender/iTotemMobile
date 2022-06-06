@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationStart, Router, Event } from '@angular/router';
+import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
-import { environment } from '../environments/environment';
 import { Location } from '@angular/common';
+
 import { AuthService } from '@shared/auth/auth.service';
-import { TreeNodeService } from '@shared/tree-node.service';
+import { environment } from '../environments/environment';
+
+import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -14,7 +15,7 @@ declare const baseRootUrl: string;// - корень сайта, использу
 declare const appName: string;// – название продукта (Playpoint)
 declare const backofficeAppName: string;// – название продукта Backoffice (Playpoint Backoffice)
 declare const version: string;// - версия UI, должна использоваться в URL загрузки статики
-declare const logConfig: object;//? - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
+declare const logConfig: LogConfig;//? - настройки логирования. Позволяют динамически менять уровень логирования отдельных классов. Будет детально описано в разделе посвященном логированию.
 declare const userID: string;// - ID пользователя для целей логирования
 declare const lang: string;// - текущий язык пользователя (en, it, pt, pt-BR, ..)
 declare const freshchatToken: string;// - токен freshChat (может быть пустыми если для пользователя отключен чат)
@@ -30,16 +31,22 @@ declare var  __webpack_public_path__:string;
 })
 export class AppComponent implements OnInit {
   currentRoute!: string;
+  private _log: Logger = Log.get("application");
 
   constructor(
     private authService: AuthService,
-    translate: TranslateService,
+    private translate: TranslateService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    protected logService: LogService,
     ) {
-    translate.addLangs(['en', 'ru']);
-    translate.setDefaultLang('en');
 
+    try { environment.userID = userID; } catch (e) { }
+    try {
+      environment.logConfig = logConfig;
+      logService.setConfig(environment.logConfig as LogConfig);
+    } catch (e) { }
+    this._log.info("open");
     try {
       environment.baseAssetsUrl = baseAssetsUrl;
       __webpack_public_path__ = baseAssetsUrl + "/";
@@ -54,14 +61,14 @@ export class AppComponent implements OnInit {
       environment.appName = appName;
       environment.backofficeAppName = backofficeAppName;
     } catch (e) { }
-    try { environment.logConfig = logConfig; } catch (e) { }
-    try { environment.userID = userID; } catch (e) { }
     try { environment.lang = lang; } catch (e) { }
     try { environment.freshchatToken = freshchatToken; } catch (e) { }
     try { environment.freshchatHost = freshchatHost; } catch (e) { }
     try { environment.userEmail = userEmail; } catch (e) { }
 
-    translate.use(environment.lang);
+    this.translate.addLangs(['en', 'ru']);
+    this.translate.setDefaultLang('en');
+    this.translate.use(environment.lang);
   }
 
   ngOnInit(): void {
@@ -69,10 +76,10 @@ export class AppComponent implements OnInit {
       .subscribe({
         next: () => {
           this.authService.isAuth.next(true)
+          this.router.navigate(['/'])
         },
         error: () => {
           this.authService.isAuth.next(false)
-          this.router.navigate(['/devLogin'])
         }
       })
   }

@@ -25,5 +25,20 @@ FIELD_SUBSCRIPTION: |-
 CONFIRM_NEW_PASSWORD: |-
   Confirm New Password
 
-MY_PROFILE: |-
+FIELD_MY_PROFILE: |-
   My profile
+
+FIELD_LOGOUT: |-
+  Logout
+
+FIELD_CONTACTS: |-
+  Contact support
+
+MODAL_TITLE: |-
+  Password update
+
+MODAL_MESSAGE: |-
+  Enter your current password to confirm changes
+
+SWITCH_TO_DESKTOP: |-
+  Switch to decktop version

@@ -22,8 +22,23 @@ FIELD_N_A: |-
 FIELD_SUBSCRIPTION: |-
   {appName} новости и бонусы
 
+FIELD_MY_PROFILE: |-
+  Мой профиль
+
+FIELD_LOGOUT: |-
+  Выход
+
+FIELD_CONTACTS: |-
+  Поддержка
+
+MODAL_TITLE: |-
+  Обновление пароля
+
+MODAL_MESSAGE: |-
+  Введите текущий пароль, чтобы подтвердить изменения
+
 CONFIRM_NEW_PASSWORD: |-
   Подтвердите новый пароль
 
-MY_PROFILE: |-
-  Мой профиль
+SWITCH_TO_DESKTOP: |-
+  Версия для компьютера

@@ -26,31 +26,41 @@
 				<div class="menu__icon">
 					<img src="assets/icons/person.svg" alt="person">
 				</div>
-				<p class="menu__title">My profile</p>
+				<p class="menu__title">{{'FIELD_MY_PROFILE' | translate}}</p>
 			</li>
-			<a [href]="logoutLink" class="menu__list--item">
+			<li (click)="logOut()" class="menu__list--item">
 				<div class="menu__icon">
 					<img src="assets/icons/logout.svg" alt="logout">
 				</div>
-				<p class="menu__title">Logout</p>
-			</a>
-			<li class="menu__list--item">
-				<div class="menu__icon">
-					<img src="assets/icons/language.svg" alt="lang">
+				<p class="menu__title">{{'FIELD_LOGOUT' | translate}}</p>
+			</li>
+			<li class="menu__list--item menu__lang" [ngClass]="{lang__list_visible: langListVisible}">
+				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible">
+					<div class="menu__icon">
+						<img src="assets/icons/language.svg" alt="lang">
+					</div>
+					<p class="menu__title">
+						{{"FIELD_LANGUAGE" | translate}}
+						<span>{{currentLocale | titlecase}}</span>
+					</p>
 				</div>
-				<p class="menu__title">
-					Language
-					<span>Eng</span>
-				</p>
+				<ul class="lang__list">
+					<li *ngFor="let lang of languages"
+						class="lang__list--item"
+						(click)="changeLocale(lang.code)">
+						<p>{{lang.localeName}}</p>
+						<span>{{lang.code}}</span>
+					</li>
+				</ul>
 			</li>
 			<li class="menu__list--item" routerLink="support">
 				<div class="menu__icon">
 					<img src="assets/icons/messages.svg" alt="messages">
 				</div>
-				<p class="menu__title">Contact support</p>
+				<p class="menu__title">{{'FIELD_CONTACTS' | translate}}</p>
 			</li>
 		</ul>
 
-		<a (click)="noMobile()" href="https://test-a.itotem.net" class="switch">Switch to desktop version</a>
+		<a (click)="noMobile()" [href]="toDesktopLink" class="switch">{{"SWITCH_TO_DESKTOP" | translate}}</a>
 	</section>
 </main>

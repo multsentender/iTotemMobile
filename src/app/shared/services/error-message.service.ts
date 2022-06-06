@@ -8,7 +8,7 @@ export class ErrorMessageService {
   errors: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([])
   constructor() {}
 
-  addError(message: string) {
+  addError(message: string = "Error") {
     this.errors.next([...this.errors.value, message])
   }
 
