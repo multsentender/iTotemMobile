@@ -67,7 +67,9 @@ export class MenuComponent implements OnInit {
   changeLocale(langCode: string) {
     this.cookies.set('customLocale', langCode, new Date('2035'))
     this.translate.use(langCode)
+    environment.lang = langCode
     this.currentLocale = langCode
+    this.langListVisible = false
     // window.location.reload()
   }
 }
