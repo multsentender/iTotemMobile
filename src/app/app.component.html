@@ -1,10 +1,10 @@
 <header class="header">
 	<a routerLink="/devLogin" class="header__back_btn">
-		<img src="assets/icons/arrow.svg">
+		<img src="assets/icons/arrow.svg?v={{env.version}}">
 	</a>
 	<h4 class="header__title">Menu</h4>
 	<button class="header__burger_btn" (click)="toggleMenu()">
-		<img src="assets/icons/burger.svg">
+		<img src="assets/icons/burger.svg?v={{env.version}}">
 	</button>
 </header>
 

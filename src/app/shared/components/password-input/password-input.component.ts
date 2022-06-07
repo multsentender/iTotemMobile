@@ -1,5 +1,6 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -19,8 +20,9 @@ export class PasswordInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = "";
   @Input() errorMessage?: string;
   hidePass: boolean = true;
+  hideError: boolean = true;
 
-  hideError: boolean = true
+  env = environment;
 
   constructor() { }
 

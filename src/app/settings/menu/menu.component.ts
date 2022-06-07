@@ -30,6 +30,8 @@ export class MenuComponent implements OnInit {
   public langListVisible = false
   private _log: Logger = Log.get(MenuComponent.name);
 
+  env = environment;
+
   constructor(
     private authService: AuthService,
     private treeNodeService: TreeNodeService,
