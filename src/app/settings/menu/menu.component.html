@@ -24,20 +24,20 @@
 		<ul class="menu__list">
 			<li class="menu__list--item" routerLink="profile">
 				<div class="menu__icon">
-					<img src="assets/icons/person.svg" alt="person">
+					<img src="assets/icons/person.svg?v={{env.version}}" alt="person">
 				</div>
 				<p class="menu__title">{{'FIELD_MY_PROFILE' | translate}}</p>
 			</li>
 			<li (click)="logOut()" class="menu__list--item">
 				<div class="menu__icon">
-					<img src="assets/icons/logout.svg" alt="logout">
+					<img src="assets/icons/logout.svg?v={{env.version}}" alt="logout">
 				</div>
 				<p class="menu__title">{{'FIELD_LOGOUT' | translate}}</p>
 			</li>
 			<li class="menu__list--item menu__lang" [ngClass]="{lang__list_visible: langListVisible}">
 				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible">
 					<div class="menu__icon">
-						<img src="assets/icons/language.svg" alt="lang">
+						<img src="assets/icons/language.svg?v={{env.version}}" alt="lang">
 					</div>
 					<p class="menu__title">
 						{{"FIELD_LANGUAGE" | translate}}
@@ -55,7 +55,7 @@
 			</li>
 			<li class="menu__list--item" routerLink="support">
 				<div class="menu__icon">
-					<img src="assets/icons/messages.svg" alt="messages">
+					<img src="assets/icons/messages.svg?v={{env.version}}" alt="messages">
 				</div>
 				<p class="menu__title">{{'FIELD_CONTACTS' | translate}}</p>
 			</li>

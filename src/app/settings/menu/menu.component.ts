@@ -28,6 +28,8 @@ export class MenuComponent implements OnInit {
   public languages: Array<LanguageInfo> = []
   public langListVisible = false
 
+  env = environment;
+
   constructor(
     private authService: AuthService,
     private treeNodeService: TreeNodeService,

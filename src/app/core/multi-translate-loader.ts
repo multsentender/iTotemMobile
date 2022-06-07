@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 export interface ITranslationResource {
     prefix: string;
@@ -12,6 +13,8 @@ export interface ITranslationResource {
 }
 
 export class MultiTranslateLoader implements TranslateLoader {
+    env = environment;
+
     constructor(
         private http: HttpClient,
         private resources: ITranslationResource[]
@@ -20,7 +23,7 @@ export class MultiTranslateLoader implements TranslateLoader {
     public getTranslation(lang: string): Observable<any> {
         const requests = this.resources.map(resource => {
             const isYaml = resource.suffix.includes('yaml');
-            const path = resource.prefix + lang + resource.suffix;
+            const path = resource.prefix + lang + resource.suffix + "?v=" + this.env.version;
 
             return this.http
                 .get(path, {

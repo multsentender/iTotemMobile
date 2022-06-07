@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = "";
   @Input() icon?: string;
   @Input() alt?: string;
+
+  env = environment;
 
   constructor() { }
 
