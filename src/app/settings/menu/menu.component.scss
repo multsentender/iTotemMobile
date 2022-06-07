@@ -123,12 +123,19 @@
 				cursor: pointer;
 			}
 		}
+		.menu__lang__arrow {
+			transform: translateX(-8px) rotate(0deg);
+			transition: all .15s ease-in;
+		}
 	}
 
 	.lang__list_visible{
 		.lang__list {
 			max-height: 50vh;
 			transition: all .8s ease-in-out;
+		}
+		.menu__lang__arrow{
+			transform: translateX(-8px) rotate(90deg);
 		}
 	}
 
