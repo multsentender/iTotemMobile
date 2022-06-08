@@ -6,22 +6,22 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { delayRetryPipe } from './extensions';
+import { delayRetryPipe } from '../shared/extensions';
 
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { AuthService } from './auth/auth.service';
-import { Log, Logger } from './services/log.service';
-import { ErrorMessageService } from './services/error-message.service';
+import { AuthService } from '../shared/auth/auth.service';
+// import { Log, Logger } from './services/log.service';
+// import { ErrorMessageService } from './services/error-message.service';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
-  private logger: Logger = Log.get('HTTP Error Request')
+  // private logger: Logger = Log.get('HTTP Error Request')
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private errorMessageService: ErrorMessageService,
+    // private errorMessageService: ErrorMessageService,
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -30,8 +30,8 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
     delayRetryPipe(2000, 3, (err) => {
       switch(err.status) {
         case 400: {
-          this.logger.error(err)
-          this.errorMessageService.addError('Internal error occured')
+          // this.logger.error(err)
+          // this.errorMessageService.addError('Internal error occured')
           throw Error('Internal error occured')
         }
         case 403: {
@@ -40,13 +40,14 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           else {
             this.router.navigate(['/devLogin'])
           }
+          break
         }
-        case 503: {
-          this.logger.error(err)
-        }
-        default: {
-          console.error(err.message)
-        }
+        // case 503: {
+        //   this.logger.error(err)
+        // }
+        // default: {
+        //   console.error(err.message)
+        // }
       }
     })
   )

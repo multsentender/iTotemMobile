@@ -11,8 +11,6 @@ import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formVal
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 
-import { Logger, Log } from '@shared/services/log.service';
-
 
 @Component({
   selector: 'app-profile',

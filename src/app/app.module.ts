@@ -1,7 +1,7 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
-import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { MultiTranslateLoader } from './core/multi-translate-loader';
 
@@ -12,11 +12,8 @@ import { ComponentsModule } from './shared/components/components.module';
 
 
 import { LogService } from './shared/services/log.service';
-import { ApiHandlerInterceptor } from '@shared/api-handler.interceptor';
 
 import '../styles/styles.scss';
-import { ErrorMessageService } from '@shared/services/error-message.service';
-import { AuthService } from '@shared/auth/auth.service';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const localPath = 'assets/lang/';
@@ -45,15 +42,7 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
       }
     }),
   ],
-  providers: [
-    CookieService,
-    LogService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiHandlerInterceptor,
-      multi: true,
-    }
-  ],
+  providers: [CookieService, LogService],
   bootstrap: [AppComponent]
 })
 

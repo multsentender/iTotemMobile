@@ -1,6 +1,6 @@
 <div *ngIf="errorService.withErrors()" class="error">
 	<ul class="error__list">
-		<li *ngFor="let error of errorService.errors.value" class="error__message">{{error}}</li>
+		<li *ngFor="let error of errorService.errors.value" class="error__message">{{error | translate}}</li>
 	</ul>
 	<button (click)="errorService.clearErrors()" class="error__btn">
 		<img src="assets/icons/close-thin.svg" alt="">
