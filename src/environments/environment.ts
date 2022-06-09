@@ -7,7 +7,7 @@ import { LogConfig } from "@shared/services/log.service";
 export const environment = {
   production: false,
   baseApiUrl: "http://localhost:4200/api/rest",
-  baseAssetsUrl: "https://localhost:4200/assets",// – базовый урл к каталогу assets
+  baseAssetsUrl: "http://localhost:4200/assets",// – базовый урл к каталогу assets
   baseRouteUrl: "http://localhost:4200/mobile",// – базовый урл для HTML5 роунтина
   baseRootUrl: "http://localhost:4200/api",// - корень сайта, используется только для logout и переключение в Desktop режим
   appName: "Playpoint",// – название продукта (Playpoint)

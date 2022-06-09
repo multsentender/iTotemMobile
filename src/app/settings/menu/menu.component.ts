@@ -9,6 +9,7 @@ import { TreeNodeService } from '@shared/services/tree-node.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { CacheService } from '@shared/cache/cache.service';
 import { environment } from '../../../environments/environment';
+import { PathService } from '@shared/services/path.service'
 
 import { AgentInfo } from '@shared/models/agentInfo';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
@@ -37,6 +38,7 @@ export class MenuComponent implements OnInit {
     private http: HttpClient,
     private readonly cache: CacheService,
     private translate: TranslateService,
+    public pathService: PathService,
   ) {
     // FIXME оптимизация с лоадером
     this.treeNodeService.agents.subscribe((val) => this.agents = val)

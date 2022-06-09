@@ -1,6 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
+import { PathService } from '@shared/services/path.service';
 
 
 @Component({
@@ -24,7 +25,9 @@ export class PasswordInputComponent implements ControlValueAccessor {
 
   env = environment;
 
-  constructor() { }
+  constructor(
+    public pathService: PathService,
+  ) { }
 
   registerOnChange() {}
 
