@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ErrorMessageService } from '@shared/services/error-message.service';
 import { environment } from '../../../../environments/environment';
+import { PathService } from '@shared/services/path.service';
 
 @Component({
   selector: 'app-error-message',
@@ -10,7 +11,10 @@ import { environment } from '../../../../environments/environment';
 export class ErrorMessageComponent implements OnInit {
   env = environment;
   
-  constructor(public errorService: ErrorMessageService) {}
+  constructor(
+    public errorService: ErrorMessageService,
+    public pathService: PathService,
+    ) {}
 
   ngOnInit(): void {
   }

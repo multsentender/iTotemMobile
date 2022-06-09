@@ -12,6 +12,7 @@ import { ComponentsModule } from './shared/components/components.module';
 
 
 import { LogService } from './shared/services/log.service';
+import { PathService } from './shared/services/path.service';
 import { ApiHandlerInterceptor } from '@shared/api-handler.interceptor';
 
 import '../styles/styles.scss';
@@ -52,7 +53,8 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiHandlerInterceptor,
       multi: true,
-    }
+    },
+    PathService
   ],
   bootstrap: [AppComponent]
 })

@@ -7,6 +7,7 @@ import { AuthService } from '@shared/auth/auth.service';
 import { environment } from '../environments/environment';
 
 import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service';
+import { PathService } from '@shared/services/path.service'
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private location: Location,
     protected logService: LogService,
+    public pathService: PathService,
     ) {
 
     try { environment.userID = userID; } catch (e) { }

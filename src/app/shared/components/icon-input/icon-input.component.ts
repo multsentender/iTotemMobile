@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
+import { PathService } from '@shared/services/path.service';
 
 
 @Component({
@@ -25,7 +26,9 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
 
   env = environment;
 
-  constructor() { }
+  constructor(
+    public pathService: PathService,
+  ) { }
 
   ngOnInit(): void {}
 
