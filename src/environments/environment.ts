@@ -5,7 +5,7 @@
 import { LogConfig } from "@shared/services/log.service";
 
 export const environment = {
-  production: false,
+  production: true,
   baseApiUrl: "http://localhost:4200/api/rest",
   baseAssetsUrl: "https://localhost:4200/assets",// – базовый урл к каталогу assets
   baseRouteUrl: "http://localhost:4200/mobile",// – базовый урл для HTML5 роунтина

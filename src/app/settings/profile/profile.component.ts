@@ -5,7 +5,6 @@ import { filter, first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { ProfileService } from '@shared/services/profile.service'
-import { ErrorMessageService } from '@shared/services/error-message.service';
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
@@ -34,7 +33,6 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private profileService: ProfileService,
-    private errorMessageService: ErrorMessageService,
   ) {
     this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -88,10 +86,7 @@ export class ProfileComponent implements OnInit {
     if(emailFormValue !== this.profileService.profile.value.email) {
       this.profileService.updateUserProfile({profile: {...this.profileService.profile.value, email: emailFormValue}})
       .pipe(first())
-      .subscribe({
-        next: () => this.profileService.loadAgentProfile(),
-        error: (err: HttpErrorResponse) => this.errorMessageService.addError(err.error?.errorMessage)
-      })
+      .subscribe(() => this.profileService.loadAgentProfile())
     }
   }
 
@@ -102,14 +97,9 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.updateUserPassword(params)
       .pipe(first())
-      .subscribe({
-        next: () => {
+      .subscribe(() => {
           this.profileForm.patchValue({password: '', passwordConf: ''})
           this.updateProfileHandler()
-        },
-        error: (err) => {
-          this.errorMessageService.addError(err.error?.errorMessage)
-        }
       })
 
       this.modalActive = false
