@@ -1,9 +1,11 @@
 <header class="header">
 	<a routerLink="/devLogin" class="header__back_btn">
-		<img src="{{pathService.assetsPath('/icons/arrow.svg')}}">
+		<img src="{{pathService.assetsPath('/icons/arrow.svg')}}"
+		[clicklog]="{class: componentName, message: 'click back'}">
 	</a>
 	<h4 class="header__title">Menu</h4>
-	<button class="header__burger_btn" (click)="toggleMenu()">
+	<button class="header__burger_btn" (click)="toggleMenu()"
+		[clicklog]="{class: componentName, message: 'click menu'}">
 		<img src="{{pathService.assetsPath('/icons/burger.svg')}}">
 	</button>
 </header>

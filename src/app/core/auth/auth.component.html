@@ -7,5 +7,5 @@
 		<option *ngFor="let u of users" [ngValue]="u">{{u.j_username}}</option>
 	</select>
 
-	<button class="auth__btn" (click)="onAuth()">Log in!</button>
+	<button class="auth__btn" (click)="onAuth()" [clicklog]="{class: componentName, message: 'login'}" appHighlight>Log in!</button>
 </section>

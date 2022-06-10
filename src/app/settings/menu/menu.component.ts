@@ -21,6 +21,7 @@ import { LanguageInfo } from '@shared/models/languageInfo';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  componentName: string = 'MenuComponent';
   public toDesktopLink = environment.baseRootUrl
   public currentLocale = environment.lang
   public agents: Array<AgentInfo | AgentTreeNode> = [];

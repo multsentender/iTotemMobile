@@ -10,6 +10,7 @@ import { UserAuth } from '@shared/models/userAuth.model';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
+  componentName: string = 'AuthComponent';//as name is removed in prod build
   users: Array<UserAuth> = [
     {
       j_username: 'mobileadmindev1',

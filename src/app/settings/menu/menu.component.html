@@ -8,34 +8,36 @@
 					'agent__list--item': true,
 					'item_current': true,
 					'item_disable': item.deleted || item.blocked}"
-				routerLink="/agent/{{item.id}}">
+				routerLink="/agent/{{item.id}}"
+				[clicklog]="{class: componentName, message: 'click agent ' + item.id}">
 				{{item.label}}
 			</li>
 			<li *ngFor="let item of rooms"
 				[ngClass]="{
 					'agent__list--item': true,
 					'item_disable': item.deleted}"
-				routerLink="/room/{{item.id}}">
+				routerLink="/room/{{item.id}}"
+				[clicklog]="{class: componentName, message: 'click room ' + item.id}">
 				{{item.label}}
 			</li>
 		</ul>
 	</nav>
 	<section class="menu">
 		<ul class="menu__list">
-			<li class="menu__list--item" routerLink="profile">
+			<li class="menu__list--item" routerLink="profile" [clicklog]="{class: componentName, message: 'click FIELD_MY_PROFILE'}">
 				<div class="menu__icon">
 					<img src="{{pathService.assetsPath('/icons/person.svg')}}" alt="person">
 				</div>
 				<p class="menu__title">{{'FIELD_MY_PROFILE' | translate}}</p>
 			</li>
-			<li (click)="logOut()" class="menu__list--item">
+			<li (click)="logOut()" class="menu__list--item" [clicklog]="{class: componentName, message: 'click FIELD_LOGOUT'}">
 				<div class="menu__icon">
 					<img src="{{pathService.assetsPath('/icons/logout.svg')}}" alt="logout">
 				</div>
 				<p class="menu__title">{{'FIELD_LOGOUT' | translate}}</p>
 			</li>
 			<li class="menu__list--item menu__lang" [ngClass]="{lang__list_visible: langListVisible}">
-				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible">
+				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible" [clicklog]="{class: componentName, message: 'click FIELD_LANGUAGE'}">
 					<div class="menu__icon">
 						<img src="{{pathService.assetsPath('/icons/language.svg')}}" alt="lang">
 					</div>
@@ -48,13 +50,15 @@
 				<ul class="lang__list">
 					<li *ngFor="let lang of languages"
 						class="lang__list--item"
-						(click)="changeLocale(lang.code)">
+						(click)="changeLocale(lang.code!.toString())"
+						[clicklog]="{class: componentName, message: 'click lang ' + lang.code}"
+						>
 						<p>{{lang.localeName}}</p>
 						<span>{{lang.code}}</span>
 					</li>
 				</ul>
 			</li>
-			<li class="menu__list--item" routerLink="support">
+			<li class="menu__list--item" routerLink="support" [clicklog]="{class: componentName, message: 'click FIELD_CONTACTS'}">
 				<div class="menu__icon">
 					<img src="{{pathService.assetsPath('/icons/messages.svg')}}" alt="messages">
 				</div>
@@ -62,6 +66,6 @@
 			</li>
 		</ul>
 
-		<a (click)="noMobile()" [href]="toDesktopLink" class="switch">{{"SWITCH_TO_DESKTOP" | translate}}</a>
+		<a (click)="noMobile()" [href]="toDesktopLink" class="switch" [clicklog]="{class: componentName, message: 'click SWITCH_TO_DESKTOP'}">{{"SWITCH_TO_DESKTOP" | translate}}</a>
 	</section>
 </main>

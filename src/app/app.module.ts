@@ -18,6 +18,7 @@ import { ApiHandlerInterceptor } from '@shared/api-handler.interceptor';
 import '../styles/styles.scss';
 import { ErrorMessageService } from '@shared/services/error-message.service';
 import { AuthService } from '@shared/auth/auth.service';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
 
@@ -45,6 +46,7 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
         deps: [HttpClient]
       }
     }),
+    DirectiveModule
   ],
   providers: [
     CookieService,

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 
 
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
       }]),
     FormsModule,
     HttpClientModule,
+    DirectiveModule,
   ]
 })
 export class AuthModule { }

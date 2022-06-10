@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth/auth.component'
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 
 
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     FormsModule,
+    DirectiveModule,
   ],
   exports: [
     AuthComponent,
