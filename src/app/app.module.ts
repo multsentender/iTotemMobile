@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { ComponentsModule } from './shared/components/components.module';
-import { environment } from '../environments/environment'
 
 
 import { LogService } from './shared/services/log.service';
@@ -21,11 +20,10 @@ import { ErrorMessageService } from '@shared/services/error-message.service';
 import { AuthService } from '@shared/auth/auth.service';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
-  const last = environment.baseAssetsUrl?.slice(-1);
-  const localPath = environment.baseAssetsUrl + ((last && last != '\/' && last != '\\') ? '/' : '') + 'lang/';
+
   const resources = [
-    { prefix: `${localPath}`, suffix: '/settings.yaml' },
-    { prefix: `${localPath}`, suffix: '/common.yaml' },
+    { prefix: '', suffix: '/settings.yaml' },
+    { prefix: '', suffix: '/common.yaml' },
   ];
   return new MultiTranslateLoader(http, resources);
 }
