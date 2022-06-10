@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@shared/components/components.module';
 import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 
 
@@ -27,7 +28,8 @@ import { MenuComponent } from './menu/menu.component';
         path: '**',
         redirectTo: 'profile'
       }
-    ])
+    ]),
+    DirectiveModule
   ]
 })
 export class SettingsModule { }

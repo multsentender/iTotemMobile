@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { ProfileService } from '@shared/services/profile.service';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ProfileService } from '@shared/services/profile.service';
     ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    DirectiveModule,
   ],
   providers: [ProfileService]
 })

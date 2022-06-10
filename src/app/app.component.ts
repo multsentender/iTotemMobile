@@ -31,8 +31,9 @@ declare var  __webpack_public_path__:string;
   styleUrls: ['app.component.scss']//not ./app.component.scss - webpack error
 })
 export class AppComponent implements OnInit {
+  componentName: string = 'AppComponent';
   currentRoute!: string;
-  private _log: Logger = Log.get("application");
+  private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
   env = environment;
 
   constructor(

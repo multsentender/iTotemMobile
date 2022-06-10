@@ -3,7 +3,7 @@
     <img
         class="input__icon"
         *ngIf="icon"
-        src="{{pathService.assetsPath('/icons/{{icon}}.svg')}}"
+        src="{{pathService.assetsPath('/icons/'+ icon +'.svg')}}"
         [alt]=alt>
     <input
         [ngClass]="{'input__form': true, 'input__form__no_icon': !icon,'alert__input': formControl.touched && formControl.invalid || errorMessage && errorMessage !== ''}"

@@ -22,6 +22,7 @@ import { Logger, Log } from '@shared/services/log.service';
 
 // FIXME Добавить масштабирование (заменить проверку на email)
 export class ProfileComponent implements OnInit {
+  componentName: string = 'ProfileComponent';
   modalActive: boolean = false
   formValidation: {[key: string]: string} = {}
 

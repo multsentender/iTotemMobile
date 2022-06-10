@@ -16,7 +16,7 @@ import { ErrorMessageService } from './services/error-message.service';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
-  private logger: Logger = Log.get('HTTP Error Request')
+  private logger: Logger = Log.get(ApiHandlerInterceptor.name)
 
   constructor(
     private router: Router,
