@@ -17,7 +17,6 @@ export class ProfileService {
     private readonly cache: CacheService
   ) { }
 
-  @cachedRequests(function() {return this.cache})
   loadAgentProfile(): Observable<AgentLoginInfo> {
     return this.http.get(
       `${environment.baseApiUrl}/getCurrentUserProfile`,

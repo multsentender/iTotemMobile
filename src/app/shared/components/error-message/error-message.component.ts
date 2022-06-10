@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ErrorMessageService } from '@shared/services/error-message.service';
-import { environment } from '../../../../environments/environment';
 import { PathService } from '@shared/services/path.service';
+import { mergeMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-error-message',
@@ -9,12 +10,20 @@ import { PathService } from '@shared/services/path.service';
   styleUrls: ['./error-message.component.scss']
 })
 export class ErrorMessageComponent implements OnInit {
-  env = environment;
-  
+  public errors: string[] = []
+
   constructor(
     public errorService: ErrorMessageService,
-    public pathService: PathService,
-    ) {}
+    private translate: TranslateService,
+    public pathService: PathService) {
+      this.errorService.errors.pipe(
+        mergeMap(val => {
+          if(val.length > 0)
+            return this.translate.get(val)
+          return of(val)
+        })
+      ).subscribe(el => this.errors = Object.values(el))
+    }
 
   ngOnInit(): void {
   }

@@ -35,7 +35,7 @@ export class MultiTranslateLoader implements TranslateLoader {
                 })
                 .pipe(
                     catchError(() => {
-                        console.error('Could not find translation file:', path);
+                        throw Error(`Could not find translation file: ${path}`);
                         return of({});
                     }),
                     map(res => {

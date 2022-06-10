@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ErrorMessageService {
-  errors: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([])
+  public errors: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([])
   constructor() {}
 
   addError(message: string = "Error") {

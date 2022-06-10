@@ -75,6 +75,5 @@ export class MenuComponent implements OnInit {
     environment.lang = langCode
     this.currentLocale = langCode
     this.langListVisible = false
-    // window.location.reload()
   }
 }
