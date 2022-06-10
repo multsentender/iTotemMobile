@@ -22,6 +22,10 @@ export class MultiTranslateLoader implements TranslateLoader {
 
     public getTranslation(lang: string): Observable<any> {
         const requests = this.resources.map(resource => {
+            const last = environment.baseAssetsUrl?.slice(-1);
+            const localPath = environment.baseAssetsUrl + ((last && last != '\/' && last != '\\') ? '/' : '') + 'lang/';
+            resource.prefix = localPath;
+
             const isYaml = resource.suffix.includes('yaml');
             const path = resource.prefix + lang + resource.suffix + "?v=" + this.env.version;
 
