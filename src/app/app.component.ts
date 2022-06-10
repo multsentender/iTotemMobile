@@ -32,7 +32,7 @@ declare var  __webpack_public_path__:string;
 })
 export class AppComponent implements OnInit {
   currentRoute!: string;
-  private _log: Logger = Log.get("application");
+  private _log: Logger = Log.get(AppComponent.name);
   env = environment;
 
   constructor(
