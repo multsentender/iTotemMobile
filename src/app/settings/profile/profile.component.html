@@ -5,21 +5,21 @@
             [formControl]="getFormControl('name')"
             icon="person"
             alt="person"
-            [placeholder]="'FIELD_USERNAME' | translate"></app-icon-input>
+            placeholder="FIELD_USERNAME"></app-icon-input>
         <app-icon-input
             type="email"
             [formControl]="getFormControl('email')"
             [errorMessage]="formValidation['email']"
             icon="letter"
             alt="letter"
-            [placeholder]="'FIELD_EMAIL' | translate"></app-icon-input>
+            placeholder="FIELD_EMAIL"></app-icon-input>
         <app-password-input
-            [placeholder]="'FIELD_PASSWORD' | translate"
+            placeholder="FIELD_PASSWORD"
             [errorMessage]="formValidation['password']"
             [formControl]="getFormControl('password')"></app-password-input>
         <app-password-input
             [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
-            [placeholder]="'CONFIRM_NEW_PASSWORD' | translate"
+            placeholder="CONFIRM_NEW_PASSWORD"
             [formControl]="getFormControl('passwordConf')"></app-password-input>
         <button class="btn__secect" (click)="confirm()" >{{'CONFIRM' | translate}}</button>
     </div>
@@ -31,8 +31,8 @@
     </div>
 </section>
 <app-modal
-    [title]="'MODAL_TITLE' | translate"
-    [message]="'MODAL_MESSAGE' | translate"
+    title="MODAL_TITLE"
+    message="MODAL_MESSAGE"
     [modalActive]="modalActive"
     (modalActiveEvent)="oldPasswordModalEvent($event)"
     [withForm]=true

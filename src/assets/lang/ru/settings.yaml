@@ -37,6 +37,9 @@ MODAL_TITLE: |-
 MODAL_MESSAGE: |-
   Введите текущий пароль, чтобы подтвердить изменения
 
+CONFIRM_PASSWORD: |-
+  Подтвердите пароль
+
 CONFIRM_NEW_PASSWORD: |-
   Подтвердите новый пароль
 
