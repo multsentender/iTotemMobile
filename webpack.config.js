@@ -14,7 +14,7 @@ module.exports = (env) => {
     entry: {
       //polyfills: './src/polyfills.ts',
       app: path.resolve(__dirname, "src/main.ts"),
-      index: ["./src/main.ts"]
+      //index: ["./src/main.ts"]
     },
     stats: 'normal',
     output: {
