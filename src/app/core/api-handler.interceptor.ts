@@ -32,6 +32,12 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
       retryWhen(errorOservable => errorOservable.pipe(
         mergeMap(error =>  {
           switch(error.status) {
+            case 0: {
+              if(--retries > 0 && request.method.toLowerCase() === 'get') {
+                return of(error).pipe(delay(2000))
+              }
+              break
+            }
             case 400: {
               this.logger.error(`400 - Bad request\n${error.url}`)
               this.errorMessageService.addError(internalErrorOccurred(error.status))
@@ -61,10 +67,7 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
               break
             }
             default: {
-              if(retries === maxRetry) this.logger.error(`${error.status} - Unhandled HTTP Error\n${error.message}`)
-              if(--retries > 0 && request.method.toLowerCase() === 'get' && error.status != 404) {
-                return of(error).pipe(delay(2000))
-              }
+              this.logger.error(`${error.status} - Unhandled HTTP Error\n${error.message}`)
             }
           }
           return throwError(error)

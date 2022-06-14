@@ -6,11 +6,13 @@ import { PasswordInputComponent } from './password-input/password-input.componen
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ModalComponent } from './modal/modal.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
   declarations: [
     IconInputComponent,

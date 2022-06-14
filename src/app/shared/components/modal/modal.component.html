@@ -1,16 +1,16 @@
 <div *ngIf="modalActive" class="modal confirm__modal">
 	<div class="modal__container">
 		<div class="modal__text">
-			<h6 class="modal__title">{{title}}</h6>
-			<p class="modal__description">{{message}}</p>
+			<h6 class="modal__title">{{title | translate}}</h6>
+			<p class="modal__description">{{message | translate}}</p>
 		</div>
 		<app-password-input *ngIf="withForm"
-            placeholder="Confirm Password"
+            [placeholder]="'CONFIRM_PASSWORD' | translate"
 			[formControl]="form"></app-password-input>
 		<div class="modal__buttons">
-			<button class="btn__secect" (click)="formHandler()">Confirm</button>
+			<button class="btn__secect" (click)="formHandler()">{{'CONFIRM' | translate}}</button>
 			<div class="btn__cancel__wrap">
-				<button class="btn__cancel" (click)="cancel()">Cancel</button>
+				<button class="btn__cancel" (click)="cancel()">{{'CANCEL' | translate}}</button>
 			</div>
 		</div>
 	</div>

@@ -66,8 +66,8 @@ export class ProfileComponent implements OnInit {
       } else {
         // Error message на клиентскую валидацию
         // FIXME добавить локалазацию
-        this.formValidation['email'] = !this.getFormControl('email').valid ? 'Неверный формат E-Mail адреса' : ''
-        this.formValidation['password'] = !this.getFormControl('password').valid ? 'Минимальная длина пароля 5 cимволов' : ''
+        this.formValidation['email'] = !this.getFormControl('email').valid ? 'VALIDATION_MESSAGE_EMAIL' : ''
+        this.formValidation['password'] = !this.getFormControl('password').valid ? 'VALIDATION_MESSAGE_PASSWORD' : ''
       }
     })
   }

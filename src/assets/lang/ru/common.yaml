@@ -9,3 +9,9 @@ CANCEL:
 
 INTERNAL_ERROR: |-
   Произошла внутренняя ошибка {statusCode}. Если проблема не устранена, не стесняйтесь обращаться в нашу службу поддержки.
+
+VALIDATION_MESSAGE_EMAIL: |-
+  Неверный формат E-Mail адреса
+
+VALIDATION_MESSAGE_PASSWORD: |-
+  Минимальная длина пароля 5 cимволов
