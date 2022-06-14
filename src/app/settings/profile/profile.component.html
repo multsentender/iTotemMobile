@@ -21,21 +21,22 @@
             [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
             placeholder="CONFIRM_NEW_PASSWORD"
             [formControl]="getFormControl('passwordConf')"></app-password-input>
-        <button class="btn__secect" (click)="confirm()"
-         [clicklog]="{class: componentName, message: 'click CONFIRM'}">{{'CONFIRM' | translate}}</button>
+        <button class="btn__secect" (click)="confirm()" >
+            {{'CONFIRM' | translate}}
+        </button>
     </div>
     <div class="btn__cancel__wrap">
         <button
             class="btn__cancel"
             (click)="cancel()"
-            [clicklog]="{class: componentName, message: 'click CANCEL'}">{{'CANCEL' | translate}}</button>
+            [clicklog]="{class: componentName, message: 'cancel profile change'}">{{'CANCEL' | translate}}</button>
     </div>
 </section>
 <app-modal
     title="MODAL_TITLE"
     message="MODAL_MESSAGE"
     [modalActive]="modalActive"
-    (modalActiveEvent)="modalActive = $event"
+    (modalActiveEvent)="oldPasswordModalEvent($event)"
     [withForm]=true
     (cbEvent)="checkCurrentPassword($event)"
 ></app-modal>

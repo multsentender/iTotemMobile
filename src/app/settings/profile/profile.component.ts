@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { ProfileService } from '@shared/services/profile.service'
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
+import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit {
   componentName: string = 'ProfileComponent';
   modalActive: boolean = false
   formValidation: {[key: string]: string} = {}
+  private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
 
   profileForm: FormGroup = this.fb.group({
     name: [{value: '', disabled: true}],
@@ -85,6 +87,7 @@ export class ProfileComponent implements OnInit {
   updateProfileHandler() {
     const emailFormValue = this.getFormControl.bind(this)('email').value
     if(emailFormValue !== this.profileService.profile.value.email) {
+      this._log.info(`changing player e-mail on ${emailFormValue}`);
       this.profileService.updateUserProfile({profile: {...this.profileService.profile.value, email: emailFormValue}})
       .pipe(first())
       .subscribe(() => this.profileService.loadAgentProfile())
@@ -92,6 +95,7 @@ export class ProfileComponent implements OnInit {
   }
 
   checkCurrentPassword(currentPassword: string) {
+    this._log.info("confirm old password confirmation modal");
     const passFormValue = this.getFormControl.bind(this)('password').value
     const params: UpdateCurrentUserPasswordRequest = {currentPassword}
     if(passFormValue) params.newPassword = passFormValue
@@ -106,13 +110,22 @@ export class ProfileComponent implements OnInit {
       this.modalActive = false
   }
 
+  oldPasswordModalEvent(event: boolean) {
+    if (!event) this._log.info("cancel old password confirmation modal");
+    this.modalActive = event;
+  }
 
   // Form control functions
   confirm() {
     if(Object.keys(this.formValidation).length <= 0 && this.profileForm.valid) {
       if(this.getFormControl('password').value) {
+        this._log.info("open old password confirmation modal");
         this.modalActive = true
-      } else this.updateProfileHandler()
+      } else {
+        this.updateProfileHandler()
+      }
+    } else {
+      this._log.info("attempt to confirm invalid profile form");
     }
   }
 
