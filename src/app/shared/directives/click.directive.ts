@@ -11,7 +11,6 @@ export class ClickDirective {
   @Input() clicklog = {class: '', message: ''};
 
   @HostListener('click') click() {
-    //console.log('click', this.clicklog)
     const _log: Logger = Log.get(this.clicklog.class);
     _log.info(this.clicklog.message);
   }
