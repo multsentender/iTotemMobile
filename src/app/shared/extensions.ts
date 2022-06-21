@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { mergeMap, Observable, retryWhen, of, throwError, delay} from "rxjs";
+import { mergeMap, Observable, retryWhen, of, throwError, delay, catchError} from "rxjs";
 
 export function delayRetryPipe<T> (
 	delayMs = 2000,
@@ -23,9 +23,6 @@ export function delayRetryPipe<T> (
 		)
 	}
 }
-
-
-
 
 /**
  * Декоратор для повторных попыток при неудачных запросах
@@ -76,4 +73,18 @@ export function delayRetry(
 			break;
 		}
 	};
+}
+
+
+export function reqValidErrorHandlerPipe<T> (cb: (error: any) => void) {
+	return (src: Observable<T>) : Observable<T> => {
+		return src.pipe(
+			catchError(error => {
+				if(error.status === 500) {
+					cb(error.error)
+				}
+				return throwError(error)
+			})
+		)
+	}
 }
