@@ -25,8 +25,4 @@ export class AuthService {
   logout() {
     return this.http.post(`${environment.baseRootUrl}/logout`, {}, {withCredentials: true})
   }
-
-  getTreeChildren(): Observable<AgentLoginInfo> {
-    return this.http.post(`${environment.baseApiUrl}/getTreeChildren`, {}, {withCredentials: true})
-  }
 }
