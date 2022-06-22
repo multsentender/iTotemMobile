@@ -19,6 +19,8 @@ export class MenuComponent implements OnInit {
   componentName: string = 'MenuComponent';
   public toDesktopLink = environment.baseRootUrl
   public currentLocale = environment.lang
+  public freshchatToken = environment.freshchatToken
+
   public agents: Array<AgentInfo | AgentTreeNode> = [];
   public rooms: Array<AgentInfo | AgentTreeNode> = [];
 
