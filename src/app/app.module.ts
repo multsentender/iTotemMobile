@@ -16,6 +16,8 @@ import { PathService } from './shared/services/path.service';
 
 import '../styles/styles.scss';
 import { DirectiveModule } from '@shared/directives/directives.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
 
@@ -43,7 +45,9 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
         deps: [HttpClient]
       }
     }),
-    DirectiveModule
+    DirectiveModule,
+    BrowserAnimationsModule,
+    MatButtonModule
   ],
   providers: [
     CookieService,

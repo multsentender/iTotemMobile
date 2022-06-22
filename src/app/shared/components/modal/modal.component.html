@@ -8,9 +8,13 @@
             [placeholder]="'CONFIRM_PASSWORD' | translate"
 			[formControl]="form"></app-password-input>
 		<div class="modal__buttons">
-			<button class="btn__secect" (click)="formHandler()">{{'CONFIRM' | translate}}</button>
+			<button class="btn__secect" (click)="formHandler()" mat-flat-button color="primary" >
+				{{'CONFIRM' | translate}}
+			</button>
 			<div class="btn__cancel__wrap">
-				<button class="btn__cancel" (click)="cancel()">{{'CANCEL' | translate}}</button>
+				<button class="btn__cancel" (click)="cancel()"  mat-flat-button color="base">
+					{{'CANCEL' | translate}}
+				</button>
 			</div>
 		</div>
 	</div>

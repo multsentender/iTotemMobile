@@ -7,12 +7,14 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ModalComponent } from './modal/modal.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     TranslateModule,
+    MatButtonModule,
   ],
   declarations: [
     IconInputComponent,
