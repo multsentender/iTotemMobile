@@ -11,6 +11,7 @@ import { Logger, Log } from '@shared/services/log.service';
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SuccessMessageComponent } from '@shared/components/success-message/success-message.component';
 
 import { ModalComponent } from '../modal/modal.component';
 

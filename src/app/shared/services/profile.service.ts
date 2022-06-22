@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { CacheService } from '@shared/cache/cache.service';
-import { BehaviorSubject, first, Observable } from 'rxjs';
+import { SuccessMessageService } from './success-message.service';
+import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AgentLoginInfo } from '../models/agentLoginInfo';
 import { UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidationStatus } from '../models/models';
@@ -14,7 +15,8 @@ export class ProfileService {
 
   constructor(
     private http: HttpClient,
-    private readonly cache: CacheService
+    private readonly cache: CacheService,
+    private successMessageService: SuccessMessageService,
   ) { }
 
   loadAgentProfile(): Observable<AgentLoginInfo> {
@@ -41,12 +43,12 @@ export class ProfileService {
   updateUserProfile(profile: UpdateCurrentUserProfileRequest): Observable<AgentLoginInfo>{
     return this.http.post(`${environment.baseApiUrl}/updateCurrentUserProfile`,
     profile,
-    {withCredentials: true})
+    {withCredentials: true}).pipe(tap(()=>this.successMessageService.showMessage()))
   }
 
   updateUserPassword(passwords: UpdateCurrentUserPasswordRequest): Observable<any> {
     return this.http.post(`${environment.baseApiUrl}/updateCurrentUserPassword`,
     passwords,
-    {withCredentials: true})
+    {withCredentials: true}).pipe(tap(()=>this.successMessageService.showMessage()))
   }
 }
