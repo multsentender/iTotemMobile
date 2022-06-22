@@ -78,7 +78,6 @@ export class MenuComponent implements OnInit {
   }
 
   support(){
-    if (window.fcWidget)
-       window.fcWidget.show();
+    window.fcWidget?.open()
   }
 }
