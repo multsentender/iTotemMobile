@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
+import { BehaviorSubject } from 'rxjs';
+
 import { UserAuth } from '@shared/models/userAuth.model';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

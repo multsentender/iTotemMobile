@@ -1,6 +1,6 @@
 import { all } from 'deepmerge';
 const jsyaml = require('js-yaml');
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
@@ -13,8 +13,6 @@ export interface ITranslationResource {
 }
 
 export class MultiTranslateLoader implements TranslateLoader {
-    env = environment;
-
     constructor(
         private http: HttpClient,
         private resources: ITranslationResource[]
@@ -27,7 +25,7 @@ export class MultiTranslateLoader implements TranslateLoader {
             resource.prefix = localPath;
 
             const isYaml = resource.suffix.includes('yaml');
-            const path = resource.prefix + lang + resource.suffix + "?v=" + this.env.version;
+            const path = resource.prefix + lang + resource.suffix + "?v=" + environment.version;
 
             return this.http
                 .get(path, {
@@ -36,7 +34,6 @@ export class MultiTranslateLoader implements TranslateLoader {
                 .pipe(
                     catchError(() => {
                         throw Error(`Could not find translation file: ${path}`);
-                        return of({});
                     }),
                     map(res => {
                         if (!res) {

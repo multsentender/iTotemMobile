@@ -81,8 +81,7 @@ export class ApiService {
 
 
   // Profile
-  @cachedRequests(function() {return this.cache})
-  loadAgentProfile(updateCache = false): Observable<AgentLoginInfo> {
+  loadAgentProfile(): Observable<AgentLoginInfo> {
     return this.sendApiRequest('get', 'getCurrentUserProfile')
   }
 

@@ -7,9 +7,7 @@ import { TreeNodeService } from '@shared/services/tree-node.service';
 import { environment } from '../../../environments/environment';
 import { PathService } from '@shared/services/path.service'
 
-import { AgentInfo } from '@shared/models/agentInfo';
-import { AgentTreeNode } from '@shared/models/agentTreeNode';
-import { LanguageInfo } from '@shared/models/languageInfo';
+import { AgentInfo, AgentTreeNode, LanguageInfo } from '@shared/models/models';
 import { ApiService } from '@shared/services/api.service';
 
 @Component({
