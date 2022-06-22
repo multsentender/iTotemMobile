@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
 import { AuthService } from '@shared/auth/auth.service';
 import { TreeNodeService } from '@shared/services/tree-node.service';
-import { cachedRequests } from '@shared/cache/cache-decorator';
-import { CacheService } from '@shared/cache/cache.service';
 import { environment } from '../../../environments/environment';
 import { PathService } from '@shared/services/path.service'
 
-import { AgentInfo } from '@shared/models/agentInfo';
-import { AgentTreeNode } from '@shared/models/agentTreeNode';
-import { LanguageInfo } from '@shared/models/languageInfo';
+import { AgentInfo, AgentTreeNode, LanguageInfo } from '@shared/models/models';
+import { ApiService } from '@shared/services/api.service';
 
 @Component({
   selector: 'app-menu',
@@ -30,15 +25,12 @@ export class MenuComponent implements OnInit {
   public languages: Array<LanguageInfo> = []
   public langListVisible = false
 
-  env = environment;
-
   constructor(
     private authService: AuthService,
     private treeNodeService: TreeNodeService,
     private cookies: CookieService,
-    private http: HttpClient,
-    private readonly cache: CacheService,
     private translate: TranslateService,
+    private api: ApiService,
     public pathService: PathService,
   ) {
     // FIXME оптимизация с лоадером
@@ -47,8 +39,8 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.treeNodeService.sortAgentAndRoom(this.treeNodeService.loadTreeNode())
-    this.getLanguages()
+    this.treeNodeService.sortAgentAndRoom(this.api.loadTreeNode())
+    this.api.getLanguages()
       .subscribe((data) => {
         let langs = data.map(el => el.code ? el.code : '')
         this.translate.addLangs(langs)
@@ -65,10 +57,6 @@ export class MenuComponent implements OnInit {
     this.cookies.set('noMobile', 'true', {path: '/', sameSite: 'Strict'})
   }
 
-  @cachedRequests(function() {return this.cache})
-  getLanguages() : Observable<LanguageInfo[]> {
-    return this.http.get<LanguageInfo[]>(`${environment.baseApiUrl}/getSupportedLanguages`)
-  }
   changeLocale(langCode: string) {
     this.cookies.set('customLocale', langCode, new Date('2035'))
     this.translate.use(langCode)

@@ -3,7 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { of, throwError, mergeMap, retryWhen, delay, Observable, catchError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { CacheService } from '@shared/cache/cache.service';
+import { cachedRequests } from '@shared/cache/cache-decorator';
+import { AgentLoginInfo, BasicTreeNode, GetTreeChildrenRequest, LanguageInfo, UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidateEMailRequest, ValidationStatus } from '@shared/models/models';
 import { Router } from '@angular/router';
+import { reqValidErrorHandlerPipe } from '@shared/extensions';
 
 interface httpReq {
 	apiUrl: string,
@@ -18,6 +22,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
+		private readonly cache: CacheService
   ) { }
 
   truncParams({apiUrl, type, body}: httpReq,) {
@@ -33,7 +38,7 @@ export class ApiService {
     type: 'get' | 'post' | 'put' | 'patch' | 'delete',
     apiUrl: string,
     body?: object,
-    allowRequest = false) {
+    allowRequest = false): Observable<any> {
 
 
     const maxRetry = 3
@@ -58,4 +63,59 @@ export class ApiService {
 			))
 		)
 	}
+
+
+
+  // Validation
+	@cachedRequests(function() {return this.cache})
+	validateEmail(email: string): Observable<ValidationStatus> {
+		let request: ValidateEMailRequest = {email}
+		return this.sendApiRequest('post', 'validateEMail', request)
+	}
+
+  @cachedRequests(function() {return this.cache})
+  validateAgentPassword(request: ValidateAgentPasswordRequest): Observable<ValidationStatus> {
+    return this.sendApiRequest('post', 'validateCurrentUserPassword', request)
+  }
+
+
+
+  // Profile
+  loadAgentProfile(): Observable<AgentLoginInfo> {
+    return this.sendApiRequest('get', 'getCurrentUserProfile')
+  }
+
+  updateUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
+    let request: UpdateCurrentUserProfileRequest = {profile}
+    return this.sendApiRequest('post', 'updateCurrentUserProfile', request)
+  }
+
+  updateUserPassword(currentPassword: string, newPassword: string): Observable<any> {
+    let request: UpdateCurrentUserPasswordRequest = {
+      currentPassword, newPassword
+    }
+    return this.sendApiRequest('post', 'updateCurrentUserPassword', request)
+      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)))
+  }
+
+
+
+  // Menu
+  @cachedRequests(function() {return this.cache})
+  getLanguages(): Observable<LanguageInfo[]>{
+    return this.sendApiRequest('get', 'getSupportedLanguages')
+  }
+
+  // FIXME исправить тип получаемого параметра
+  loadTreeNode(requestBody = {}): Observable<BasicTreeNode[]> {
+    return this.sendApiRequest('post', 'getTreeChildren', requestBody, true)
+  }
+
+
+
+  // App
+  getTreeChildren(parent?: BasicTreeNode): Observable<AgentLoginInfo> {
+    let request: GetTreeChildrenRequest = {parent}
+    return this.sendApiRequest('post', 'getTreeChildren', request)
+  }
 }

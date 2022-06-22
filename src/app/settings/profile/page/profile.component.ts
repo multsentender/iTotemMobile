@@ -9,11 +9,9 @@ import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formVal
 import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
-import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SuccessMessageComponent } from '@shared/components/success-message/success-message.component';
-
 import { ModalComponent } from '../modal/modal.component';
+import { ApiService } from '@shared/services/api.service';
 
 
 @Component({
@@ -41,7 +39,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private profileService: ProfileService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private api: ApiService,
   ) {
     this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -52,7 +51,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileService.loadAgentProfile()
+    this.api.loadAgentProfile()
       .subscribe({
         next: (data) => this.profileService.profile.next(data),
         error: (err: HttpErrorResponse) => new Error(err.message)
@@ -60,24 +59,23 @@ export class ProfileComponent implements OnInit {
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges
-      .subscribe((data) => {
-        if (this.profileForm.valid) {
-          Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
-          if (data.email) {
-            this.profileService.validEmail({ email: data.email })
-              .subscribe(data => this.validQueryHandler('email', data))
-          }
-          if (data.password) {
-            this.profileService.validPassword({ password: data.password })
-              .subscribe(data => this.validQueryHandler('password', data))
-          }
-        } else {
-          // Error message на клиентскую валидацию
-          // FIXME добавить локалазацию
-          this.formValidation['email'] = !this.getFormControl('email').valid ? 'VALIDATION_MESSAGE_EMAIL' : ''
-          this.formValidation['password'] = !this.getFormControl('password').valid ? 'VALIDATION_MESSAGE_PASSWORD' : ''
+    .subscribe((data) => {
+      if(this.profileForm.valid) {
+        Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
+        if(data.email) {
+          this.api.validateEmail(data.email)
+            .subscribe(data => this.validQueryHandler('email', data))
         }
-      })
+        if (data.password) {
+          this.api.validateAgentPassword({password: data.password})
+            .subscribe(data => this.validQueryHandler('password', data))
+          }
+      } else {
+        // Error message на клиентскую валидацию
+        this.formValidation['email'] = !this.getFormControl('email').valid ? 'VALIDATION_MESSAGE_EMAIL' : ''
+        this.formValidation['password'] = !this.getFormControl('password').valid ? 'VALIDATION_MESSAGE_PASSWORD' : ''
+      }
+    })
   }
 
   // Обработчик серверной валидации
@@ -94,19 +92,17 @@ export class ProfileComponent implements OnInit {
     const emailFormValue = this.getFormControl.bind(this)('email').value
     if (emailFormValue !== this.profileService.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
-      this.profileService.updateUserProfile({ profile: { ...this.profileService.profile.value, email: emailFormValue } })
-        .pipe(first())
-        .subscribe(() => this.profileService.loadAgentProfile())
+      this.api.updateUserProfile({...this.profileService.profile.value, email: emailFormValue})
+      .pipe(first())
+      .subscribe(() => this.api.loadAgentProfile())
     }
   }
 
   checkCurrentPassword(currentPassword: string) {
     this._log.info("confirm old password confirmation modal");
-    const passFormValue = this.getFormControl.bind(this)('password').value
-    const params: UpdateCurrentUserPasswordRequest = { currentPassword }
-    if (passFormValue) params.newPassword = passFormValue
+    const newPassword = this.getFormControl.bind(this)('password').value
 
-    this.profileService.updateUserPassword(params)
+    this.api.updateUserPassword(currentPassword, newPassword)
       .pipe(first())
       .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
