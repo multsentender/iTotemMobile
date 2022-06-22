@@ -18,6 +18,7 @@ import '../styles/styles.scss';
 import { DirectiveModule } from '@shared/directives/directives.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog'
 
 export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
 
@@ -47,7 +48,8 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
     }),
     DirectiveModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [
     CookieService,

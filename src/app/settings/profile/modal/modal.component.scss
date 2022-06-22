@@ -1,0 +1,30 @@
+.modal {
+
+	background-color: var(--light-bg);
+	border-radius: var(--radius-def);
+
+	&__container {
+		display: grid;
+		gap: 24px;
+	}
+
+	&__buttons {
+		display: grid;
+	}
+
+	&__text {
+		text-align: center;
+	}
+
+	&__title {
+		font-size: 20px;
+		font-weight: 600;
+	}
+
+	&__description {
+		font-size: 14px;
+		font-weight: 300;
+		padding: 0 2em;
+		margin-top: 12px;
+	}
+}
