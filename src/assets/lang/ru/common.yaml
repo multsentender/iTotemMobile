@@ -15,3 +15,6 @@ VALIDATION_MESSAGE_EMAIL: |-
 
 VALIDATION_MESSAGE_PASSWORD: |-
   Минимальная длина пароля 5 cимволов
+
+CHANGES_SAVED: |-
+  Ваши изменения были успешно сохранены

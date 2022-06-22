@@ -5,6 +5,7 @@ import { AuthComponent } from './auth.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DirectiveModule } from '@shared/directives/directives.module';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -25,6 +26,7 @@ import { DirectiveModule } from '@shared/directives/directives.module';
     FormsModule,
     HttpClientModule,
     DirectiveModule,
+    MatButtonModule,
   ]
 })
 export class AuthModule { }

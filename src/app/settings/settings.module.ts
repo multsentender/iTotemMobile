@@ -5,6 +5,9 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { DirectiveModule } from '@shared/directives/directives.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRipple } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 
 
 
@@ -29,7 +32,9 @@ import { DirectiveModule } from '@shared/directives/directives.module';
         redirectTo: 'profile'
       }
     ]),
-    DirectiveModule
+    DirectiveModule,
+    MatButtonModule,
+    MatRippleModule,
   ]
 })
 export class SettingsModule { }
