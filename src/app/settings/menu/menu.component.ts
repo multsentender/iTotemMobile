@@ -76,4 +76,9 @@ export class MenuComponent implements OnInit {
     this.currentLocale = langCode
     this.langListVisible = false
   }
+
+  support(){
+    if (window.fcWidget)
+       window.fcWidget.show();
+  }
 }
