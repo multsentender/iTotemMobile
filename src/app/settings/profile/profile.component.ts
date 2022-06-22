@@ -92,7 +92,7 @@ export class ProfileComponent implements OnInit {
       this.api.updateUserProfile({...this.profileService.profile.value, email: emailFormValue})
       .pipe(first())
       .subscribe(() => {
-        this.api.loadAgentProfile(true)
+        this.api.loadAgentProfile()
       })
     }
   }
