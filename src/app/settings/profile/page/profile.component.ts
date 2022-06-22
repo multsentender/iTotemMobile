@@ -11,6 +11,7 @@ import { Logger, Log } from '@shared/services/log.service';
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { UpdateCurrentUserPasswordRequest } from '@shared/models/models';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SuccessMessageComponent } from '@shared/components/success-message/success-message.component';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -95,7 +96,7 @@ export class ProfileComponent implements OnInit {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
       this.profileService.updateUserProfile({ profile: { ...this.profileService.profile.value, email: emailFormValue } })
         .pipe(first())
-        .subscribe(() => this.profileService.loadAgentProfile())
+        .subscribe(() => this.profileService.loadAgentProfile())//SuccessMessageComponent
     }
   }
 
@@ -107,7 +108,7 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.updateUserPassword(params)
       .pipe(first())
-      .subscribe(() => {
+      .subscribe(() => {//SuccessMessageComponent
         this.profileForm.patchValue({ password: '', passwordConf: '' })
         this.updateProfileHandler()
       })

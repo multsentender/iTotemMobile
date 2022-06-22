@@ -12,3 +12,6 @@ VALIDATION_MESSAGE_EMAIL: |-
 
 VALIDATION_MESSAGE_PASSWORD: |-
   Minimum password length 5 characters
+
+CHANGES_SAVED: |-
+  Your changes have been saved successfully

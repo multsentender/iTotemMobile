@@ -1,0 +1,27 @@
+.success{
+	position: fixed;
+	top: 12px;
+	left: 10px;
+	right: 10px;
+	background-color: var(--special-green);
+	display: grid;
+	align-items: start;
+	grid-template-columns: 1fr min-content;
+	gap: 10px;
+	border-radius: var(--radius-def);
+	z-index: 98;
+
+	&__list{
+		padding: 16px 0 16px 24px;
+		color: var(--white);
+		font-size: 14px;
+		line-height: 20px;
+		display: grid;
+	}
+
+	&__btn{
+		border: none;
+		background-color: transparent;
+		margin: 17px 18px 0 0 ;
+	}
+}
