@@ -51,6 +51,15 @@ $theme: mat.define-light-theme((color: (primary: $theme-primary,
   }
 }
 
+.mat-button[color="primary"],
+.mat-flat-button[color="primary"] {
+  &.mat-button-disabled{
+    background-color: var(--special-accent);
+    color: var(--white);
+    opacity: 0.4;
+  }
+}
+
 // Theme Invalid inputs and selects
 .alert__input {
   border: 1px solid var(--special-red) !important;

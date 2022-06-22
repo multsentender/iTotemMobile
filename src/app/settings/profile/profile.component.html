@@ -21,7 +21,7 @@
             [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
             placeholder="CONFIRM_NEW_PASSWORD"
             [formControl]="getFormControl('passwordConf')"></app-password-input>
-        <button class="btn__secect" (click)="confirm()" mat-flat-button color="primary" >
+        <button class="btn__secect" [disabled]="!profileForm.valid" (click)="confirm()" mat-flat-button color="primary" >
             {{'CONFIRM' | translate}}
         </button>
     </div>
