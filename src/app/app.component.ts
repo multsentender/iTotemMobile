@@ -26,6 +26,13 @@ declare const userEmail: string;// - email текущего пользовате
 
 declare var  __webpack_public_path__:string;
 
+declare global {
+  interface Window {
+    fcWidget: any;
+  }
+}
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',

@@ -22,11 +22,35 @@
     {{#if backofficeAppName }} const backofficeAppName = "{{backofficeAppName}}"; {{/if}}
     {{#if version }} const version  = "{{version}}"; {{/if}}
     {{#if logConfig }} const logConfig = {{{logConfig}}}; {{/if}}
-    {{#if userID }} const userID = "{{userID}}"; {{/if}}
-    {{#if lang }} const lang = "{{lang}}"; {{/if}};
-    {{#if freshchatToken }} const freshchatToken = "{{freshchatToken}}"; {{/if}}
-    {{#if freshchatHost }} const freshchatHost = "{{freshchatHost}}"; {{/if}}
-    {{#if userEmail }} const userEmail = "{{userEmail}}"; {{/if}}
+    let userID
+    {{#if userID }} userID = "{{userID}}"; {{/if}}
+    {{#if lang }} lang = "{{lang}}"; {{/if}};
+    let freshchatToken
+    let freshchatHost
+    {{#if freshchatToken }} freshchatToken = "{{freshchatToken}}"; {{/if}}
+    {{#if freshchatHost }} freshchatHost = "{{freshchatHost}}"; {{/if}}
+    let userEmail
+    {{#if userEmail }} userEmail = "{{userEmail}}"; {{/if}}
+    
+    if (freshchatToken && freshchatHost) {
+      function initFreshChat() {
+        window.fcWidget.init({
+          token: freshchatToken,
+          host: freshchatHost,
+          externalId: userID,
+          email: userEmail,
+          config: {
+            headerProperty: {
+              hideChatButton: true
+            }
+          }
+        });
+      }
+
+      function initialize(i, t) { var e; i.getElementById(t) ? initFreshChat() : ((e = i.createElement("script")).id = t, e.async = !0, e.src = "https://wchat.eu.freshchat.com/js/widget.js", e.onload = initFreshChat, i.head.appendChild(e)) } 
+      function initiateCall() { initialize(document, "freshchat-js-sdk") } 
+      window.addEventListener ? window.addEventListener("load", initiateCall, !1) : window.attachEvent("load", initiateCall, !1);
+    }
   </script>
 
   <app-root></app-root>
