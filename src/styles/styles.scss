@@ -59,6 +59,11 @@ $theme: mat.define-light-theme((color: (primary: $theme-primary,
     opacity: 0.4;
   }
 }
+.post-dialog-container .mat-dialog-container {
+  top: 24px;
+  background-color: var(--light-bg);
+  border-radius: var(--radius-def);
+}
 
 // Theme Invalid inputs and selects
 .alert__input {
