@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
       this.profileService.updateUserProfile({ profile: { ...this.profileService.profile.value, email: emailFormValue } })
         .pipe(first())
-        .subscribe(() => this.profileService.loadAgentProfile())//SuccessMessageComponent
+        .subscribe(() => this.profileService.loadAgentProfile())
     }
   }
 
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.updateUserPassword(params)
       .pipe(first())
-      .subscribe(() => {//SuccessMessageComponent
+      .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
         this.updateProfileHandler()
       })
