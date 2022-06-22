@@ -7,6 +7,7 @@ import { DirectiveModule } from '@shared/directives/directives.module';
 import { GlobalErrorHandlerService } from './global-error-handler.service';
 import { ApiHandlerInterceptor } from './api-handler.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -19,6 +20,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     RouterModule,
     FormsModule,
     DirectiveModule,
+    MatButtonModule,
   ],
   exports: [
     AuthComponent,

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ProfileService } from '@shared/services/profile.service';
 import { DirectiveModule } from '@shared/directives/directives.module';
 
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DirectiveModule } from '@shared/directives/directives.module';
     ReactiveFormsModule,
     TranslateModule,
     DirectiveModule,
+    MatButtonModule,
   ],
   providers: [ProfileService]
 })

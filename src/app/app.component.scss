@@ -15,6 +15,8 @@
 		transform: translateY(-50%) rotate(180deg);
 		border: none;
 		background-color: transparent;
+		min-width: 0;
+		padding: 0;
 	}
 
 
@@ -28,6 +30,8 @@
 		background-color: transparent;
 		display: flex;
 		align-items: center;
+		min-width: 0;
+		padding: 0;
 	}
 
 	// Title

@@ -6,6 +6,5 @@
 		class="auth__select">
 		<option *ngFor="let u of users" [ngValue]="u">{{u.j_username}}</option>
 	</select>
-
-	<button class="auth__btn" (click)="onAuth()" [clicklog]="{class: componentName, message: 'login'}" appHighlight>Log in!</button>
+	<button mat-flat-button class="auth__btn" color="primary" (click)="onAuth()" [clicklog]="{class: componentName, message: 'login'}" appHighlight>Log in!</button>
 </section>
