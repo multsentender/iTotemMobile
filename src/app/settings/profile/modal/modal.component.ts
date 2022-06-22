@@ -19,8 +19,9 @@ export class ModalComponent implements OnInit {
   @Input() message?: string;
 
   @Input() withForm: boolean = false;
+  @Input() cancelFunc?: () => void;
 
-  @Output() cbEvent = new EventEmitter<string>();
+  @Output() cbEvent = new EventEmitter<string | boolean>();
 
   form = new FormControl('', { validators: Validators.required });
 
@@ -34,13 +35,14 @@ export class ModalComponent implements OnInit {
 
   formHandler() {
     if (!this.data.withForm) {
-      this.cbEvent.emit()
+      this.cbEvent.emit(true)
     } else if (this.form.valid) {
       this.cbEvent.emit(this.form.value)
     }
   }
 
   cancel() {
+    this.cancelFunc && this.cancelFunc()
     this.dialogRef.close();
   }
 }

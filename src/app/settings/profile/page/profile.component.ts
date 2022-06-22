@@ -9,9 +9,8 @@ import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formVal
 import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalComponent } from '../modal/modal.component';
 import { ApiService } from '@shared/services/api.service';
+import { ModalService } from '@shared/services/modal.service';
 
 
 @Component({
@@ -26,7 +25,6 @@ export class ProfileComponent implements OnInit {
   modalActive: boolean = false
   formValidation: { [key: string]: string } = {}
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
-  dialogRef?: MatDialogRef<ModalComponent, any>;
 
   profileForm: FormGroup = this.fb.group({
     name: [{ value: '', disabled: true }],
@@ -39,7 +37,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private profileService: ProfileService,
-    public dialog: MatDialog,
+    private modalService: ModalService,
     private api: ApiService,
   ) {
     this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
@@ -102,14 +100,15 @@ export class ProfileComponent implements OnInit {
     this._log.info("confirm old password confirmation modal");
     const newPassword = this.getFormControl.bind(this)('password').value
 
+    console.log(currentPassword);
+
+
     this.api.updateUserPassword(currentPassword, newPassword)
       .pipe(first())
       .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
         this.updateProfileHandler()
       })
-
-    this.dialogRef?.close()
   }
 
 
@@ -118,24 +117,19 @@ export class ProfileComponent implements OnInit {
     if (Object.keys(this.formValidation).length <= 0 && this.profileForm.valid) {
       if (this.getFormControl('password').value) {
         this._log.info("open old password confirmation modal");
-        this.dialogRef = this.dialog.open(ModalComponent, {
-          maxWidth: 'calc(100% - var(--container-pad) * 2)',
-          position: { top: '24px' },
-          panelClass: 'post-dialog-container',
-          data: {
+        this.modalService.initingModal(
+          {
             title: "MODAL_TITLE",
             message: "MODAL_MESSAGE",
             withForm: true,
             cbEvent: this.checkCurrentPassword
+          },
+          {
+            maxWidth: 'calc(100% - var(--container-pad) * 2)',
+            position: { top: '24px' },
+            panelClass: 'post-dialog-container',
           }
-        })
-
-        this.dialogRef.componentInstance.cbEvent.subscribe((currentPassword: string) => {
-          this.checkCurrentPassword(currentPassword)
-        });
-        this.dialogRef.afterClosed().subscribe(result => {
-          this.dialogRef?.componentInstance.cbEvent.unsubscribe()
-        });
+        )
       } else {
         this.updateProfileHandler()
       }
