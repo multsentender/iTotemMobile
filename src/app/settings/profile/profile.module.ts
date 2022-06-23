@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { ProfileService } from '@shared/services/profile.service';
 import { DirectiveModule } from '@shared/directives/directives.module';
-import { ModalComponent } from './modal/modal.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -16,7 +15,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     ProfileComponent,
-    ModalComponent
   ],
   imports: [
     CommonModule,

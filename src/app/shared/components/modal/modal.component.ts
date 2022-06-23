@@ -2,11 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output, Inject } from '@angular
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-interface DialogData {
-  title: string,
-  message: string,
-  withForm: boolean,
-  cbEvent: EventEmitter<string>
+
+export interface ModalProps {
+  title?: string,
+  message?: string,
+  submitText?: string,
+  withForm?: boolean,
+  cancelFunc?: () => void,
+  submitFunc: Function
 }
 
 @Component({
@@ -15,34 +18,28 @@ interface DialogData {
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-  @Input() title?: string;
-  @Input() message?: string;
-
-  @Input() withForm: boolean = false;
-  @Input() cancelFunc?: () => void;
-
   @Output() cbEvent = new EventEmitter<string | boolean>();
 
   form = new FormControl('', { validators: Validators.required });
 
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: ModalProps,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   formHandler() {
     if (!this.data.withForm) {
       this.cbEvent.emit(true)
+      // this.data.submitFunc()
     } else if (this.form.valid) {
       this.cbEvent.emit(this.form.value)
+      // this.data.submitFunc(this.form.value)
     }
   }
 
   cancel() {
-    this.cancelFunc && this.cancelFunc()
-    this.dialogRef.close();
+    this.cbEvent.emit(false)
   }
 }

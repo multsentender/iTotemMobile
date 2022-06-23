@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IconInputComponent } from './icon-input/icon-input.component'
 import { PasswordInputComponent } from './password-input/password-input.component'
 import { CheckboxComponent } from './checkbox/checkbox.component';
-//import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from './modal/modal.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +21,7 @@ import { SuccessMessageComponent } from './success-message/success-message.compo
     IconInputComponent,
     PasswordInputComponent,
     CheckboxComponent,
-    //ModalComponent,
+    ModalComponent,
     ErrorMessageComponent,
     SuccessMessageComponent,
   ],
@@ -29,7 +29,7 @@ import { SuccessMessageComponent } from './success-message/success-message.compo
     IconInputComponent,
     PasswordInputComponent,
     CheckboxComponent,
-    //ModalComponent,
+    ModalComponent,
     ErrorMessageComponent,
     SuccessMessageComponent,
   ],

@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { of, throwError, mergeMap, retryWhen, delay, Observable, catchError } from 'rxjs';
+import { of, throwError, mergeMap, retryWhen, delay, Observable, BehaviorSubject } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { CacheService } from '@shared/cache/cache.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
-import { AgentLoginInfo, BasicTreeNode, GetTreeChildrenRequest, LanguageInfo, UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidateEMailRequest, ValidationStatus } from '@shared/models/models';
 import { Router } from '@angular/router';
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
+import { ModalService } from './modal.service';
+
+import {
+  AgentLoginInfo,
+  BasicTreeNode,
+  GetTreeChildrenRequest,
+  LanguageInfo,
+  UpdateCurrentUserPasswordRequest,
+  UpdateCurrentUserProfileRequest,
+  ValidateAgentPasswordRequest,
+  ValidateEMailRequest,
+  ValidationStatus } from '@shared/models/models';
+
 
 interface httpReq {
 	apiUrl: string,
@@ -22,8 +34,9 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-		private readonly cache: CacheService
-  ) { }
+		private readonly cache: CacheService,
+    private modalService: ModalService
+  ) {}
 
   truncParams({apiUrl, type, body}: httpReq,) {
 		let url = `${environment.baseApiUrl}/${apiUrl}`
@@ -40,7 +53,6 @@ export class ApiService {
     body?: object,
     allowRequest = false): Observable<any> {
 
-
     const maxRetry = 3
 		let retries = maxRetry
 
@@ -49,8 +61,9 @@ export class ApiService {
 				mergeMap(error => {
 					switch(error.status) {
 						case 0:case 503:
-              if((type === 'get' || allowRequest) && --retries > 0)
-                return of(error).pipe(delay(2000))
+              if(type === 'get' || allowRequest) {
+                if(--retries > 0) return of(error).pipe(delay(1000))
+              }
               break
             case 403:
               environment.production ?
@@ -63,7 +76,6 @@ export class ApiService {
 			))
 		)
 	}
-
 
 
   // Validation
@@ -101,7 +113,7 @@ export class ApiService {
 
 
   // Menu
-  @cachedRequests(function() {return this.cache})
+  // @cachedRequests(function() {return this.cache})
   getLanguages(): Observable<LanguageInfo[]>{
     return this.sendApiRequest('get', 'getSupportedLanguages')
   }

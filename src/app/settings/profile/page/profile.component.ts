@@ -22,7 +22,6 @@ import { ModalService } from '@shared/services/modal.service';
 // FIXME Добавить масштабирование (заменить проверку на email)
 export class ProfileComponent implements OnInit {
   componentName: string = 'ProfileComponent';
-  modalActive: boolean = false
   formValidation: { [key: string]: string } = {}
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
 
@@ -50,10 +49,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.loadAgentProfile()
-      .subscribe({
-        next: (data) => this.profileService.profile.next(data),
-        error: (err: HttpErrorResponse) => new Error(err.message)
-      })
+      .subscribe((data) => this.profileService.profile.next(data))
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges
@@ -98,10 +94,7 @@ export class ProfileComponent implements OnInit {
 
   checkCurrentPassword(currentPassword: string) {
     this._log.info("confirm old password confirmation modal");
-    const newPassword = this.getFormControl.bind(this)('password').value
-
-    console.log(currentPassword);
-
+    const newPassword = this.getFormControl('password').value
 
     this.api.updateUserPassword(currentPassword, newPassword)
       .pipe(first())
@@ -122,12 +115,11 @@ export class ProfileComponent implements OnInit {
             title: "MODAL_TITLE",
             message: "MODAL_MESSAGE",
             withForm: true,
-            cbEvent: this.checkCurrentPassword
+            submitFunc: this.checkCurrentPassword.bind(this)
           },
           {
-            maxWidth: 'calc(100% - var(--container-pad) * 2)',
             position: { top: '24px' },
-            panelClass: 'post-dialog-container',
+            panelClass: 'post-dialog-container'
           }
         )
       } else {
