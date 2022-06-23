@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,9 @@ export class AuthGuard implements CanActivate {
       return true
     } else {
       if(!isAuth) {
-        this.router.navigate(['/devLogin'])
+        environment.production 
+        ? window.location.href = environment.baseRootUrl
+        : this.router.navigate(['/devLogin'])
         return false
       }
       return true

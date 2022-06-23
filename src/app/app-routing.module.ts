@@ -4,7 +4,10 @@ import { AuthGuard } from '@shared/auth/auth.guard';
 import { environment } from '../environments/environment';
 
 const routes: Routes = [
-  (environment.production) ? {} : {
+  (environment.production) ? {
+    path: 'devLogin',
+    canActivate: [AuthGuard],
+  } : {
     path: 'devLogin',
     loadChildren: () => import('./core/auth/auth.module').then(module => module.AuthModule),
     canActivate: [AuthGuard]
