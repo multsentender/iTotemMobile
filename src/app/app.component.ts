@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     protected logService: LogService,
     public pathService: PathService,
     ) {
-
+      
     try { environment.userID = userID; } catch (e) { }
     try {
       environment.logConfig = logConfig;
@@ -101,10 +101,12 @@ export class AppComponent implements OnInit {
     this.api.getTreeChildren()
       .subscribe({
         next: () => {
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(true)
           this.router.navigate(['/'])
         },
         error: () => {
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(false)
         }
       })

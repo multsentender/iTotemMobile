@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isAuth = this.authService.isAuth.value
+    const isAwait = this.authService.isAwait.value
 
     if(route.url[0]?.path === 'devLogin') {
       if(isAuth) {
@@ -23,8 +25,13 @@ export class AuthGuard implements CanActivate {
       }
       return true
     } else {
+      if (isAwait){
+        return false
+      }
       if(!isAuth) {
-        this.router.navigate(['/devLogin'])
+        environment.production 
+        ? window.location.href = environment.baseRootUrl
+        : this.router.navigate(['/devLogin'])
         return false
       }
       return true
