@@ -125,6 +125,18 @@ module.exports = (env) => {
         logging: 'info'
       },
       historyApiFallback: true, //route not found
+
+      
+      proxy: {
+        '/api': {
+            target: 'https://test-a.itotem.net',
+            "secure": false,
+            "changeOrigin": true,
+            "pathRewrite": {
+              "^/api": ""
+            }
+        },
+      }
     },
 
     plugins: [
@@ -160,7 +172,11 @@ module.exports = (env) => {
 
       new AngularWebpackPlugin({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
-        jitMode: env.baseAssetsUrl ? true : false
+        jitMode: env.baseAssetsUrl ? true : false,
+        fileReplacements: env.production ? {
+          [path.resolve(__dirname, "src/environments/environment.ts")]:
+          path.resolve(__dirname, "src/environments/environment.prod.ts")
+        } : {}
       }),
     ],
 

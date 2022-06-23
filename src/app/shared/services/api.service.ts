@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of, throwError, mergeMap, retryWhen, delay, Observable, catchError } from 'rxjs';
 
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { CacheService } from '@shared/cache/cache.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { AgentLoginInfo, BasicTreeNode, GetTreeChildrenRequest, LanguageInfo, UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidateEMailRequest, ValidationStatus } from '@shared/models/models';
