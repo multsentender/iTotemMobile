@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
     protected logService: LogService,
     public pathService: PathService,
     ) {
+      
     try { environment.userID = userID; } catch (e) { }
     try {
       environment.logConfig = logConfig;

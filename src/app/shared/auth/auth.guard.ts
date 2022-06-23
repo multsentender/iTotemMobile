@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
     } else {
       if (isAwait){
         return false
-      } else
+      }
       if(!isAuth) {
         environment.production 
         ? window.location.href = environment.baseRootUrl
