@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 const routes: Routes = [
   (environment.production) ? {
     path: 'devLogin',
+    redirectTo: 'settings',
     canActivate: [AuthGuard],
   } : {
     path: 'devLogin',
