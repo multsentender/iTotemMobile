@@ -34,19 +34,19 @@ export class AuthComponent {
 
   constructor(
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router) { console.log(100)}
 
-  onAuth() {
-    const getProfile = () => {
+  onAuth() {console.log(10)
+    const getProfile = () => {console.log(11)
       this.auth.isAuth.next(true)
       this.router.navigate(['/'])
     }
 
     this.auth.login(this.selectedUser).subscribe({
-      next: () => {
+      next: () => {console.log(12)
         getProfile()
       },
-      error: (err: HttpErrorResponse) => {
+      error: (err: HttpErrorResponse) => {console.log(13)
         const url = err.url?.includes('/otp/')
         url ? getProfile() : console.error(err)
       },

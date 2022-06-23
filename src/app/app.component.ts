@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     protected logService: LogService,
     public pathService: PathService,
     ) {
-
+      console.log(100)
     try { environment.userID = userID; } catch (e) { }
     try {
       environment.logConfig = logConfig;
@@ -95,16 +95,19 @@ export class AppComponent implements OnInit {
     this.translate.addLangs(['en', 'ru']);
     this.translate.setDefaultLang('en');
     this.translate.use(environment.lang);
+    console.log(101)
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {console.log(102)
     this.api.getTreeChildren()
       .subscribe({
-        next: () => {
+        next: () => {console.log(103)
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(true)
           this.router.navigate(['/'])
         },
-        error: () => {
+        error: () => {console.log(104)
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(false)
         }
       })

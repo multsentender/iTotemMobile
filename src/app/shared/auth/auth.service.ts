@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
   isAuth: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false)
+  isAwait: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(true)
 
   constructor(
     private http: HttpClient,

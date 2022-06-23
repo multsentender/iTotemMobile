@@ -3,16 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@shared/auth/auth.guard';
 import { environment } from '../environments/environment';
 
-const routes: Routes = [
-  (environment.production) ? {
-    path: 'devLogin',
-    redirectTo: 'settings',
-    canActivate: [AuthGuard],
-  } : {
-    path: 'devLogin',
-    loadChildren: () => import('./core/auth/auth.module').then(module => module.AuthModule),
-    canActivate: [AuthGuard]
-  },
+let routes: Routes = (environment.production) ? [] : [{
+  path: 'devLogin',
+  loadChildren: () => import('./core/auth/auth.module').then(module => module.AuthModule),
+  canActivate: [AuthGuard]
+}];
+
+routes = routes.concat([
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(module => module.SettingsModule),
@@ -23,7 +20,7 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'settings'
   },
-];
+]);
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
