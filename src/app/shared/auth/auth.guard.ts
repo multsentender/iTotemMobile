@@ -17,18 +17,18 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isAuth = this.authService.isAuth.value
     const isAwait = this.authService.isAwait.value
-console.log(1)
-    if(route.url[0]?.path === 'devLogin') {console.log(2)
-      if(isAuth) {console.log(3)
+
+    if(route.url[0]?.path === 'devLogin') {
+      if(isAuth) {
         this.router.navigate(['/'])
         return false
       }
       return true
-    } else {console.log(4)
-      if (isAwait){console.log(6)
+    } else {
+      if (isAwait){
         return false
       } else
-      if(!isAuth) {console.log(5)
+      if(!isAuth) {
         environment.production 
         ? window.location.href = environment.baseRootUrl
         : this.router.navigate(['/devLogin'])
