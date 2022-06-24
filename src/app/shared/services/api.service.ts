@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { of, throwError, mergeMap, retryWhen, delay, Observable, catchError } from 'rxjs';
+import { of, throwError, mergeMap, retryWhen, delay, Observable, catchError, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { CacheService } from '@shared/cache/cache.service';
@@ -8,6 +8,7 @@ import { cachedRequests } from '@shared/cache/cache-decorator';
 import { AgentLoginInfo, BasicTreeNode, GetTreeChildrenRequest, LanguageInfo, UpdateCurrentUserPasswordRequest, UpdateCurrentUserProfileRequest, ValidateAgentPasswordRequest, ValidateEMailRequest, ValidationStatus } from '@shared/models/models';
 import { Router } from '@angular/router';
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
+import { MessageService } from './message.service'
 
 interface httpReq {
 	apiUrl: string,
@@ -22,7 +23,8 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-		private readonly cache: CacheService
+		private readonly cache: CacheService,
+    private messageService: MessageService,
   ) { }
 
   truncParams({apiUrl, type, body}: httpReq,) {
@@ -87,7 +89,7 @@ export class ApiService {
 
   updateUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
     let request: UpdateCurrentUserProfileRequest = {profile}
-    return this.sendApiRequest('post', 'updateCurrentUserProfile', request)
+    return this.sendApiRequest('post', 'updateCurrentUserProfile', request).pipe(tap(()=>this.messageService.showSuccess()))
   }
 
   updateUserPassword(currentPassword: string, newPassword: string): Observable<any> {
@@ -95,7 +97,7 @@ export class ApiService {
       currentPassword, newPassword
     }
     return this.sendApiRequest('post', 'updateCurrentUserPassword', request)
-      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)))
+      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)), tap(()=>this.messageService.showSuccess()))
   }
 
 
