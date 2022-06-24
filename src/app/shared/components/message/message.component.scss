@@ -1,15 +1,17 @@
 .success{
-	position: fixed;
-	top: 12px;
-	left: 10px;
-	right: 10px;
-	background-color: var(--special-green);
 	display: grid;
 	align-items: start;
 	grid-template-columns: 1fr min-content;
 	gap: 10px;
 	border-radius: var(--radius-def);
 	z-index: 98;
+
+	&__success{
+		background-color: var(--special-green);
+	}
+	&__error{
+		background-color: var(--special-red);
+	}
 
 	&__list{
 		padding: 16px 0 16px 24px;
@@ -25,3 +27,9 @@
 		margin: 17px 18px 0 0 ;
 	}
 }
+
+.mat-snack-bar-container {
+	padding: 0!important;
+
+	border-radius: var(--radius-def);
+ }

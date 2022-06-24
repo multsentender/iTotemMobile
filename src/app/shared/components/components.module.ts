@@ -8,7 +8,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
-import { SuccessMessageComponent } from './success-message/success-message.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { SuccessMessageComponent } from './success-message/success-message.compo
     CheckboxComponent,
     //ModalComponent,
     ErrorMessageComponent,
-    SuccessMessageComponent,
+    MessageComponent,
   ],
   exports: [
     IconInputComponent,
@@ -31,7 +31,7 @@ import { SuccessMessageComponent } from './success-message/success-message.compo
     CheckboxComponent,
     //ModalComponent,
     ErrorMessageComponent,
-    SuccessMessageComponent,
+    MessageComponent,
   ],
 })
 export class ComponentsModule { }
