@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { of, throwError, mergeMap, retryWhen, delay, Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  Observable,
+  of,
+  throwError,
+  mergeMap,
+  retryWhen,
+  delay,
+  delayWhen,
+  tap,
+  fromEvent,
+  race } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { CacheService } from '@shared/cache/cache.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { Router } from '@angular/router';
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
-import { ModalService } from './modal.service';
 
 import {
   AgentLoginInfo,
@@ -19,6 +28,8 @@ import {
   ValidateAgentPasswordRequest,
   ValidateEMailRequest,
   ValidationStatus } from '@shared/models/models';
+import { apiRetryDelayMs, apiRetryMaxAttempts } from '@shared/constants';
+import { ModalService } from './modal.service';
 
 
 interface httpReq {
@@ -31,21 +42,35 @@ interface httpReq {
   providedIn: 'root'
 })
 export class ApiService {
+  private onOnline$ = fromEvent(window, 'online')
+
   constructor(
     private http: HttpClient,
     private router: Router,
 		private readonly cache: CacheService,
-    private modalService: ModalService
+    private modalService: ModalService,
   ) {}
 
-  truncParams({apiUrl, type, body}: httpReq,) {
-		let url = `${environment.baseApiUrl}/${apiUrl}`
+  truncParams({apiUrl, type, body}: httpReq): Observable<any> {
+    let url = `${environment.baseApiUrl}/${apiUrl}`
 		if(type !== 'get' && type !== 'delete') {
-			return this.http[type](url, body, {withCredentials: true})
+      return this.http[type](url, body, {withCredentials: true})
 		} else {
-			return this.http[type](url, {withCredentials: true})
+      return this.http[type](url, {withCredentials: true})
 		}
 	}
+
+  modalHandler(error: HttpErrorResponse): Observable<any> {
+    this.modalService.initingModal({
+      submitText: 'Retry',
+      title: "Connection failure",
+      message: "Unable to connect to server. Please, check your internet connection. If the issue persists, please contact our support team."
+    })
+    const toObservable$ = this.modalService.event as Observable<any>
+    return race(
+      this.onOnline$.pipe(tap(() => this.modalService.closeModal())),
+      toObservable$.pipe(mergeMap(val => val ? of(error) : throwError(error))))
+  }
 
 	sendApiRequest(
     type: 'get' | 'post' | 'put' | 'patch' | 'delete',
@@ -53,16 +78,18 @@ export class ApiService {
     body?: object,
     allowRequest = false): Observable<any> {
 
-    const maxRetry = 3
-		let retries = maxRetry
 
-		return this.truncParams({type, apiUrl, body}).pipe(
+		let retries = apiRetryMaxAttempts
+    let req = this.truncParams({type, apiUrl, body})
+
+    return req.pipe(
 			retryWhen(errorObservable => errorObservable.pipe(
 				mergeMap(error => {
 					switch(error.status) {
 						case 0:case 503:
               if(type === 'get' || allowRequest) {
-                if(--retries > 0) return of(error).pipe(delay(1000))
+                if(--retries > 0) return of(error).pipe(delay(apiRetryDelayMs))
+                if(retries === 0) return of(error).pipe(delayWhen(() => this.modalHandler(error)))
               }
               break
             case 403:
@@ -73,21 +100,26 @@ export class ApiService {
 					}
 					return throwError(error)
 				})
-			))
+			)),
 		)
 	}
 
+
+
+
+
+  // Api Requests
 
   // Validation
 	@cachedRequests(function() {return this.cache})
 	validateEmail(email: string): Observable<ValidationStatus> {
 		let request: ValidateEMailRequest = {email}
-		return this.sendApiRequest('post', 'validateEMail', request)
+		return this.sendApiRequest('post', 'validateEMail', request, false)
 	}
 
   @cachedRequests(function() {return this.cache})
   validateAgentPassword(request: ValidateAgentPasswordRequest): Observable<ValidationStatus> {
-    return this.sendApiRequest('post', 'validateCurrentUserPassword', request)
+    return this.sendApiRequest('post', 'validateCurrentUserPassword', request, false)
   }
 
 
@@ -113,7 +145,6 @@ export class ApiService {
 
 
   // Menu
-  // @cachedRequests(function() {return this.cache})
   getLanguages(): Observable<LanguageInfo[]>{
     return this.sendApiRequest('get', 'getSupportedLanguages')
   }

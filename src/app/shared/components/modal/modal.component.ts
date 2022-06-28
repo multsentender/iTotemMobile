@@ -9,7 +9,7 @@ export interface ModalProps {
   submitText?: string,
   withForm?: boolean,
   cancelFunc?: () => void,
-  submitFunc: Function
+  submitFunc?: Function
 }
 
 @Component({

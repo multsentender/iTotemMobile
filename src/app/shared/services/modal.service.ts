@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent, ModalProps } from '@shared/components/modal/modal.component';
-import { first } from 'rxjs';
 
 
 @Injectable({
@@ -25,7 +24,7 @@ export class ModalService {
 
       this.dialogRef.componentInstance.cbEvent.subscribe(val => {
         if(!val) data.cancelFunc && data.cancelFunc()
-        else data.submitFunc(val)
+        else data.submitFunc && data.submitFunc(val)
         this.closeModal()
       })
 
@@ -33,6 +32,10 @@ export class ModalService {
         () => this.dialogRef?.componentInstance.cbEvent.unsubscribe()
       )
     }
+  }
+
+  public get event(): EventEmitter<string | boolean> | undefined {
+    return this.dialogRef?.componentInstance.cbEvent
   }
 
   closeModal() {
