@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { filter, first } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, filter, first } from 'rxjs';
 
-import { ProfileService } from '@shared/services/profile.service'
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
 import { ApiService } from '@shared/services/api.service';
 import { ModalService } from '@shared/services/modal.service';
+import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 
 
 @Component({
@@ -24,6 +23,7 @@ export class ProfileComponent implements OnInit {
   componentName: string = 'ProfileComponent';
   formValidation: { [key: string]: string } = {}
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
+  private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
 
   profileForm: FormGroup = this.fb.group({
     name: [{ value: '', disabled: true }],
@@ -35,11 +35,10 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private location: Location,
-    private profileService: ProfileService,
     private modalService: ModalService,
     private api: ApiService,
   ) {
-    this.profileService.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
+    this.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
         name: agent.login,
         email: agent.email
@@ -49,7 +48,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.loadAgentProfile()
-      .subscribe((data) => this.profileService.profile.next(data))
+      .subscribe((data) => this.profile.next(data))
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges
@@ -84,9 +83,9 @@ export class ProfileComponent implements OnInit {
 
   updateProfileHandler() {
     const emailFormValue = this.getFormControl.bind(this)('email').value
-    if (emailFormValue !== this.profileService.profile.value.email) {
+    if (emailFormValue !== this.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
-      this.api.updateUserProfile({...this.profileService.profile.value, email: emailFormValue})
+      this.api.updateUserProfile({...this.profile.value, email: emailFormValue})
       .pipe(first())
       .subscribe(() => this.api.loadAgentProfile())
     }

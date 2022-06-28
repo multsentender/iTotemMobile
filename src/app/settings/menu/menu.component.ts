@@ -35,12 +35,13 @@ export class MenuComponent implements OnInit {
     private api: ApiService,
     public pathService: PathService,
   ) {
-    // FIXME оптимизация с лоадером
     this.treeNodeService.agents.subscribe((val) => this.agents = val)
     this.treeNodeService.rooms.subscribe((val) => this.rooms = val)
   }
 
   ngOnInit(): void {
+
+
     this.treeNodeService.sortAgentAndRoom(this.api.loadTreeNode())
     this.api.getLanguages()
       .subscribe((data) => {
