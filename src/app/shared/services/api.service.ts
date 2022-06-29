@@ -51,6 +51,13 @@ export class ApiService {
     private modalService: ModalService,
   ) {}
 
+  /**
+ * Function method selections httpClient
+ * @param [apiUrl] api path request
+ * @param [type] type http request
+ * @param [body] body for post/put/patch requests
+ * @return request responce Observer
+ */
   truncParams({apiUrl, type, body}: httpReq): Observable<any> {
     let url = `${environment.baseApiUrl}/${apiUrl}`
 		if(type !== 'get' && type !== 'delete') {
@@ -60,6 +67,8 @@ export class ApiService {
 		}
 	}
 
+
+  // Function modal window event handler
   modalHandler(error: HttpErrorResponse): Observable<any> {
     this.modalService.initingModal({
       submitText: 'RETRY',
@@ -100,7 +109,7 @@ export class ApiService {
 					}
 					return throwError(error)
 				})
-			)),
+			))
 		)
 	}
 
