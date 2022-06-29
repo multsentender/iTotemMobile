@@ -62,9 +62,9 @@ export class ApiService {
 
   modalHandler(error: HttpErrorResponse): Observable<any> {
     this.modalService.initingModal({
-      submitText: 'Retry',
-      title: "Connection failure",
-      message: "Unable to connect to server. Please, check your internet connection. If the issue persists, please contact our support team."
+      submitText: 'RETRY',
+      title: "CON_FAILURE_TITLE",
+      message: "CON_FAILURE_MESSAGE"
     })
     const toObservable$ = this.modalService.event as Observable<any>
     return race(

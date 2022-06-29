@@ -1,12 +1,6 @@
 .modal {
-
-	background-color: var(--light-bg);
-	border-radius: var(--radius-def);
-
-	&__container {
-		display: grid;
-		gap: 24px;
-	}
+	display: grid;
+	gap: 24px;
 
 	&__buttons {
 		display: grid;

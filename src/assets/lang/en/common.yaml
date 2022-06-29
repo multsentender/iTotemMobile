@@ -4,6 +4,9 @@ CONFIRM:
 CANCEL:
   Cancel
 
+RETRY: |-
+  Retry
+
 INTERNAL_ERROR: |-
   Internal error occurred {statusCode}. If issue persists, feel free to contact with our support team.
 
@@ -15,3 +18,9 @@ VALIDATION_MESSAGE_PASSWORD: |-
 
 CHANGES_SAVED: |-
   Your changes have been saved successfully
+
+CON_FAILURE_TITLE: |-
+  Connection failure
+
+CON_FAILURE_MESSAGE: |-
+  Unable to connect to server. Please, check your internet connection. If the issue persists, please contact our support team.
