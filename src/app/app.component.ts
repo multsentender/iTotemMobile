@@ -10,6 +10,16 @@ import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service
 import { PathService } from '@shared/services/path.service'
 import { ApiService } from '@shared/services/api.service';
 
+import {
+  trigger,
+  animate,
+  transition,
+  style,
+  query,
+  state
+} from '@angular/animations';
+import { fadeAnimation } from './animations';
+
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
 declare const baseApiUrl: string;// – базовый урл для АПИ
@@ -36,7 +46,10 @@ declare global {
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']//not ./app.component.scss - webpack error
+  styleUrls: ['app.component.scss'],//not ./app.component.scss - webpack error
+  animations:[
+      fadeAnimation
+  ]
 })
 export class AppComponent implements OnInit {
   componentName: string = 'AppComponent';
@@ -53,7 +66,7 @@ export class AppComponent implements OnInit {
     protected logService: LogService,
     public pathService: PathService,
     ) {
-
+      
     try { environment.userID = userID; } catch (e) { }
     try {
       environment.logConfig = logConfig;
@@ -88,10 +101,12 @@ export class AppComponent implements OnInit {
     this.api.getTreeChildren()
       .subscribe({
         next: () => {
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(true)
           this.router.navigate(['/'])
         },
         error: () => {
+          this.authService.isAwait.next(false)
           this.authService.isAuth.next(false)
         }
       })

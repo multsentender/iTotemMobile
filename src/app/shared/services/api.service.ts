@@ -1,22 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import {
-  Observable,
-  of,
-  throwError,
-  mergeMap,
-  retryWhen,
-  delay,
-  delayWhen,
-  tap,
-  fromEvent,
-  race } from 'rxjs';
+import { Observable, of, throwError, mergeMap, retryWhen, delay, delayWhen, tap, fromEvent, race } from 'rxjs';
 
-import { environment } from 'src/environments/environment';
 import { CacheService } from '@shared/cache/cache.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
+import { MessageService } from './message.service'
+import { ModalService } from './modal.service';
+
+import { apiRetryDelayMs, apiRetryMaxAttempts } from '@shared/constants';
 
 import {
   AgentLoginInfo,
@@ -28,8 +22,6 @@ import {
   ValidateAgentPasswordRequest,
   ValidateEMailRequest,
   ValidationStatus } from '@shared/models/models';
-import { apiRetryDelayMs, apiRetryMaxAttempts } from '@shared/constants';
-import { ModalService } from './modal.service';
 
 
 interface httpReq {
@@ -49,6 +41,7 @@ export class ApiService {
     private router: Router,
 		private readonly cache: CacheService,
     private modalService: ModalService,
+    private messageService: MessageService
   ) {}
 
   /**
@@ -116,7 +109,6 @@ export class ApiService {
 
 
 
-
   // Api Requests
 
   // Validation
@@ -140,7 +132,7 @@ export class ApiService {
 
   updateUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
     let request: UpdateCurrentUserProfileRequest = {profile}
-    return this.sendApiRequest('post', 'updateCurrentUserProfile', request)
+    return this.sendApiRequest('post', 'updateCurrentUserProfile', request).pipe(tap(()=> this.messageService.showSuccess()))
   }
 
   updateUserPassword(currentPassword: string, newPassword: string): Observable<any> {
@@ -148,7 +140,7 @@ export class ApiService {
       currentPassword, newPassword
     }
     return this.sendApiRequest('post', 'updateCurrentUserPassword', request)
-      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)))
+      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)), tap(()=> this.messageService.showSuccess()))
   }
 
 
