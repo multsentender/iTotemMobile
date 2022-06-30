@@ -121,31 +121,29 @@ export class ApiService {
 
   // Validation
 	@cachedRequests(function() {return this.cache})
-	validateEmail(email: string): Observable<ValidationStatus> {
+	validateEMail(email: string): Observable<ValidationStatus> {
 		let request: ValidateEMailRequest = {email}
 		return this.sendApiRequest(httpTypes.post, 'validateEMail', true, request)
 	}
 
   @cachedRequests(function() {return this.cache})
-  validateAgentPassword(request: ValidateAgentPasswordRequest): Observable<ValidationStatus> {
+  validateCurrentUserPassword(request: ValidateAgentPasswordRequest): Observable<ValidationStatus> {
     return this.sendApiRequest(httpTypes.post, 'validateCurrentUserPassword', true, request)
   }
 
 
 
   // Profile
-  loadAgentProfile(): Observable<AgentLoginInfo> {
-    console.log();
-
+  getCurrentUserProfile(): Observable<AgentLoginInfo> {
     return this.sendApiRequest(httpTypes.get, 'getCurrentUserProfile', true)
   }
 
-  updateUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
+  updateCurrentUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
     let request: UpdateCurrentUserProfileRequest = {profile}
     return this.sendApiRequest(httpTypes.post, 'updateCurrentUserProfile', false, request)
   }
 
-  updateUserPassword(currentPassword: string, newPassword: string): Observable<any> {
+  updateCurrentUserPassword(currentPassword: string, newPassword: string): Observable<any> {
     let request: UpdateCurrentUserPasswordRequest = {
       currentPassword, newPassword
     }

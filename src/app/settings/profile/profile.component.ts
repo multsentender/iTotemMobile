@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     private location: Location,
     private modalService: ModalService,
     private api: ApiService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.api.loadAgentProfile()
+    this.api.getCurrentUserProfile()
       .subscribe((data) => this.profile.next(data))
 
     // Совмещение клиентской и серверной валдации
@@ -58,11 +58,11 @@ export class ProfileComponent implements OnInit {
       if(this.profileForm.valid) {
         Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
         if(data.email) {
-          this.api.validateEmail(data.email)
+          this.api.validateEMail(data.email)
             .subscribe(data => this.validQueryHandler('email', data))
         }
         if (data.password) {
-          this.api.validateAgentPassword({password: data.password})
+          this.api.validateCurrentUserPassword({password: data.password})
             .subscribe(data => this.validQueryHandler('password', data))
           }
       } else {
@@ -87,7 +87,7 @@ export class ProfileComponent implements OnInit {
     const emailFormValue = this.getFormControl.bind(this)('email').value
     if (emailFormValue !== this.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
-      this.api.updateUserProfile({...this.profile.value, email: emailFormValue})
+      this.api.updateCurrentUserProfile({...this.profile.value, email: emailFormValue})
       .pipe(first())
       .subscribe(() => this.messageService.showSuccess())
     }
@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
     this._log.info("confirm old password confirmation modal");
     const newPassword = this.getFormControl('password').value
 
-    this.api.updateUserPassword(currentPassword, newPassword)
+    this.api.updateCurrentUserPassword(currentPassword, newPassword)
       .pipe(first())
       .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
