@@ -10,6 +10,7 @@ import { ValidationStatus } from '@shared/models/validationStatus';
 import { ApiService } from '@shared/services/api.service';
 import { ModalService } from '@shared/services/modal.service';
 import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
+import { MessageService } from '@shared/services/message.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
     private location: Location,
     private modalService: ModalService,
     private api: ApiService,
+    private messageService: MessageService
   ) {
     this.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
       this.profileForm.patchValue({
@@ -87,7 +89,7 @@ export class ProfileComponent implements OnInit {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
       this.api.updateUserProfile({...this.profile.value, email: emailFormValue})
       .pipe(first())
-      .subscribe(() => this.api.loadAgentProfile())
+      .subscribe(() => this.messageService.showSuccess())
     }
   }
 
@@ -99,6 +101,7 @@ export class ProfileComponent implements OnInit {
       .pipe(first())
       .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
+        this.messageService.showSuccess()
         this.updateProfileHandler()
       })
   }

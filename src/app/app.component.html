@@ -1,16 +1,15 @@
 <header class="header">
 	<a routerLink="/devLogin" class="header__back_btn" mat-flat-button color="primary">
-		<img src="{{pathService.assetsPath('/icons/arrow.svg')}}"
-		[clicklog]="{class: componentName, message: 'click back'}">
-	</a>
-	<h4 class="header__title">Menu</h4>
-	<button class="header__burger_btn" (click)="toggleMenu()" mat-flat-button color="primary"
-		[clicklog]="{class: componentName, message: 'click menu'}">
-		<img src="{{pathService.assetsPath('/icons/burger.svg')}}">
-	</button>
-</header>
+			<img src="{{pathService.assetsPath('/icons/arrow.svg')}}"
+			[clicklog]="{class: componentName, message: 'click back'}">
+		</a>
+		<h4 class="header__title">Menu</h4>
+		<button class="header__burger_btn" (click)="toggleMenu()" mat-flat-button color="primary"
+			[clicklog]="{class: componentName, message: 'click menu'}">
+			<img src="{{pathService.assetsPath('/icons/burger.svg')}}">
+		</button>
+	</header>
 
-<!-- <app-error-message></app-error-message> -->
 <main [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
 	<router-outlet  #o="outlet"></router-outlet>
 </main>

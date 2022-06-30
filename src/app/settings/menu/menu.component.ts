@@ -42,8 +42,8 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.treeNodeService.sortAgentAndRoom(this.api.loadTreeNode())
-    this.api.getLanguages()
+    this.treeNodeService.sortAgentAndRoom(this.api.getTreeChildren())
+    this.api.getSupportedLanguages()
       .subscribe((data) => {
         let langs = data.map(el => el.code ? el.code : '')
         this.translate.addLangs(langs)

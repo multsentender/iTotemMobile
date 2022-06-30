@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileComponent } from './page/profile.component';
+import { ProfileComponent } from './profile.component';
 
 import { ComponentsModule } from '@shared/components/components.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

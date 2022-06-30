@@ -16,8 +16,9 @@ import { PathService } from './shared/services/path.service';
 
 import '../styles/styles.scss';
 import { DirectiveModule } from '@shared/directives/directives.module';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 

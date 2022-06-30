@@ -10,14 +10,6 @@ import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service
 import { PathService } from '@shared/services/path.service'
 import { ApiService } from '@shared/services/api.service';
 
-import {
-  trigger,
-  animate,
-  transition,
-  style,
-  query,
-  state
-} from '@angular/animations';
 import { fadeAnimation } from './animations';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
@@ -66,7 +58,7 @@ export class AppComponent implements OnInit {
     protected logService: LogService,
     public pathService: PathService,
     ) {
-      
+
     try { environment.userID = userID; } catch (e) { }
     try {
       environment.logConfig = logConfig;
