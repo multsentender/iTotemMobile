@@ -7,7 +7,6 @@ import { cachedRequests } from '@shared/cache/cache-decorator';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
-import { MessageService } from './message.service'
 import { ModalService } from './modal.service';
 
 import { apiRetryDelayMs, apiRetryMaxAttempts } from '@shared/constants';
@@ -24,11 +23,19 @@ import {
   ValidationStatus } from '@shared/models/models';
 
 
+enum httpTypes {
+  get = 'get',
+  post = 'post',
+  put = 'put',
+  patch = 'patch',
+  delete = 'delete',
+}
 interface httpReq {
 	apiUrl: string,
-	type: 'get' | 'post' | 'put' | 'patch' | 'delete',
+	type: httpTypes,
 	body?: object,
 }
+
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +48,6 @@ export class ApiService {
     private router: Router,
 		private readonly cache: CacheService,
     private modalService: ModalService,
-    private messageService: MessageService
   ) {}
 
   /**
@@ -61,6 +67,7 @@ export class ApiService {
 	}
 
 
+
   // Function modal window event handler
   modalHandler(error: HttpErrorResponse): Observable<any> {
     this.modalService.initingModal({
@@ -74,22 +81,23 @@ export class ApiService {
       toObservable$.pipe(mergeMap(val => val ? of(error) : throwError(error))))
   }
 
+
+
 	sendApiRequest(
-    type: 'get' | 'post' | 'put' | 'patch' | 'delete',
+    type: httpTypes,
     apiUrl: string,
-    body?: object,
-    allowRequest = false): Observable<any> {
+    allowRequest: boolean,
+    body?: object): Observable<any> {
 
-
+    const req = this.truncParams({type, apiUrl, body})
 		let retries = apiRetryMaxAttempts
-    let req = this.truncParams({type, apiUrl, body})
 
     return req.pipe(
 			retryWhen(errorObservable => errorObservable.pipe(
 				mergeMap(error => {
 					switch(error.status) {
 						case 0:case 503:
-              if(type === 'get' || allowRequest) {
+              if(allowRequest) {
                 if(--retries > 0) return of(error).pipe(delay(apiRetryDelayMs))
                 if(retries === 0) return of(error).pipe(delayWhen(() => this.modalHandler(error)))
               }
@@ -102,7 +110,7 @@ export class ApiService {
 					}
 					return throwError(error)
 				})
-			))
+			)),
 		)
 	}
 
@@ -115,51 +123,47 @@ export class ApiService {
 	@cachedRequests(function() {return this.cache})
 	validateEmail(email: string): Observable<ValidationStatus> {
 		let request: ValidateEMailRequest = {email}
-		return this.sendApiRequest('post', 'validateEMail', request, false)
+		return this.sendApiRequest(httpTypes.post, 'validateEMail', true, request)
 	}
 
   @cachedRequests(function() {return this.cache})
   validateAgentPassword(request: ValidateAgentPasswordRequest): Observable<ValidationStatus> {
-    return this.sendApiRequest('post', 'validateCurrentUserPassword', request, false)
+    return this.sendApiRequest(httpTypes.post, 'validateCurrentUserPassword', true, request)
   }
 
 
 
   // Profile
   loadAgentProfile(): Observable<AgentLoginInfo> {
-    return this.sendApiRequest('get', 'getCurrentUserProfile')
+    console.log();
+
+    return this.sendApiRequest(httpTypes.get, 'getCurrentUserProfile', true)
   }
 
   updateUserProfile(profile: AgentLoginInfo): Observable<AgentLoginInfo>{
     let request: UpdateCurrentUserProfileRequest = {profile}
-    return this.sendApiRequest('post', 'updateCurrentUserProfile', request).pipe(tap(()=> this.messageService.showSuccess()))
+    return this.sendApiRequest(httpTypes.post, 'updateCurrentUserProfile', false, request)
   }
 
   updateUserPassword(currentPassword: string, newPassword: string): Observable<any> {
     let request: UpdateCurrentUserPasswordRequest = {
       currentPassword, newPassword
     }
-    return this.sendApiRequest('post', 'updateCurrentUserPassword', request)
-      .pipe(reqValidErrorHandlerPipe((biba) => console.log(biba)), tap(()=> this.messageService.showSuccess()))
+    return this.sendApiRequest(httpTypes.post, 'updateCurrentUserPassword', false, request)
   }
+
 
 
 
   // Menu
-  getLanguages(): Observable<LanguageInfo[]>{
-    return this.sendApiRequest('get', 'getSupportedLanguages')
+  getSupportedLanguages(): Observable<LanguageInfo[]>{
+    return this.sendApiRequest(httpTypes.get, 'getSupportedLanguages', false)
   }
-
-  // FIXME исправить тип получаемого параметра
-  loadTreeNode(requestBody = {}): Observable<BasicTreeNode[]> {
-    return this.sendApiRequest('post', 'getTreeChildren', requestBody, true)
-  }
-
 
 
   // App
-  getTreeChildren(parent?: BasicTreeNode): Observable<AgentLoginInfo> {
+  getTreeChildren(parent?: BasicTreeNode): Observable<BasicTreeNode[]> {
     let request: GetTreeChildrenRequest = {parent}
-    return this.sendApiRequest('post', 'getTreeChildren', request)
+    return this.sendApiRequest(httpTypes.post, 'getTreeChildren', true, request)
   }
 }
