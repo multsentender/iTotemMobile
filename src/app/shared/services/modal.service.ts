@@ -27,10 +27,6 @@ export class ModalService {
         else data.submitFunc && data.submitFunc(val)
         this.closeModal()
       })
-
-      this.dialogRef.afterClosed().subscribe(
-        () => this.dialogRef?.componentInstance.cbEvent.unsubscribe()
-      )
     }
   }
 
