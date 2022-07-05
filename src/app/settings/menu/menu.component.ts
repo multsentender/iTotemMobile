@@ -7,7 +7,7 @@ import { TreeNodeService } from '@shared/services/tree-node.service';
 import { environment } from '../../../environments/environment';
 import { PathService } from '@shared/services/path.service'
 
-import { AgentInfo, AgentTreeNode, LanguageInfo } from '@shared/models/models';
+import { AgentTreeNode, LanguageInfo, RoomTreeNode } from '@shared/models/models';
 import { ApiService } from '@shared/services/api.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class MenuComponent implements OnInit {
   public currentLocale = environment.lang
   public freshchatToken = environment.freshchatToken
 
-  public agents: Array<AgentInfo | AgentTreeNode> = [];
-  public rooms: Array<AgentInfo | AgentTreeNode> = [];
+  public agents: Array<AgentTreeNode> = [];
+  public rooms: Array<RoomTreeNode> = [];
 
   public languages: Array<LanguageInfo> = []
   public langListVisible = false
@@ -35,8 +35,8 @@ export class MenuComponent implements OnInit {
     private api: ApiService,
     public pathService: PathService,
   ) {
-    this.treeNodeService.agents.subscribe((val) => this.agents = val)
-    this.treeNodeService.rooms.subscribe((val) => this.rooms = val)
+    this.treeNodeService.agents$.subscribe((val) => this.agents = val)
+    this.treeNodeService.rooms$.subscribe((val) => this.rooms = val)
   }
 
   ngOnInit(): void {

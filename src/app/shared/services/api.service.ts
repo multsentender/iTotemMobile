@@ -73,12 +73,18 @@ export class ApiService {
     this.modalService.initingModal({
       submitText: 'RETRY',
       title: "CON_FAILURE_TITLE",
-      message: "CON_FAILURE_MESSAGE"
+      message: "CON_FAILURE_MESSAGE",
+      cancelFunc: () => window.location.href = environment.baseRootUrl
     })
+
     const toObservable$ = this.modalService.event as Observable<any>
+
     return race(
-      this.onOnline$.pipe(tap(() => this.modalService.closeModal())),
+      this.onOnline$,
       toObservable$.pipe(mergeMap(val => val ? of(error) : throwError(error))))
+        .pipe(
+          tap(() => this.modalService.closeModal())
+        )
   }
 
 
@@ -99,7 +105,7 @@ export class ApiService {
 						case 0:case 503:
               if(allowRequest) {
                 if(--retries > 0) return of(error).pipe(delay(apiRetryDelayMs))
-                if(retries === 0) return of(error).pipe(delayWhen(() => this.modalHandler(error)))
+                return of(error).pipe(delayWhen(() => this.modalHandler(error)))
               }
               break
             case 403:
@@ -155,7 +161,7 @@ export class ApiService {
 
   // Menu
   getSupportedLanguages(): Observable<LanguageInfo[]>{
-    return this.sendApiRequest(httpTypes.get, 'getSupportedLanguages', false)
+    return this.sendApiRequest(httpTypes.get, 'getSupportedLanguages', true)
   }
 
 

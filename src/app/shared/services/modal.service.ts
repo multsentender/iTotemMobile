@@ -16,6 +16,7 @@ export class ModalService {
     if(!this.isOpen) {
       this.dialogRef = this.dialog.open(ModalComponent, {
         maxWidth: 'calc(100% - var(--container-pad) * 2)',
+        disableClose: true,
         ...options,
         data
       })
@@ -27,10 +28,6 @@ export class ModalService {
         else data.submitFunc && data.submitFunc(val)
         this.closeModal()
       })
-
-      this.dialogRef.afterClosed().subscribe(
-        () => this.dialogRef?.componentInstance.cbEvent.unsubscribe()
-      )
     }
   }
 

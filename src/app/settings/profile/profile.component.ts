@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BehaviorSubject, filter, first } from 'rxjs';
+import { BehaviorSubject, filter, skip } from 'rxjs';
 
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';
@@ -26,12 +26,16 @@ export class ProfileComponent implements OnInit {
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
   private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
 
+  public disabledBtn: boolean = true
+
   profileForm: FormGroup = this.fb.group({
-    name: [{ value: '', disabled: true }],
+    login: [{ value: '', disabled: true }],
     email: ['', [Validators.pattern(/.+@.+\..+/)]],
     password: ['', [Validators.minLength(5)]],
     passwordConf: '',
   }, { validators: [checkConfirmPassword, atLeastOneValidator(['email', 'password'])] });
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -40,12 +44,8 @@ export class ProfileComponent implements OnInit {
     private api: ApiService,
     private messageService: MessageService,
   ) {
-    this.profile.pipe(filter((el) => !!el.userId)).subscribe(agent => {
-      this.profileForm.patchValue({
-        name: agent.login,
-        email: agent.email
-      })
-    })
+    this.profile.pipe(filter((el) => !!el.userId))
+      .subscribe(agent => this.profileForm.patchValue(agent))
   }
 
   ngOnInit(): void {
@@ -54,8 +54,15 @@ export class ProfileComponent implements OnInit {
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges
+    .pipe(skip(1))
     .subscribe((data) => {
-      if(this.profileForm.valid) {
+      if(
+        this.profileForm.valid &&
+        (data.email !== this.profile.value.email ||
+        data.password.length > 0)
+      ) {
+        this.disabledBtn = false
+
         Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
         if(data.email) {
           this.api.validateEMail(data.email)
@@ -66,11 +73,20 @@ export class ProfileComponent implements OnInit {
             .subscribe(data => this.validQueryHandler('password', data))
           }
       } else {
+        this.disabledBtn = true
+
         // Error message на клиентскую валидацию
         this.formValidation['email'] = !this.getFormControl('email').valid ? 'VALIDATION_MESSAGE_EMAIL' : ''
         this.formValidation['password'] = !this.getFormControl('password').valid ? 'VALIDATION_MESSAGE_PASSWORD' : ''
       }
     })
+  }
+
+
+
+
+  getFormControl(name: string): FormControl {
+    return this.profileForm.get(name) as FormControl
   }
 
   // Обработчик серверной валидации
@@ -79,8 +95,16 @@ export class ProfileComponent implements OnInit {
     else delete this.formValidation[key]
   }
 
-  getFormControl(name: string): FormControl {
-    return this.profileForm.get(name) as FormControl
+
+  checkCurrentPassword(currentPassword: string) {
+    this._log.info("confirm old password confirmation modal");
+    const newPassword = this.getFormControl('password').value
+
+    this.api.updateCurrentUserPassword(currentPassword, newPassword)
+      .subscribe(() => {
+        this.profileForm.patchValue({ password: '', passwordConf: '' })
+        this.updateProfileHandler()
+      })
   }
 
   updateProfileHandler() {
@@ -88,24 +112,12 @@ export class ProfileComponent implements OnInit {
     if (emailFormValue !== this.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
       this.api.updateCurrentUserProfile({...this.profile.value, email: emailFormValue})
-      .pipe(first())
-      .subscribe(() => this.messageService.showSuccess())
-    }
+        .subscribe(() => {
+          this.profile.next({...this.profile.value, email: emailFormValue})
+          this.messageService.showSuccess()
+        })
+    } else this.messageService.showSuccess()
   }
-
-  checkCurrentPassword(currentPassword: string) {
-    this._log.info("confirm old password confirmation modal");
-    const newPassword = this.getFormControl('password').value
-
-    this.api.updateCurrentUserPassword(currentPassword, newPassword)
-      .pipe(first())
-      .subscribe(() => {
-        this.profileForm.patchValue({ password: '', passwordConf: '' })
-        this.messageService.showSuccess()
-        this.updateProfileHandler()
-      })
-  }
-
 
   // Form control functions
   confirm() {

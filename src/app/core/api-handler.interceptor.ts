@@ -20,6 +20,10 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(error =>  {
         switch(error.status) {
+          case 0: {
+            this.logger.error(`0 - Disconect`)
+            break
+          }
           case 400: {
             this.logger.error(`400 - Bad request\n${error.url}`)
             this.errorMessageService.addError(internalErrorOccurred(error.status))
@@ -37,11 +41,11 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           case 503: {
             this.logger.error(`503 - Inaccessible Backend\n${error.url}`)
-            this.errorMessageService.addError(internalErrorOccurred(error.status))
             break
           }
           default: {
             this.logger.error(`${error.status} - Unhandled HTTP Error\n${error.message}`)
+            this.errorMessageService.addError(internalErrorOccurred(error.status))
           }
         }
         return throwError(error)
