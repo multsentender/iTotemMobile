@@ -40,21 +40,26 @@ export class MessageService {
 
   private displaySnackbar(): void {
     const nextMessage = this.getNextMessage();
+    console.log(nextMessage?.type);
+
 
     if (!nextMessage) {
       this.processingMessage = false; // No message in the queue, set flag false
-
       return;
     }
     this.processingMessage = true; // A message was dequeued and is being processed
 
-    this.snackBar.openFromComponent(MessageComponent, {
-      duration: 2000,
+    const options: MatSnackBarConfig = {
       verticalPosition: 'top',
       data: {
         ...nextMessage
       }
-    })
+    }
+    if(nextMessage.type === MessageType.success){
+      options.duration = 2000
+    }
+
+    this.snackBar.openFromComponent(MessageComponent, options)
       .afterDismissed()
       .subscribe(() => {
         //clear error after closing of last error message
