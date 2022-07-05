@@ -2,7 +2,7 @@
     <div class="mainColumn" [formGroup]="profileForm">
         <app-icon-input
             type="text"
-            [formControl]="getFormControl('name')"
+            [formControl]="getFormControl('login')"
             icon="person"
             alt="person"
             placeholder="FIELD_USERNAME"></app-icon-input>
@@ -21,7 +21,7 @@
             [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
             placeholder="CONFIRM_NEW_PASSWORD"
             [formControl]="getFormControl('passwordConf')"></app-password-input>
-        <button class="btn__secect" [disabled]="!profileForm.valid" (click)="confirm()" mat-flat-button color="primary" >
+        <button class="btn__secect" [disabled]="disabledBtn" (click)="confirm()" mat-flat-button color="primary" >
             {{'CONFIRM' | translate}}
         </button>
     </div>
@@ -33,11 +33,3 @@
             [clicklog]="{class: componentName, message: 'cancel profile change'}">{{'CANCEL' | translate}}</button>
     </div>
 </section>
-<!-- <app-modal
-    title="MODAL_TITLE"
-    message="MODAL_MESSAGE"
-    [modalActive]="modalActive"
-    (modalActiveEvent)="oldPasswordModalEvent($event)"
-    [withForm]=true
-    (cbEvent)="checkCurrentPassword($event)"
-></app-modal> -->
