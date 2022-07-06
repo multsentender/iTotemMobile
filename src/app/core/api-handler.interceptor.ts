@@ -5,7 +5,7 @@ import { Observable, throwError, catchError } from 'rxjs';
 import { AuthService } from '../shared/auth/auth.service';
 import { Log, Logger } from '../shared/services/log.service';
 import { ErrorMessageService } from '../shared/services/error-message.service';
-import { internalErrorOccurred } from '@shared/utils/msg';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
@@ -14,7 +14,18 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private errorMessageService: ErrorMessageService,
+    private translate: TranslateService,
   ) {}
+
+  generateErrorMessage(statusCode?: number, message?: string) {
+    const localizationString = this.translate.instant("INTERNAL_ERROR", {
+      statusCode,
+      message
+    })
+
+    return localizationString
+  }
+
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
@@ -26,7 +37,7 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           case 400: {
             this.logger.error(`400 - Bad request\n${error.url}`)
-            this.errorMessageService.addError(internalErrorOccurred(error.status))
+            this.errorMessageService.addError(this.generateErrorMessage(error.status))
             break
           }
           case 403: {
@@ -45,7 +56,7 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           default: {
             this.logger.error(`${error.status} - Unhandled HTTP Error\n${error.message}`)
-            this.errorMessageService.addError(internalErrorOccurred(error.status))
+            this.errorMessageService.addError(this.generateErrorMessage(error.status))
           }
         }
         return throwError(error)

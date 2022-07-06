@@ -40,8 +40,6 @@ export class MessageService {
 
   private displaySnackbar(): void {
     const nextMessage = this.getNextMessage();
-    console.log(nextMessage?.type);
-
 
     if (!nextMessage) {
       this.processingMessage = false; // No message in the queue, set flag false

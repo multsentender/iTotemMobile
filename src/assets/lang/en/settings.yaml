@@ -20,7 +20,7 @@ FIELD_N_A: |-
   n/a
 
 FIELD_SUBSCRIPTION: |-
-  {appName} news and bonuses
+  {{appName}} news and bonuses
 
 CONFIRM_PASSWORD: |-
   Confirm Password
