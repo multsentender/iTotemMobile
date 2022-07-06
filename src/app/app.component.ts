@@ -3,12 +3,10 @@ import { Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 
-import { AuthService } from '@shared/auth/auth.service';
 import { environment } from '../environments/environment';
 
 import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service';
 import { PathService } from '@shared/services/path.service'
-import { ApiService } from '@shared/services/api.service';
 
 import { fadeAnimation } from './animations';
 
@@ -50,11 +48,9 @@ export class AppComponent implements OnInit {
   env = environment;
 
   constructor(
-    private authService: AuthService,
     private translate: TranslateService,
     private router: Router,
     private location: Location,
-    private api: ApiService,
     protected logService: LogService,
     public pathService: PathService,
     ) {
@@ -72,7 +68,6 @@ export class AppComponent implements OnInit {
       // environment.baseApiUrl = `${baseApiUrl.slice(0, baseApiUrl.indexOf('/rest'))}/api/rest`;
       environment.baseApiUrl = baseApiUrl;
       environment.baseRootUrl = baseRootUrl;
-      // environment.baseRootUrl = `${baseRootUrl}/api`;
       environment.version = version;
     } catch (e) { }
     try {
@@ -90,18 +85,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.api.getTreeChildren()
-      .subscribe({
-        next: () => {
-          this.authService.isAwait.next(false)
-          this.authService.isAuth.next(true)
-          this.router.navigate(['/'])
-        },
-        error: () => {
-          this.authService.isAwait.next(false)
-          this.authService.isAuth.next(false)
-        }
-      })
   }
 
   toggleMenu() {

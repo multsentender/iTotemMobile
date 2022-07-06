@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+	<title>Dev Login</title>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+		function onLogin() {
+			let login = $("#login").val();
+			let password = $("#password").val();
+			if (!login || !password) {
+				return;
+			}
+
+			$.ajax(
+				{
+					type: "POST",
+					url: `http://localhost:4200/api/j_spring_security_check?j_username=${login}&j_password=${password}`,
+					data: {},
+					complete: function (response, status) {
+						window.location.href = 'http://localhost:4200';
+					},
+					xhrFields: {
+						withCredentials: true
+					}
+				});
+		};
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h4>Login development stub</h4>
+		<div class="alert alert-warning" role="alert">
+			This form doesn't properly handle invalid login and password. Please, select user.
+		</div>
+		<div class="row" style="max-width: 200px">
+			<div class="col-xs-12"><label for="login">Login:</label></div>
+			<div class="col-xs-12">
+				<select class="form-control" name="login" id="login">
+					<option>mobileadmindev1</option>
+					<option>mobileadmindev2</option>
+					<option>mobileadmindev3</option>
+					<option>mobileadmindev4</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row" style="max-width: 200px">
+			<div class="col-xs-12"><label for="password">Password:</label></div>
+			<div class="col-xs-12">
+				<input class="form-control" name="password" placeholder="Password" value="" type="password" id="password">
+			</div>
+		</div>
+		<br>
+		<div class="row" style="max-width: 200px">
+			<div class="col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="onLogin()">Login</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

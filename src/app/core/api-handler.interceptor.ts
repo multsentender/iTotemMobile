@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
 import { Observable, throwError, catchError } from 'rxjs';
 
-import { AuthService } from '../shared/auth/auth.service';
 import { Log, Logger } from '../shared/services/log.service';
 import { ErrorMessageService } from '../shared/services/error-message.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +11,6 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
   private logger: Logger = Log.get(ApiHandlerInterceptor.name)
 
   constructor(
-    private authService: AuthService,
     private errorMessageService: ErrorMessageService,
     private translate: TranslateService,
   ) {}
@@ -42,7 +40,6 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           case 403: {
             this.logger.error(`403 - not authorized\n${error.url}`)
-            this.authService.isAuth.next(false)
             break
           }
           case 500: {
