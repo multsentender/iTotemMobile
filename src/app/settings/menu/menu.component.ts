@@ -26,6 +26,8 @@ export class MenuComponent implements OnInit {
   public languages: Array<LanguageInfo> = []
   public langListVisible = false
 
+  isLoading = true
+
   constructor(
     private treeNodeService: TreeNodeService,
     private cookies: CookieService,
@@ -38,14 +40,14 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     this.treeNodeService.sortAgentAndRoom(this.api.getTreeChildren())
+
     this.api.getSupportedLanguages()
       .subscribe((data) => {
         let langs = data.map(el => el.code ? el.code : '')
         this.translate.addLangs(langs)
         this.languages = data
+        this.isLoading = false
       })
   }
 

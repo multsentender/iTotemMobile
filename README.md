@@ -8,7 +8,9 @@ Run `npm run webpack` for a dev server. Navigate to `http://localhost:4200/`. Th
 
 ## Development login
 
-Run `npm run start:devlogin` for a dev login server. Navigate to `http://localhost:3200/`.
+Run `npm run start:devlogin` for a devLogin server. Navigate to `http://localhost:3200/`.
+
+Run `npm run dev` for start devLogin server and project server.
 
 ## Code scaffolding
 

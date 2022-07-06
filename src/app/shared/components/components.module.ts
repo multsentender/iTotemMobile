@@ -8,6 +8,7 @@ import { ModalComponent } from './modal/modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MessageComponent } from './message/message.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { MessageComponent } from './message/message.component';
     CheckboxComponent,
     ModalComponent,
     MessageComponent,
+    SpinnerComponent,
   ],
   exports: [
     IconInputComponent,

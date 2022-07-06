@@ -23,6 +23,7 @@ import { MessageService } from '@shared/services/message.service';
 export class ProfileComponent implements OnInit {
   componentName: string = 'ProfileComponent';
   formValidation: { [key: string]: string } = {}
+  isLoading: boolean = true
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
   private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
 
@@ -50,7 +51,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.getCurrentUserProfile()
-      .subscribe((data) => this.profile.next(data))
+      .subscribe((data) => {
+        this.profile.next(data)
+        this.isLoading = false
+      })
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges
@@ -99,6 +103,7 @@ export class ProfileComponent implements OnInit {
   checkCurrentPassword(currentPassword: string) {
     this._log.info("confirm old password confirmation modal");
     const newPassword = this.getFormControl('password').value
+    this.isLoading = true
 
     this.api.updateCurrentUserPassword(currentPassword, newPassword)
       .subscribe(() => {
@@ -114,9 +119,13 @@ export class ProfileComponent implements OnInit {
       this.api.updateCurrentUserProfile({...this.profile.value, email: emailFormValue})
         .subscribe(() => {
           this.profile.next({...this.profile.value, email: emailFormValue})
+          this.isLoading = false
           this.messageService.showSuccess()
         })
-    } else this.messageService.showSuccess()
+    } else {
+      this.isLoading = false
+      this.messageService.showSuccess()
+    }
   }
 
   // Form control functions

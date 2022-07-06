@@ -1,4 +1,4 @@
-<section class="profile profile__container">
+<section *appSpinner="isLoading" class="profile profile__container">
     <div class="mainColumn" [formGroup]="profileForm">
         <app-icon-input
             type="text"
