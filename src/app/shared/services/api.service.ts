@@ -109,9 +109,7 @@ export class ApiService {
               }
               break
             case 403:
-              environment.production ?
-                window.location.href = environment.baseRootUrl :
-                this.router.navigate(['/devLogin'])
+              window.location.href = environment.baseRootUrl
               break
 					}
 					return throwError(error)

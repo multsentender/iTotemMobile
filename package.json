@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:devlogin": "node ./devlogin/devserver.js",
+    "dev": "concurrently \"npm run start:devlogin\" \"npm run start\"",
     "build": "ng build",
     "build:prod": "ng build --prod --aot",
     "watch": "ng build --watch --configuration development",
@@ -48,6 +50,7 @@
     "angular2-router-loader": "^0.3.5",
     "angular2-template-loader": "^0.6.2",
     "babel-loader": "^8.2.5",
+    "concurrently": "^7.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",

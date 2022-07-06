@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 
-import { AuthService } from '@shared/auth/auth.service';
 import { TreeNodeService } from '@shared/services/tree-node.service';
 import { environment } from '../../../environments/environment';
 import { PathService } from '@shared/services/path.service'
@@ -28,7 +27,6 @@ export class MenuComponent implements OnInit {
   public langListVisible = false
 
   constructor(
-    private authService: AuthService,
     private treeNodeService: TreeNodeService,
     private cookies: CookieService,
     private translate: TranslateService,
@@ -52,7 +50,6 @@ export class MenuComponent implements OnInit {
   }
 
   logOut(): void {
-    this.authService.isAuth.next(false)
     window.location.href = `${environment.baseRootUrl}/logout`
   }
 
