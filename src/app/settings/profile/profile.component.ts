@@ -23,8 +23,10 @@ import { MessageService } from '@shared/services/message.service';
 export class ProfileComponent implements OnInit {
   componentName: string = 'ProfileComponent';
   formValidation: { [key: string]: string } = {}
+  isLoading: boolean = true
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
   private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
+
 
   profileForm: FormGroup = this.fb.group({
     name: [{ value: '', disabled: true }],
@@ -50,7 +52,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.getCurrentUserProfile()
-      .subscribe((data) => this.profile.next(data))
+      .subscribe((data) => {
+        this.profile.next(data)
+        this.isLoading = false
+      })
 
     // Совмещение клиентской и серверной валдации
     this.profileForm.valueChanges

@@ -11,7 +11,6 @@ import { PathService } from '@shared/services/path.service'
 import { ApiService } from '@shared/services/api.service';
 
 import { fadeAnimation } from './animations';
-import { SpinnerService } from '@shared/services/spinner.service';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -58,7 +57,6 @@ export class AppComponent implements OnInit {
     private api: ApiService,
     protected logService: LogService,
     public pathService: PathService,
-    public spinnerService: SpinnerService
     ) {
 
     try { environment.userID = userID; } catch (e) { }

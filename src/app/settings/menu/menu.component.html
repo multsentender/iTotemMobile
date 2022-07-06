@@ -1,4 +1,4 @@
-<main class="menu__wrapper">
+<main *appSpinner="isLoading" class="menu__wrapper">
 	<nav *ngIf="agents.length + rooms.length > 0" class="agent">
 		<ul class="agent__list">
 			<!-- FIXME Исправить логику темы "item_current" -->

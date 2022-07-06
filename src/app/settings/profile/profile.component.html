@@ -1,4 +1,4 @@
-<section class="profile profile__container">
+<section *appSpinner="isLoading" class="profile profile__container">
     <div class="mainColumn" [formGroup]="profileForm">
         <app-icon-input
             type="text"
@@ -33,11 +33,3 @@
             [clicklog]="{class: componentName, message: 'cancel profile change'}">{{'CANCEL' | translate}}</button>
     </div>
 </section>
-<!-- <app-modal
-    title="MODAL_TITLE"
-    message="MODAL_MESSAGE"
-    [modalActive]="modalActive"
-    (modalActiveEvent)="oldPasswordModalEvent($event)"
-    [withForm]=true
-    (cbEvent)="checkCurrentPassword($event)"
-></app-modal> -->

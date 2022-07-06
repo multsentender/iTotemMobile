@@ -9,6 +9,7 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MessageComponent } from './message/message.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { MessageComponent } from './message/message.component';
     ModalComponent,
     ErrorMessageComponent,
     MessageComponent,
+    SpinnerComponent,
   ],
   exports: [
     IconInputComponent,

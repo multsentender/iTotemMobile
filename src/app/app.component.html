@@ -13,9 +13,3 @@
 <main [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
 	<router-outlet  #o="outlet"></router-outlet>
 </main>
-
-<div *ngIf="spinnerService.isShow$ | async" class="spinner">
-	<div class="spinner__dot"></div>
-	<div class="spinner__dot"></div>
-	<div class="spinner__dot"></div>
-</div>
