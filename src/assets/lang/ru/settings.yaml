@@ -20,7 +20,7 @@ FIELD_N_A: |-
   н/д
 
 FIELD_SUBSCRIPTION: |-
-  {appName} новости и бонусы
+  {{appName}} новости и бонусы
 
 FIELD_MY_PROFILE: |-
   Мой профиль
