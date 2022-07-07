@@ -8,6 +8,7 @@ import { PathService } from '@shared/services/path.service'
 
 import { AgentTreeNode, LanguageInfo, RoomTreeNode } from '@shared/models/models';
 import { ApiService } from '@shared/services/api.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -40,14 +41,16 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.treeNodeService.sortAgentAndRoom(this.api.getTreeChildren())
+    this.treeNodeService.sortAgentAndRoom(
+      this.api.getTreeChildren()
+        .pipe(finalize(() => this.isLoading = false))
+    )
 
     this.api.getSupportedLanguages()
       .subscribe((data) => {
         let langs = data.map(el => el.code ? el.code : '')
         this.translate.addLangs(langs)
         this.languages = data
-        this.isLoading = false
       })
   }
 

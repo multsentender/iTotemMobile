@@ -6,6 +6,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `npm run webpack` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+Run `npm run webpack:dev` for a dev server with devLogin. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
 ## Development login
 
 Run `npm run start:devlogin` for a devLogin server. Navigate to `http://localhost:3200/`.

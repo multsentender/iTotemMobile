@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { mergeMap, Observable, retryWhen, of, throwError, delay, catchError} from "rxjs";
+import { mergeMap, Observable, retryWhen, of, throwError, delay, catchError, finalize} from "rxjs";
 
 export function delayRetryPipe<T> (
 	delayMs = 2000,
