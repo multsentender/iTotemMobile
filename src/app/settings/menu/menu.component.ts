@@ -8,7 +8,8 @@ import { PathService } from '@shared/services/path.service'
 
 import { AgentTreeNode, LanguageInfo, RoomTreeNode } from '@shared/models/models';
 import { ApiService } from '@shared/services/api.service';
-import { finalize } from 'rxjs';
+
+import { spinnerHandlerPipe } from '@shared/extensions';
 
 @Component({
   selector: 'app-menu',
@@ -28,6 +29,9 @@ export class MenuComponent implements OnInit {
   public langListVisible = false
 
   isLoading = true
+  setLoad(val: boolean) {
+    this.isLoading = val
+  }
 
   constructor(
     private treeNodeService: TreeNodeService,
@@ -43,7 +47,7 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.treeNodeService.sortAgentAndRoom(
       this.api.getTreeChildren()
-        .pipe(finalize(() => this.isLoading = false))
+        .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
     )
 
     this.api.getSupportedLanguages()

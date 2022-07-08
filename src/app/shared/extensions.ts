@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { mergeMap, Observable, retryWhen, of, throwError, delay, catchError, finalize} from "rxjs";
+import { mergeMap, Observable, retryWhen, of, throwError, delay, catchError, finalize, tap} from "rxjs";
 
 export function delayRetryPipe<T> (
 	delayMs = 2000,
@@ -86,5 +86,17 @@ export function reqValidErrorHandlerPipe<T> (cb: (error: any) => void) {
 				return throwError(error)
 			})
 		)
+	}
+}
+
+
+export function spinnerHandlerPipe<T> (setShow: (val: boolean) => void) {
+	return (src: Observable<T>) : Observable<T> => {
+		setShow(true)
+
+		return src.pipe(tap({
+			error: () => setShow(false),
+			complete: () => setShow(false)
+		}))
 	}
 }
