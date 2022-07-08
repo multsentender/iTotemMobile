@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BehaviorSubject, catchError, filter, finalize, skip } from 'rxjs';
+import { BehaviorSubject, catchError, filter, finalize, skip, tap } from 'rxjs';
 
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';
@@ -107,28 +107,34 @@ export class ProfileComponent implements OnInit {
     const newPassword = this.getFormControl('password').value
 
     this.api.updateCurrentUserPassword(currentPassword, newPassword)
-      .pipe(catchError(err => {
-        this.isLoading = false
-        return err
+      .pipe(tap({
+        error: () => {
+          this.isLoading = false
+        },
+        complete: () => {
+          this.isLoading = false
+          this.profileForm.patchValue({ password: '', passwordConf: '' })
+        }
       }))
-      .subscribe(() => {
-        this.profileForm.patchValue({ password: '', passwordConf: '' })
-        this.updateProfileHandler()
-      })
+      .subscribe(() => this.updateProfileHandler())
   }
 
   updateProfileHandler() {
+    this.isLoading = true
+
     const emailFormValue = this.getFormControl.bind(this)('email').value
     if (emailFormValue !== this.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
+
       this.api.updateCurrentUserProfile({...this.profile.value, email: emailFormValue})
-        .pipe(finalize(() => this.isLoading = false))
+        .pipe(
+          tap({error: () => this.isLoading = false}))
         .subscribe(() => {
           this.profile.next({...this.profile.value, email: emailFormValue})
+          this.isLoading = false
           this.messageService.showSuccess()
         })
     } else {
-      this.isLoading = false
       this.messageService.showSuccess()
     }
   }
