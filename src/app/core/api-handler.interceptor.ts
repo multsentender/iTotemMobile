@@ -8,7 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
-  private logger: Logger = Log.get(ApiHandlerInterceptor.name)
+  private className: string = 'ApiHandlerInterceptor'
+  private logger: Logger = Log.get(this.className)
 
   constructor(
     private errorMessageService: ErrorMessageService,

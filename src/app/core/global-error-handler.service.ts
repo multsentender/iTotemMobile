@@ -4,7 +4,8 @@ import { Log, Logger } from '@shared/services/log.service';
 
 @Injectable()
 export class GlobalErrorHandlerService implements ErrorHandler {
-  private logger: Logger = Log.get(GlobalErrorHandlerService.name)
+  private className: string = 'GlobalErrorHandlerService'
+  private logger: Logger = Log.get(this.className)
 
   constructor(private zone: NgZone) { }
 

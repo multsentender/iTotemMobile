@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BehaviorSubject, catchError, filter, finalize, skip } from 'rxjs';
+import { BehaviorSubject, catchError, filter, finalize, skip, tap } from 'rxjs';
 
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';
@@ -11,6 +11,8 @@ import { ApiService } from '@shared/services/api.service';
 import { ModalService } from '@shared/services/modal.service';
 import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 import { MessageService } from '@shared/services/message.service';
+
+import { spinnerHandlerPipe } from '@shared/extensions';
 
 
 @Component({
@@ -25,6 +27,9 @@ export class ProfileComponent implements OnInit {
   formValidation: { [key: string]: string } = {}
 
   isLoading: boolean = true
+  setLoad(val: boolean) {
+    this.isLoading = val
+  }
 
   private _log: Logger = Log.get(this.componentName);//as name of component is removed in prod build
   private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
@@ -53,7 +58,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.getCurrentUserProfile()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe((data) => this.profile.next(data))
 
     // Совмещение клиентской и серверной валдации
@@ -101,16 +106,11 @@ export class ProfileComponent implements OnInit {
 
 
   checkCurrentPassword(currentPassword: string) {
-    this.isLoading = true
-
     this._log.info("confirm old password confirmation modal");
     const newPassword = this.getFormControl('password').value
 
     this.api.updateCurrentUserPassword(currentPassword, newPassword)
-      .pipe(catchError(err => {
-        this.isLoading = false
-        return err
-      }))
+      .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(() => {
         this.profileForm.patchValue({ password: '', passwordConf: '' })
         this.updateProfileHandler()
@@ -121,14 +121,14 @@ export class ProfileComponent implements OnInit {
     const emailFormValue = this.getFormControl.bind(this)('email').value
     if (emailFormValue !== this.profile.value.email) {
       this._log.info(`changing player e-mail on ${emailFormValue}`);
+
       this.api.updateCurrentUserProfile({...this.profile.value, email: emailFormValue})
-        .pipe(finalize(() => this.isLoading = false))
+        .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
         .subscribe(() => {
           this.profile.next({...this.profile.value, email: emailFormValue})
           this.messageService.showSuccess()
         })
     } else {
-      this.isLoading = false
       this.messageService.showSuccess()
     }
   }
