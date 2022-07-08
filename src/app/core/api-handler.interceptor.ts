@@ -16,15 +16,6 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
     private translate: TranslateService,
   ) {}
 
-  generateErrorMessage(statusCode?: number, message?: string) {
-    const localizationString = this.translate.instant("INTERNAL_ERROR", {
-      statusCode,
-      message
-    })
-
-    return localizationString
-  }
-
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
@@ -36,7 +27,8 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           case 400: {
             this.logger.error(`400 - Bad request\n${error.url}`)
-            this.errorMessageService.addError(this.generateErrorMessage(error.status))
+            this.errorMessageService.addError(
+              this.errorMessageService.generateErrorMessage(error.status))
             break
           }
           case 403: {
@@ -54,7 +46,8 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
           }
           default: {
             this.logger.error(`${error.status} - Unhandled HTTP Error\n${error.message}`)
-            this.errorMessageService.addError(this.generateErrorMessage(error.status))
+            this.errorMessageService.addError(
+              this.errorMessageService.generateErrorMessage(error.status))
           }
         }
         return throwError(error)

@@ -21,6 +21,7 @@ import {
   ValidateAgentPasswordRequest,
   ValidateEMailRequest,
   ValidationStatus } from '@shared/models/models';
+import { ErrorMessageService } from './error-message.service';
 
 
 enum httpTypes {
@@ -45,9 +46,9 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
 		private readonly cache: CacheService,
     private modalService: ModalService,
+    private errorMessageService: ErrorMessageService,
   ) {}
 
   /**
@@ -89,6 +90,7 @@ export class ApiService {
 
 
 
+
 	sendApiRequest(
     type: httpTypes,
     apiUrl: string,
@@ -106,6 +108,9 @@ export class ApiService {
               if(allowRequest) {
                 if(--retries > 0) return of(error).pipe(delay(apiRetryDelayMs))
                 return of(error).pipe(delayWhen(() => this.modalHandler(error)))
+              } else {
+                this.errorMessageService.addError(
+                  this.errorMessageService.generateErrorMessage(error.status))
               }
               break
             case 403:
