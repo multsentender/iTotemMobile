@@ -18,7 +18,6 @@
             [errorMessage]="formValidation['password']"
             [formControl]="getFormControl('password')"></app-password-input>
         <app-password-input
-            [class]="profileForm?.hasError('passwordMatchError') && profileForm?.touched ? 'alert__input_inside': ''"
             placeholder="CONFIRM_NEW_PASSWORD"
             [formControl]="getFormControl('passwordConf')"></app-password-input>
         <button class="btn__secect" [disabled]="disabledBtn" (click)="confirm()" mat-flat-button color="primary" >
