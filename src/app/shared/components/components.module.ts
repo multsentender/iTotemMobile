@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IconInputComponent } from './icon-input/icon-input.component'
-import { PasswordInputComponent } from './password-input/password-input.component'
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ModalComponent } from './modal/modal.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,7 +24,6 @@ import { SpinnerComponent } from './spinner/spinner.component';
   ],
   declarations: [
     IconInputComponent,
-    PasswordInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,
@@ -33,7 +31,6 @@ import { SpinnerComponent } from './spinner/spinner.component';
   ],
   exports: [
     IconInputComponent,
-    PasswordInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,

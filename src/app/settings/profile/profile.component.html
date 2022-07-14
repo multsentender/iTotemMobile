@@ -13,13 +13,17 @@
             icon="letter"
             alt="letter"
             placeholder="FIELD_EMAIL"></app-icon-input>
-        <app-password-input
+        <app-icon-input
+            type="password"
+            icon="lock"
             placeholder="FIELD_PASSWORD"
             [errorMessage]="formValidation['password']"
-            [formControl]="getFormControl('password')"></app-password-input>
-        <app-password-input
+            [formControl]="getFormControl('password')"></app-icon-input>
+        <app-icon-input
+            type="password"
+            icon="lock"
             placeholder="CONFIRM_NEW_PASSWORD"
-            [formControl]="getFormControl('passwordConf')"></app-password-input>
+            [formControl]="getFormControl('passwordConf')"></app-icon-input>
         <button class="btn__secect" [disabled]="disabledBtn" (click)="confirm()" mat-flat-button color="primary" >
             {{'CONFIRM' | translate}}
         </button>

@@ -20,9 +20,13 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
   @Input() formControl!: FormControl;
 
   @Input() errorMessage?: string;
+  @Input() label?: string;
   @Input() placeholder: string = "";
   @Input() icon?: string;
   @Input() alt?: string;
+
+  hideError = true;
+  hidePass: boolean = true;
 
   env = environment;
 
