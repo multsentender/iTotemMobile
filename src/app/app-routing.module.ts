@@ -8,6 +8,10 @@ import { RouterModule } from '@angular/router';
     loadChildren: () => import('./settings/settings.module').then(module => module.SettingsModule),
   },
   {
+    path: 'agent',
+    loadChildren: () => import('./agents/agents.module').then(module => module.AgentsModule),
+  },
+  {
     path: '**',
     pathMatch: 'full',
     redirectTo: 'settings'

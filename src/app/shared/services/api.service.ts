@@ -12,8 +12,10 @@ import { ModalService } from './modal.service';
 import { apiRetryDelayMs, apiRetryMaxAttempts } from '@shared/constants';
 
 import {
+  AgentInfo,
   AgentLoginInfo,
   BasicTreeNode,
+  GetAgentInfoRequest,
   GetTreeChildrenRequest,
   LanguageInfo,
   UpdateCurrentUserPasswordRequest,
@@ -159,6 +161,14 @@ export class ApiService {
     return this.sendApiRequest(httpTypes.post, 'updateCurrentUserPassword', false, request)
   }
 
+
+
+
+  // Agent
+  getAgentInfo(agentId: number): Observable<AgentInfo>{
+    let request: GetAgentInfoRequest = { agentId }
+    return this.sendApiRequest(httpTypes.post, 'getAgentInfo', true, request)
+  }
 
 
 
