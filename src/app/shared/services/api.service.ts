@@ -22,7 +22,8 @@ import {
   UpdateCurrentUserProfileRequest,
   ValidateAgentPasswordRequest,
   ValidateEMailRequest,
-  ValidationStatus } from '@shared/models/models';
+  ValidationStatus,
+  Notification } from '@shared/models/models';
 import { ErrorMessageService } from './error-message.service';
 
 
@@ -170,6 +171,12 @@ export class ApiService {
     return this.sendApiRequest(httpTypes.post, 'getAgentInfo', true, request)
   }
 
+
+  // Notifications
+	@cachedRequests(function() {return this.cache}, 20 * 60 * 1000)
+  getSelfNotifications(): Observable<Notification[]>{
+    return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
+  }
 
 
   // Menu

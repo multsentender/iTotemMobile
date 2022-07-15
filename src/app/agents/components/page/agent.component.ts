@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BehaviorSubject, catchError, filter, finalize, skip, tap } from 'rxjs';
 
 import { Logger, Log } from '@shared/services/log.service';
@@ -10,7 +8,6 @@ import { ApiService } from '@shared/services/api.service';
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { ActivatedRoute } from '@angular/router';
 import { AgentInfo } from '@shared/models/agentInfo';
-
 
 @Component({
   selector: 'app-agent',
@@ -22,6 +19,7 @@ export class AgentComponent implements OnInit {
   componentName: string = 'AgentComponent';
   id: string;
   agentInfo?: AgentInfo;
+  isRoot: boolean = true;
 
   isLoading = true
   setLoad(val: boolean) {
@@ -41,4 +39,6 @@ export class AgentComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
+
 }

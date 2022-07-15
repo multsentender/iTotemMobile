@@ -1,5 +1,5 @@
 import { Observable, shareReplay } from "rxjs";
-
+import { TimestampObservableCache } from "./timestamp-observable-cache.model";
 
 /**
  * Декоратор кэширования запросов
@@ -8,9 +8,11 @@ import { Observable, shareReplay } from "rxjs";
  */
 
 export function cachedRequests(
-	cacheFactory: (this: any) => { [key: string]: Observable<unknown> | undefined}
+	cacheFactory: (this: any) => { [key: string]: TimestampObservableCache/*Observable<unknown>*/ | undefined},
+	expireTime?: number//in ms
 ) {
 	return (target: any, method: string,  descriptor: PropertyDescriptor) : PropertyDescriptor => {
+
 		// Получаем оригинальную функцию
 		const origin = descriptor.value;
 		// Генерируем префикс кеша
@@ -24,13 +26,18 @@ export function cachedRequests(
 			const key = `${prefix}+${JSON.stringify(args)}`
 			// поиск кэшированного ответа
 			let observeble = storage[key]
-			if(!!observeble) return observeble
+
+			if (!!observeble?.observable && (!observeble.expires || observeble?.expires === 0 || (!!observeble?.expires && observeble.expires > Date.now())))
+			return observeble?.observable
 
 			// Создаём ответ
-			observeble = origin.apply(this, args).pipe(shareReplay(1));
+			observeble = {
+				observable: origin.apply(this, args).pipe(shareReplay(1)),
+				expires: expireTime ?? Date.now() + expireTime!
+			} as TimestampObservableCache
 			storage[key] = observeble
 
-			return observeble as Observable<any>
+			return observeble.observable //as Observable<any>
 		}
 
 		return descriptor
