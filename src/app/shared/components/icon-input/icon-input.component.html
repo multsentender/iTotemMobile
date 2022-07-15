@@ -1,13 +1,29 @@
-<div class="input__wrapper">
-    <span class="input__error">{{errorMessage | translate}}</span>
-    <img
-        class="input__icon"
-        *ngIf="icon"
-        src="{{pathService.assetsPath('/icons/'+ icon +'.svg')}}"
-        [alt]=alt>
-    <input
-        [ngClass]="{'input__form': true, 'input__form__no_icon': !icon,'alert__input': formControl.touched && formControl.invalid || errorMessage && errorMessage !== ''}"
-        [placeholder]="placeholder | translate"
-        [type]=type
-        [formControl]="formControl"/>
+<div class="form" [ngClass]="{error_visible: !hideError}">
+    <mat-form-field
+        appearance="outline"
+        class="input__wrapper">
+        <mat-label>{{label ? label : placeholder | translate}}</mat-label>
+        <img
+            class="input__icon"
+            *ngIf="icon"
+            src="{{pathService.assetsPath('/icons/'+ icon +'.svg')}}"
+            [alt]=alt>
+        <input
+            matInput
+            [ngClass]="{'input__form': true, 'input__form__no_icon': !icon}"
+            [placeholder]="placeholder | translate"
+            [type]="type === 'password'
+                ? hidePass ? 'password' : 'text'
+                : type"
+            [formControl]="formControl"/>
+        <img
+            *ngIf="type === 'password'"
+            class="input__eye"
+            (click)="hidePass = !hidePass"
+            src="{{pathService.assetsPath('/icons/eye.svg')}}"
+            alt="eye">
+    </mat-form-field>
+    <span
+        class="input__error"
+        (click)="hideError = !hideError">{{errorMessage | translate}}</span>
 </div>

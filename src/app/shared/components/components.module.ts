@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IconInputComponent } from './icon-input/icon-input.component'
-import { PasswordInputComponent } from './password-input/password-input.component'
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { ModalComponent } from './modal/modal.component';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MessageComponent } from './message/message.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
@@ -16,10 +19,11 @@ import { SpinnerComponent } from './spinner/spinner.component';
     ReactiveFormsModule,
     TranslateModule,
     MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   declarations: [
     IconInputComponent,
-    PasswordInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,
@@ -27,7 +31,6 @@ import { SpinnerComponent } from './spinner/spinner.component';
   ],
   exports: [
     IconInputComponent,
-    PasswordInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,

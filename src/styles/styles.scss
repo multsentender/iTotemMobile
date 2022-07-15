@@ -65,16 +65,6 @@ $theme: mat.define-light-theme((color: (primary: $theme-primary,
   border-radius: var(--radius-def);
 }
 
-// Theme Invalid inputs and selects
-.alert__input {
-  border: 1px solid var(--special-red) !important;
-}
-
-// FIXME Remove remove me please
-.alert__input_inside input {
-  border: 1px solid var(--special-red) !important;
-}
-
 
 .btn__secect {
   height: 60px;

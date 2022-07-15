@@ -3,9 +3,12 @@
 		<h6 *ngIf="data.title" class="modal__title">{{data.title | translate}}</h6>
 		<p *ngIf="data.message" class="modal__description">{{data.message | translate}}</p>
 	</div>
-	<app-password-input *ngIf="data.withForm"
+	<app-icon-input
+		icon="lock"
+		type="password"
+		*ngIf="data.withForm"
 		[placeholder]="'CONFIRM_PASSWORD' | translate"
-		[formControl]="form"></app-password-input>
+		[formControl]="form"></app-icon-input>
 	<div class="modal__buttons">
 		<button class="btn__secect" (click)="formHandler()" mat-flat-button color="primary"
 		[disabled]="data.withForm && !form.valid">
