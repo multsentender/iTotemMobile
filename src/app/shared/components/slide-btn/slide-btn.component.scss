@@ -1,0 +1,51 @@
+.swiper {
+	width: 100%;
+	height: 56px;
+	background-color:  var(--special-accent-50a);
+	overflow: hidden;
+	border-radius: 10px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&-unactive__text {
+		font-size: 16px;
+		line-height: 22px;
+		color: var(--special-text-cl);
+	}
+}
+
+
+// Mask
+
+.swiper__mask{
+	position: absolute;
+	top: 0;
+	left: 0;
+	left: calc(-100% + 56px);
+	width: 100%;
+	height: 100%;
+	background-color: var(--special-red-80a);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--white);
+	border-radius: 10px
+}
+
+// Button
+
+.swiper__button{
+	width: 56px;
+	height: 56px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	border-radius: 10px;
+	background-color: var(--special-red);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--white);
+}

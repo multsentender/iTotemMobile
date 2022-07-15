@@ -1,0 +1,14 @@
+<div class="swiper">
+	<p class="swiper-unactive__text">Confirm stop game</p>
+	<div class="swiper__mask">
+		<p class="swiper-loading__text">Confirming...</p>
+	</div>
+	<div
+		cdkDragLockAxis="x"
+		cdkDragBoundary=".swiper"
+		cdkDrag
+		[cdkDragConstrainPosition]="computeDragRenderPos"
+		class="swiper__button">
+		Ya
+	</div>
+</div>
