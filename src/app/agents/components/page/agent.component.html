@@ -1,5 +1,5 @@
 <section *appSpinner="isLoading" class="agent agent__container">
-    <agents-navbar [title]="agentInfo?.label" [isRoot]="isRoot"></agents-navbar>
+    <agents-navbar [title]="agentInfo?.label" [isRoot]="!agentInfo?.parentAgentId"></agents-navbar>
     agent page
     \n long content
     <br><br><br><br><br>

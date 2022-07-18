@@ -17,8 +17,6 @@ import { BasicTreeNode } from './basicTreeNode';
 
 
 export interface AgentInfo extends AgentTreeNode { 
-    balance?: number;
-    overdraft?: number;
     overdraftExpirationDate?: number;
     lastPaid?: number;
     collectFromSubAgents?: number;
@@ -36,6 +34,7 @@ export interface AgentInfo extends AgentTreeNode {
      */
     cashbackPercent?: number;
     cashbackWR?: number;
+    parentAgentId?: number;
     cashierAmounts?: Array<number>;
     canViewStructure?: boolean;
     extraFields?: { [key: string]: string; };

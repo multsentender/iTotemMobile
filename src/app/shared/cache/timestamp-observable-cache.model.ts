@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
 export interface TimestampObservableCache {
-    expires?: number;
+    expires?: Date;
     observable: Observable<unknown>;
 }

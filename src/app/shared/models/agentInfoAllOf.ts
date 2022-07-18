@@ -12,8 +12,6 @@
 
 
 export interface AgentInfoAllOf { 
-    balance?: number;
-    overdraft?: number;
     overdraftExpirationDate?: number;
     lastPaid?: number;
     collectFromSubAgents?: number;
@@ -31,6 +29,7 @@ export interface AgentInfoAllOf {
      */
     cashbackPercent?: number;
     cashbackWR?: number;
+    parentAgentId?: number;
     cashierAmounts?: Array<number>;
     canViewStructure?: boolean;
     extraFields?: { [key: string]: string; };

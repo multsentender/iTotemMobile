@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.api.getSelfNotifications()
-      .subscribe(notifications => this.notifications = !!notifications.find(notification => notification.viewCount==0))
+      .subscribe(notifications => this.notifications = !!notifications.find(notification => notification.viewCount == 0))
     window.addEventListener('scroll', this.scroll, true);
   }
 
