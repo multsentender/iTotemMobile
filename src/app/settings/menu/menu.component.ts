@@ -77,4 +77,13 @@ export class MenuComponent implements OnInit {
   support(){
     window.fcWidget?.open()
   }
+
+
+
+  onSwitched() {
+    console.log('on')
+  }
+  offSwitched() {
+    console.log('off')
+  }
 }

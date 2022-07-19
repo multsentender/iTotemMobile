@@ -76,6 +76,14 @@
 			[clicklog]="{class: componentName, message: 'click SWITCH_TO_DESKTOP'}">
 			{{"SWITCH_TO_DESKTOP" | translate}}
 		</a>
-		<app-slide-btn></app-slide-btn>
+		<app-slide-btn
+			mode="switch"
+			off_text="Slide to confirm"
+			pending_on_text="Confirming..."
+			[on_text]="'Turn off Punic Mode'"
+			pending_off_text="Confirming..."
+			[pending_on]="onSwitched"
+			[pending_off]="offSwitched"
+			></app-slide-btn>
 	</section>
 </main>

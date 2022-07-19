@@ -1,12 +1,14 @@
 <div #slider class="swiper">
 	<p class="swiper-unactive__text">{{off_text | translate}}</p>
 	<div class="swiper__mask" [style.transform]="transformMask | async">
-		<p class="swiper-loading__text">{{maskText | translate}}</p>
+		<p class="swiper-loading__text">TEST</p>
 	</div>
 	<div
+		#sliderButton
 		cdkDragLockAxis="x"
 		cdkDragBoundary=".swiper"
 		cdkDrag
+		(cdkDragStarted)="onDragStart()"
 		(cdkDragMoved)="onDragMoved($event)"
 		(cdkDragEnded)="onDragEnd($event)"
 		[cdkDragFreeDragPosition]="dragPosition"
@@ -14,5 +16,3 @@
 		Ya
 	</div>
 </div>
-
-<button (click)="changePosition()">Change element position</button>
