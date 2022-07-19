@@ -1,14 +1,18 @@
-<div class="swiper">
-	<p class="swiper-unactive__text">Confirm stop game</p>
-	<div class="swiper__mask">
-		<p class="swiper-loading__text">Confirming...</p>
+<div #slider class="swiper">
+	<p class="swiper-unactive__text">{{off_text | translate}}</p>
+	<div class="swiper__mask" [style.transform]="transformMask | async">
+		<p class="swiper-loading__text">{{maskText | translate}}</p>
 	</div>
 	<div
 		cdkDragLockAxis="x"
 		cdkDragBoundary=".swiper"
 		cdkDrag
-		[cdkDragConstrainPosition]="computeDragRenderPos"
+		(cdkDragMoved)="onDragMoved($event)"
+		(cdkDragEnded)="onDragEnd($event)"
+		[cdkDragFreeDragPosition]="dragPosition"
 		class="swiper__button">
 		Ya
 	</div>
 </div>
+
+<button (click)="changePosition()">Change element position</button>
