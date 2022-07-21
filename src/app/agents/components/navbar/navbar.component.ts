@@ -10,6 +10,7 @@ import { ApiService } from '@shared/services/api.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  componentName = "NavbarComponent";
   borderBottom: string = "var(--special-accent)";
   @Input() title: string = "";
   @Input() isRoot: boolean = false;

@@ -22,3 +22,14 @@ $blue-light: (
     700: var(--white),
   )
 );
+
+$blue-for-dark: (
+  100: var(--white),
+  500: var(--white),
+  700: var(--white),
+  contrast: (
+    100: var(--special-accent-darked),
+    500: var(--special-accent-darked),
+    700: var(--special-accent-darked),
+  )
+);

@@ -8,10 +8,12 @@
         <img class="agent_header__back_btn" src="{{pathService.assetsPath('/icons/arrow.svg')}}">
     </button>
     <span class="agent_header__title">{{title}}</span>
-    <a mat-icon-button aria-label="search" routerLink="/search">
+    <a mat-icon-button aria-label="search" routerLink="/search"
+        [clicklog]="{class: componentName, message: 'click search button'}">
         <mat-icon class="agent_header__search">search</mat-icon>
     </a>
-    <a mat-icon-button routerLink="/notifications">
+    <a mat-icon-button routerLink="/notifications"
+        [clicklog]="{class: componentName, message: 'click notifications button'}">
         <img class="agent_header__notifications" 
         src="{{pathService.assetsPath('/icons/notification' + (notifications ? '_dot' : '') +'.svg')}}">
     </a>

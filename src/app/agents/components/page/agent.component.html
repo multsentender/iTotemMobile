@@ -1,23 +1,68 @@
 <section *appSpinner="isLoading" class="agent agent__container">
-    <agents-navbar [title]="agentInfo?.label" [isRoot]="!agentInfo?.parentAgentId"></agents-navbar>
-    agent page
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
-    <br><br><br><br><br>
-    \n long content
+  <agents-navbar [title]="agentInfo?.label" [isRoot]="!agentInfo?.parentAgentId"></agents-navbar>
+ 
+
+
+  <!--graph section-->
+
+
+  <!--buttons section-->
+  <div class="agent__buttons">
+    <p *ngIf="!agentInfo?.dealer && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1">
+      <mat-form-field appearance="outline" class="agent__buttons__text-outline">
+        <mat-label>{{'SERVICE_BALANCE' | translate}}</mat-label>
+        <input matInput [value]="balance" [style.color]="balanceFail ? 'var(--special-red)' : 'inherit'" 
+          class="agent__buttons__text" disabled="true">
+      </mat-form-field>
+    </p>
+    <p *ngIf="!!agentInfo?.dealer 
+    && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1
+    && agentInfo?.dealerBalance !== null">
+      <mat-form-field appearance="outline" class="agent__buttons__text-outline">
+        <mat-label>{{'DEALER_SHARE' | translate}}</mat-label>
+        <input matInput [value]="dealerShare" class="agent__buttons__text" disabled="true">
+      </mat-form-field>
+    </p>
+
+    <div class="dark-theme agent__between-buttons">
+      <!--margin: 24px 0;-->
+      <a class="agent__btn" routerLink="/rates" mat-flat-button color="primary"
+        [clicklog]="{class: componentName, message: 'click agent rate'}">
+        {{'AGENT_RATE' | translate}} {{agentRate}}
+      </a>
+    </div>
+    <div class="dark-theme">
+      <a class="agent__btn" routerLink="/reports" (click)="confirm()" mat-flat-button color="primary"
+        [clicklog]="{class: componentName, message: 'click report'}">
+        {{'REPORT' | translate}}
+      </a>
+    </div>
+  </div>
+  <agent-buttons></agent-buttons>
+
+  <!--login section-->
+
+
+  <!--sub-structure section-->
+
+
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
+  <br><br><br><br><br>
+  \n long content
 </section>

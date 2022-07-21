@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     declarations: [AgentComponent, NavbarComponent],
     providers: []

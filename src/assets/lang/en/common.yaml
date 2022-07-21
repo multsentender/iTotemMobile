@@ -24,3 +24,9 @@ CON_FAILURE_TITLE: |-
 
 CON_FAILURE_MESSAGE: |-
   Unable to connect to server. Please, check your internet connection. If the issue persists, please contact our support team.
+
+LOADING_: |-
+  Loading...
+
+FAILURE: |-
+  Failure

@@ -1,7 +1,9 @@
 .agent_header {
     padding-left: 0;
     position: fixed;
+    top: 0;
     border-bottom: 1px solid;
+    z-index: 100;
 
     &__title {
         //longtitle...
