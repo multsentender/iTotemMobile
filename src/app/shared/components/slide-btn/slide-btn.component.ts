@@ -1,9 +1,10 @@
 import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
+import { PathService } from '@shared/services/path.service';
+import { BehaviorSubject, filter, Observable, pairwise, tap } from 'rxjs';
 
 
-export enum modeSlideBtn { button, switch };
+export enum ModeSlideBtn { button, switch };
 
 @Component({
   selector: 'app-slide-btn',
@@ -11,22 +12,21 @@ export enum modeSlideBtn { button, switch };
   styleUrls: ['./slide-btn.component.scss']
 })
 export class SlideBtnComponent implements AfterViewInit {
-  @Input() mode: modeSlideBtn = modeSlideBtn.button;
+  @Input() mode: ModeSlideBtn = ModeSlideBtn.button;
   @Input() off_text: string = 'SLIDE_CONFIRM'
   @Input() pending_on_text: string = 'CONFIRMING'
   @Input() on_text?: string;
   @Input() pending_off_text?: string
 
-  @Input() pending_on!: Observable<unknown>
-  @Input() pending_off?: Observable<unknown>
-  // @Input() toggle?: (active: boolean) => void;
+  @Input() pending_on!: () => Observable<unknown>;
+  @Input() pending_off?: () => Observable<unknown>;
 
   public isActive = new BehaviorSubject<boolean>(false)
-  public isLoading = false
+  public isLoading = new BehaviorSubject<boolean>(false)
   public transformMask = new BehaviorSubject<string>('translateX(0px)')
-  public maskText?: string =
-    !this.isActive ? this.pending_on_text :
-    this.isLoading ? this.pending_off_text : this.on_text
+  // public maskText?: string =
+  //   !this.isActive ? this.pending_on_text :
+  //   this.isLoading ? this.pending_off_text : this.on_text
 
   @ViewChild('slider') parent!: ElementRef<HTMLElement>;
   @ViewChild('sliderButton') dragElement!: ElementRef<HTMLElement>;
@@ -34,12 +34,40 @@ export class SlideBtnComponent implements AfterViewInit {
   private _dragPosition = {x: 0, y: 0};
   public dragPosition = this._dragPosition
 
-  constructor() {
-    this.isActive.subscribe(val => {
-      if(val || (!val && this.isLoading)) {
-        this.changePositionWithMask(this.parentPosition.right - this.parentPosition.left - this.dragElement.nativeElement.offsetWidth)
-      } else this.changePositionWithMask(0)
-    })
+  constructor(
+    public pathService: PathService) {
+    this.isActive
+      .pipe(pairwise(), filter(([prev, next]) => prev !== next))
+      .subscribe(([_, val]) => {
+        this.togglePositionWithMask()
+
+        if(!val && this.mode === ModeSlideBtn.switch && this.pending_off) {
+          this.isLoading.next(true)
+          this.pending_off().subscribe(() => this.isLoading.next(false))
+          return
+        }
+
+        if(val) {
+          this.isLoading.next(true)
+
+          this.pending_on()
+          .pipe(tap({
+            error: () => {
+              if(this.mode === ModeSlideBtn.switch) this.toggleActive(false)
+            },
+            complete: () => {
+              if(this.mode === ModeSlideBtn.button) this.toggleActive(false)
+            }}))
+          .subscribe(() => {
+            this.isLoading.next(false)
+          })
+          return
+        } else {
+          this.isLoading.next(false)
+        }
+      })
+
+
   }
 
   getParentPosition() {
@@ -64,56 +92,28 @@ export class SlideBtnComponent implements AfterViewInit {
   changePosition(val: number) {
     this.dragPosition = {x: val, y: 0}
   }
-  changePositionWithMask(val: number) {
-    this.maskOffsetHand(val)
-    this.changePosition(val)
+  togglePositionWithMask() {
+    const active = this.isActive.value
+    const offset = this.parentPosition.right - this.parentPosition.left - this.dragElement.nativeElement.offsetWidth
+
+    if(active) {
+      this.maskOffsetHand(offset)
+      this.changePosition(offset)
+    } else {
+      this.maskOffsetHand(0)
+      this.changePosition(0)
+    }
+  }
+
+  toggleActive(val?: boolean) {
+    this.isActive.next(val ? val : !this.isActive.value)
   }
 
 
-  toggleHand(event: CdkDragEnd) {
-    // if(this.isActive.value && this.mode === modeSlideBtn.switch) {
-    //   this.pending_off && this.pending_off
-    //     .pipe(tap({
-    //       complete: () => {
-    //         this.isLoading = false
-    //         this.isActive.next(false)
-    //       }
-    //     }))
-    //     .subscribe(})
-    // }
-    // if(!this.isActive) {
-    //   this.pending_on
-    //     .pipe(tap({
-    //       error: () => {},
-    //       next: () => {
-    //         if(this.mode === modeSlideBtn.switch) this.isActive.next(true)
-    //         else this.isActive.next(false)
-    //       },
-    //       complete: () => this.isLoading = false
-    //     }))
-    //     .subscribe()
-    // }
-    // if(!this.isActive)
-    //   this.pending_on
-    //   .pipe(tap({
-    //     error: () => {},
-    //     complete: () => {
-    //       if(this.mode === modeSlideBtn.switch) {
-    //         this.isActive = true
-    //       }
-    //     }
-    //   }))
-    //   .subscribe(() => {
-    //     this.isLoading = false
-    //     event.source.disabled = false
-    //   })
-    // if(this.isActive && this.mode === modeSlideBtn.switch) {
-    //   this.pending_off && this.pending_off.subscribe()
-    // }
-  }
 
   ngAfterViewInit(): void {
     this.getParentPosition()
+    this.togglePositionWithMask()
   }
 
   onDragStart() {
@@ -132,10 +132,7 @@ export class SlideBtnComponent implements AfterViewInit {
     this.parent.nativeElement.classList.add('drag-animating')
 
     if(Math.abs(event.distance.x) >= containerWidth * 0.35) {
-      this.isLoading = true
-      event.source.disabled = true
-
-      this.toggleHand(event)
-    } else this.isActive.next(false)
+      this.toggleActive()
+    } else this.togglePositionWithMask()
   }
 }

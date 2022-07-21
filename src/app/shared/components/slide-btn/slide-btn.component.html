@@ -13,6 +13,15 @@
 		(cdkDragEnded)="onDragEnd($event)"
 		[cdkDragFreeDragPosition]="dragPosition"
 		class="swiper__button">
-		Ya
+		<div *ngIf="isLoading | async; else loggedOut">
+			<img src="{{pathService.assetsPath('/icons/phone.svg')}}" alt="swipe">
+		</div>
+
+		<ng-template #loggedOut>
+			<img
+			[ngClass]="{'swiper__button--active': isActive | async}"
+			src="{{pathService.assetsPath('/icons/arrow.svg')}}"
+			alt="swipe">
+		</ng-template>
 	</div>
 </div>

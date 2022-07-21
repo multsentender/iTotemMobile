@@ -77,13 +77,12 @@
 			{{"SWITCH_TO_DESKTOP" | translate}}
 		</a>
 		<app-slide-btn
-			mode="switch"
+			[mode]="modeSlideBtn.button"
 			off_text="Slide to confirm"
 			pending_on_text="Confirming..."
 			[on_text]="'Turn off Punic Mode'"
 			pending_off_text="Confirming..."
-			[pending_on]="onSwitched"
-			[pending_off]="offSwitched"
+			[pending_on]="onSwitched()"
 			></app-slide-btn>
 	</section>
 </main>

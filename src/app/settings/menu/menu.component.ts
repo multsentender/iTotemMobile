@@ -10,6 +10,8 @@ import { AgentTreeNode, LanguageInfo, RoomTreeNode } from '@shared/models/models
 import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
+import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -42,6 +44,10 @@ export class MenuComponent implements OnInit {
   ) {
     this.treeNodeService.agents$.subscribe((val) => this.agents = val)
     this.treeNodeService.rooms$.subscribe((val) => this.rooms = val)
+  }
+
+  public get modeSlideBtn(): typeof ModeSlideBtn {
+    return ModeSlideBtn;
   }
 
   ngOnInit(): void {
@@ -80,8 +86,17 @@ export class MenuComponent implements OnInit {
 
 
 
-  onSwitched() {
-    console.log('on')
+  onSwitched(): () => Observable<any> {
+    const fnk = () => this.api.getSupportedLanguages()
+      .pipe(tap({
+        next: (data) => {
+        let langs = data.map(el => el.code ? el.code : '')
+        this.translate.addLangs(langs)
+        this.languages = data
+        }
+      }))
+
+    return fnk.bind(this)
   }
   offSwitched() {
     console.log('off')
