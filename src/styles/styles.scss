@@ -32,12 +32,26 @@ $theme: mat.define-light-theme((color: (primary: $theme-primary,
         warn: $theme-warn,
       )));
 
+// Define a dark theme
+$dark-primary: mat.define-palette($blue-for-dark);
+$dark-accent: mat.define-palette($blue-for-dark);
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+  )
+  ));
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($theme);
 
-
+.dark-theme {
+  @include mat.core-color($dark-theme);
+  @include mat.button-color($dark-theme);
+  @include mat.all-component-themes($dark-theme);
+ }
 
 
 @import "./variables";

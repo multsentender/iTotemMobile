@@ -27,6 +27,7 @@ export function HttpYamlLoaderFactory(http: HttpClient): MultiTranslateLoader {
   const resources = [
     { prefix: '', suffix: '/settings.yaml' },
     { prefix: '', suffix: '/common.yaml' },
+    { prefix: '', suffix: '/agents.yaml' },
   ];
   return new MultiTranslateLoader(http, resources);
 }

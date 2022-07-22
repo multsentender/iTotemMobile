@@ -6,7 +6,8 @@
 				<a [ngClass]="{
 					'agent__list--item': true,
 					'item_current': true,
-					'item_disable': item.deleted || item.blocked}" mat-flat-button color="accent">
+					'item_disable': item.deleted || item.blocked}" mat-flat-button color="accent"
+					routerLink="/agent/{{item.id}}">
 					{{item.label}}
 				</a>
 			</li>

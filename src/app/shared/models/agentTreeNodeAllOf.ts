@@ -18,6 +18,10 @@ export interface AgentTreeNodeAllOf {
     walletNumber?: string;
     blocked?: boolean;
     dealer?: boolean;
+    balance?: number;
+    overdraft?: number;
+    minRate?: number;
+    maxRate?: number;
     subAgentsCnt?: number;
     nonDeletedSubAgentsCnt?: number;
     agentRateInfo?: AgentRateInfo;
