@@ -24,14 +24,15 @@
       </mat-form-field>
     </p>
 
-    <div class="dark-theme agent__between-buttons">
+    <div class="dark-theme">
       <!--margin: 24px 0;-->
       <a class="agent__btn" routerLink="/rates" mat-flat-button color="primary"
         [clicklog]="{class: componentName, message: 'click agent rate'}">
         {{'AGENT_RATE' | translate}} {{agentRate}}
       </a>
     </div>
-    <div class="dark-theme">
+    <div class="dark-theme agent__between-buttons" *ngIf="agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_KIOSK') != -1
+    || agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_SERVICE') != -1">
       <a class="agent__btn" routerLink="/reports" (click)="confirm()" mat-flat-button color="primary"
         [clicklog]="{class: componentName, message: 'click report'}">
         {{'REPORT' | translate}}
