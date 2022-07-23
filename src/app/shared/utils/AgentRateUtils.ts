@@ -22,9 +22,6 @@ export class AgentRateUtils {
         if (rateInfo.gameGroupId == 0) {
             return undefined;
         }
-        if (!agentRateInfo.gameGroups) {
-            return undefined;
-        }
         let group : GameGroup = agentRateInfo.gameGroups[rateInfo.gameGroupId];
         if (group.parentId == 0) {
           return agentRateInfo.rateInfo;
