@@ -17,12 +17,12 @@ import { RateInfo } from './rateInfo';
 export interface AgentRateInfo { 
     agentId?: number;
     namespace?: string;
-    rateInfo?: RateInfo;
-    gameGroups?: { [key: string]: GameGroup; };
-    groupRateInfo?: { [key: string]: RateInfo; };
+    rateInfo: RateInfo;
+    gameGroups: { [key: string]: GameGroup; };
+    groupRateInfo: { [key: string]: RateInfo; };
     group2providers?: { [key: string]: Array<string>; };
     providerConfigs?: { [key: string]: Array<AgentProviderConfig>; };
-    canEdit?: boolean;
+    canEdit: boolean;
     agentLevel?: number;
 }
 

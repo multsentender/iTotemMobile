@@ -16,7 +16,7 @@ export interface RateInfo {
     minRate?: number;
     maxRate?: number;
     rate?: number;
-    gameGroupId?: number;
+    gameGroupId: number;
     excluded?: boolean;
 }
 
