@@ -177,10 +177,12 @@ export class AgentRateUtils {
     public static validateRate(agentRateInfo: AgentRateInfo, rateInfo: RateInfo, fieldValue?: number) : String | undefined {
         AgentRateUtils.setEffectiveRate(agentRateInfo, rateInfo, fieldValue);         
         let effectiveRate : number = AgentRateUtils.getEffectiveRate(agentRateInfo, rateInfo);
-        if (effectiveRate < AgentRateUtils.getEffectiveMinRate(agentRateInfo, rateInfo)) {
-          return AgentRateUtils.rateMasterAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveRate));
-        } else if (effectiveRate > AgentRateUtils.getEffectiveMaxRate(agentRateInfo, rateInfo)) {
-          return AgentRateUtils.rateSubAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveRate));
+        let effectiveMinRate : number = AgentRateUtils.getEffectiveMinRate(agentRateInfo, rateInfo);
+        let effectiveMaxRate : number = AgentRateUtils.getEffectiveMaxRate(agentRateInfo, rateInfo);
+        if (effectiveRate < effectiveMinRate) {
+          return AgentRateUtils.rateMasterAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveMinRate));
+        } else if (effectiveRate > effectiveMaxRate) {
+          return AgentRateUtils.rateSubAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveMaxRate));
         } 
         return undefined;
     }
