@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
+import { ComponentsModule } from '@shared/components/components.module';
 
 @NgModule({
     imports: [
@@ -26,8 +28,9 @@ import { MatInputModule } from '@angular/material/input';
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
+        ComponentsModule,
     ],
-    declarations: [AgentComponent, NavbarComponent],
+    declarations: [AgentComponent, NavbarComponent, EditAgentComponent],
     providers: []
 })
 export class AgentsModule { }
