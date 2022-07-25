@@ -11,7 +11,7 @@
     <p *ngIf="!agentInfo?.dealer && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1">
       <mat-form-field appearance="outline" class="agent__buttons__text-outline">
         <mat-label>{{'SERVICE_BALANCE' | translate}}</mat-label>
-        <input matInput [value]="balance" [style.color]="balanceFail ? 'var(--special-red)' : 'inherit'" 
+        <input matInput [value]="balance" [style.color]="balanceFail ? 'var(--special-red)' : ''" 
           class="agent__buttons__text" disabled="true">
       </mat-form-field>
     </p>
@@ -25,7 +25,6 @@
     </p>
 
     <div class="dark-theme">
-      <!--margin: 24px 0;-->
       <a class="agent__btn" routerLink="/rates" mat-flat-button color="primary"
         [clicklog]="{class: componentName, message: 'click agent rate'}">
         {{'AGENT_RATE' | translate}} {{agentRate}}
