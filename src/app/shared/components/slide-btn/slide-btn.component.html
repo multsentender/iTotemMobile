@@ -12,9 +12,10 @@
 		(cdkDragMoved)="onDragMoved($event)"
 		(cdkDragEnded)="onDragEnd($event)"
 		[cdkDragFreeDragPosition]="dragPosition"
+		[cdkDragDisabled]="disabled"
 		class="swiper__button">
 		<div *ngIf="isLoading | async; else loggedOut">
-			<img src="{{pathService.assetsPath('/icons/phone.svg')}}" alt="swipe">
+			<img src="{{pathService.assetsPath('/icons/burger.svg')}}" alt="swipe">
 		</div>
 
 		<ng-template #loggedOut>

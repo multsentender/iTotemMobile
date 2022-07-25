@@ -56,12 +56,15 @@ export class MenuComponent implements OnInit {
         .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
     )
 
-    this.api.getSupportedLanguages()
-      .subscribe((data) => {
-        let langs = data.map(el => el.code ? el.code : '')
-        this.translate.addLangs(langs)
-        this.languages = data
-      })
+    this.checkOn = this.checkOn.bind(this)
+    this.checkOff = this.checkOff.bind(this)
+
+    // this.api.getSupportedLanguages()
+    //   .subscribe((data) => {
+    //     let langs = data.map(el => el.code ? el.code : '')
+    //     this.translate.addLangs(langs)
+    //     this.languages = data
+    //   })
   }
 
   logOut(): void {
@@ -85,20 +88,26 @@ export class MenuComponent implements OnInit {
   }
 
 
+  public toggle = true
 
-  onSwitched(): () => Observable<any> {
-    const fnk = () => this.api.getSupportedLanguages()
+  setToggle() {
+    this.toggle = !this.toggle
+  }
+
+
+  checkOn(): Observable<any> {
+    return this.api.getSupportedLanguages()
       .pipe(tap({
         next: (data) => {
-        let langs = data.map(el => el.code ? el.code : '')
-        this.translate.addLangs(langs)
-        this.languages = data
+          let langs = data.map(el => el.code ? el.code : '')
+          this.translate.addLangs(langs)
+          this.languages = data
         }
       }))
-
-    return fnk.bind(this)
   }
-  offSwitched() {
-    console.log('off')
+
+
+  checkOff(): Observable<any> {
+    return this.api.getCurrentUserProfile()
   }
 }
