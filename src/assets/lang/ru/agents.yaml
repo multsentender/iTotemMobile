@@ -9,3 +9,9 @@ SERVICE_BALANCE: |-
 
 DEALER_SHARE: |-
   Баланс
+
+FIELD_AGENT_NAME: |-
+  Имя агента
+
+FIELD_AGENT_RATE: |-
+  Ставка агента

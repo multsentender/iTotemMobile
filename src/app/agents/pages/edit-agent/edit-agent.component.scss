@@ -1,0 +1,12 @@
+.agent{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 48px;
+	padding: 40px var(--container-pad);
+
+	&__form {
+		display: grid;
+		gap: 24px;
+	}
+}

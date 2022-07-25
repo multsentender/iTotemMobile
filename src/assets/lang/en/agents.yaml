@@ -9,3 +9,9 @@ SERVICE_BALANCE: |-
 
 DEALER_SHARE: |-
   Dealer share
+
+FIELD_AGENT_NAME: |-
+  Agent name
+
+FIELD_AGENT_RATE: |-
+  Agent rate
