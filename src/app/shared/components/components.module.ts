@@ -9,9 +9,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { MessageComponent } from './message/message.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SlideBtnComponent } from './slide-btn/slide-btn.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     TranslateModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    DragDropModule
   ],
   declarations: [
     IconInputComponent,
@@ -28,12 +31,14 @@ import { SpinnerComponent } from './spinner/spinner.component';
     ModalComponent,
     MessageComponent,
     SpinnerComponent,
+    SlideBtnComponent,
   ],
   exports: [
     IconInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,
+    SlideBtnComponent
   ],
 })
 export class ComponentsModule { }

@@ -1,0 +1,28 @@
+<div #slider class="swiper">
+	<p class="swiper-unactive__text">{{off_text | translate}}</p>
+	<div class="swiper__mask" [style.transform]="transformMask | async">
+		<p class="swiper-loading__text">{{maskText | async | translate}}</p>
+	</div>
+	<div
+		#sliderButton
+		cdkDragLockAxis="x"
+		cdkDragBoundary=".swiper"
+		cdkDrag
+		(cdkDragStarted)="onDragStart()"
+		(cdkDragMoved)="onDragMoved($event)"
+		(cdkDragEnded)="onDragEnd($event)"
+		[cdkDragFreeDragPosition]="dragPosition"
+		[cdkDragDisabled]="disabled"
+		class="swiper__button">
+		<div *ngIf="isLoading | async; else loggedOut">
+			<img src="{{pathService.assetsPath('/icons/burger.svg')}}" alt="swipe">
+		</div>
+
+		<ng-template #loggedOut>
+			<img
+			[ngClass]="{'swiper__button--active': isActive | async}"
+			src="{{pathService.assetsPath('/icons/arrow.svg')}}"
+			alt="swipe">
+		</ng-template>
+	</div>
+</div>
