@@ -28,21 +28,23 @@
 // Error message
 
 .input__error {
+    display: block;
     color: var(--special-red);
     font-size: 12px;
     position: absolute;
     left: 2px;
-    bottom: -17px;
+    bottom: -14px;
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    line-height: 16px;
 }
 
 .error_visible {
     margin-bottom: -22px;
     .input__error{
-        bottom: 4px;
+        bottom: 2px;
         position: relative;
         white-space: normal;
     }
@@ -61,7 +63,7 @@
 :host ::ng-deep .mat-form-field-should-float {
     .mat-form-field-label-wrapper {
         left: 0px !important;
-        top: -3px;
+        top: -3px !important;
     }
 }
 :host ::ng-deep .mat-form-field-wrapper {
