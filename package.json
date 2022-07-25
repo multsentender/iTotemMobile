@@ -30,6 +30,7 @@
     "@angular/router": "~13.3.9",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@swimlane/ngx-charts": "^20.1.0",
     "@types/path-browserify": "^1.0.0",
     "deepmerge": "^4.2.2",
     "js-yaml": "^4.1.0",

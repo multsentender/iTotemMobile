@@ -11,6 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { GraphComponent } from './components/graph/agent-graph.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -26,8 +30,11 @@ import { MatInputModule } from '@angular/material/input';
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
+        NgxChartsModule,
+        MatTabsModule,
+        MatRippleModule,
     ],
-    declarations: [AgentComponent, NavbarComponent],
+    declarations: [AgentComponent, NavbarComponent, GraphComponent],
     providers: []
 })
 export class AgentsModule { }
