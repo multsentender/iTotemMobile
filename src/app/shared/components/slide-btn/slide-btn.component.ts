@@ -1,5 +1,5 @@
 import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject, Observable, pairwise, skip, tap } from 'rxjs';
 
 import { PathService } from '@shared/services/path.service';
@@ -11,16 +11,17 @@ export enum ModeSlideBtn { button, switch };
   templateUrl: './slide-btn.component.html',
   styleUrls: ['./slide-btn.component.scss']
 })
-export class SlideBtnComponent implements AfterViewInit, OnChanges {
+export class SlideBtnComponent implements AfterViewInit {
   @Input() mode: ModeSlideBtn = ModeSlideBtn.button;
   @Input() off_text: string = 'SLIDE_CONFIRM'
   @Input() pending_on_text: string = 'CONFIRMING'
   @Input() on_text?: string;
   @Input() pending_off_text?: string
 
-  @Input() pending_on!: () => Observable<unknown>;
-  @Input() pending_off?: () => Observable<unknown>;
-  @Input() toggle: boolean = false
+  @Output() pending_on = new EventEmitter<null>();
+  @Output() pending_off = new EventEmitter<null>();
+  @Input() initialValue: boolean = false
+  @Input() toggle?: Observable<Event>
 
 
   public isActive = new BehaviorSubject<boolean>(false);
@@ -28,8 +29,7 @@ export class SlideBtnComponent implements AfterViewInit, OnChanges {
   public disabled: boolean = false
 
   public transformMask = new BehaviorSubject<string>('translateX(0px)')
-  // public maskText = new BehaviorSubject<string | undefined>(this.pending_off_text)
-    // this.isLoading.value ? !this.isActive.value ? this.pending_on_text : this.pending_off_text : this.pending_on
+  public maskText = new BehaviorSubject<string | undefined>(this.pending_off_text)
 
   @ViewChild('slider') parent!: ElementRef<HTMLElement>;
   @ViewChild('sliderButton') dragElement!: ElementRef<HTMLElement>;
@@ -47,26 +47,27 @@ export class SlideBtnComponent implements AfterViewInit, OnChanges {
         // Processing change event
         if(next !== prev) {
           this.isLoading.next(true)
-          if(next){
-            this.pending_on()
-              .pipe(tap({
-                error: () => this.isActive.next(false)
-              }))
-              .subscribe(() => {
-                this.isLoading.next(false)
-                this.mode === ModeSlideBtn.button && this.isActive.next(false)
-              })
-          } else {
-            if(this.mode === ModeSlideBtn.switch && this.pending_off) {
-              this.pending_off().pipe(tap({
-                error: () => this.isActive.next(true)
-              }))
-              .subscribe(() => {
-                this.isLoading.next(false)
-              })
-            } else this.isLoading.next(false)
+          if(next) this.pending_on.emit()
+          else {
+            if(this.mode === ModeSlideBtn.switch) {
+              this.pending_off.emit()
+              return
+            }
+
+            this.isLoading.next(false)
           }
         }
+      })
+
+      this.isLoading.subscribe(val => {
+        this.disabled = val
+        const active = this.isActive.value
+        const currentMaskText =
+          val ?
+          active ? this.pending_off_text : this.pending_on_text :
+          active ? this.on_text : this.pending_on_text
+
+        this.maskText.next(currentMaskText)
       })
   }
 
@@ -108,17 +109,13 @@ export class SlideBtnComponent implements AfterViewInit, OnChanges {
 
 
   ngAfterViewInit(): void {
-    const status = this.toggle && this.mode === ModeSlideBtn.switch
+    const status = this.initialValue && this.mode === ModeSlideBtn.switch
 
     this.getParentPosition()
     this.isActive.next(status)
     this.togglePositionWithMask(status)
-  }
-  ngOnChanges({toggle}: SimpleChanges): void {
-    if(toggle.previousValue !== undefined) {
-      this.parent.nativeElement.classList.add('drag-animating')
-      this.isActive.next(toggle.currentValue)
-    }
+
+    this.toggle?.subscribe(() => this.isLoading.next(false))
   }
 
   onDragStart() {

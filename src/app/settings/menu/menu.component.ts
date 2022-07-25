@@ -11,7 +11,6 @@ import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -56,15 +55,12 @@ export class MenuComponent implements OnInit {
         .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
     )
 
-    this.checkOn = this.checkOn.bind(this)
-    this.checkOff = this.checkOff.bind(this)
-
-    // this.api.getSupportedLanguages()
-    //   .subscribe((data) => {
-    //     let langs = data.map(el => el.code ? el.code : '')
-    //     this.translate.addLangs(langs)
-    //     this.languages = data
-    //   })
+    this.api.getSupportedLanguages()
+      .subscribe((data) => {
+        let langs = data.map(el => el.code ? el.code : '')
+        this.translate.addLangs(langs)
+        this.languages = data
+      })
   }
 
   logOut(): void {
@@ -85,29 +81,5 @@ export class MenuComponent implements OnInit {
 
   support(){
     window.fcWidget?.open()
-  }
-
-
-  public toggle = true
-
-  setToggle() {
-    this.toggle = !this.toggle
-  }
-
-
-  checkOn(): Observable<any> {
-    return this.api.getSupportedLanguages()
-      .pipe(tap({
-        next: (data) => {
-          let langs = data.map(el => el.code ? el.code : '')
-          this.translate.addLangs(langs)
-          this.languages = data
-        }
-      }))
-  }
-
-
-  checkOff(): Observable<any> {
-    return this.api.getCurrentUserProfile()
   }
 }

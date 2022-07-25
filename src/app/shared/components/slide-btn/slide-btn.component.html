@@ -1,7 +1,7 @@
 <div #slider class="swiper">
 	<p class="swiper-unactive__text">{{off_text | translate}}</p>
 	<div class="swiper__mask" [style.transform]="transformMask | async">
-		<p class="swiper-loading__text">TEST</p>
+		<p class="swiper-loading__text">{{maskText | async | translate}}</p>
 	</div>
 	<div
 		#sliderButton
