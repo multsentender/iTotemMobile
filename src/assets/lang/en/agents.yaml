@@ -9,3 +9,33 @@ SERVICE_BALANCE: |-
 
 DEALER_SHARE: |-
   Dealer share
+
+BLOCKED: |-
+  Blocked
+
+BALANCE: |-
+  Balance
+
+OVERDRAFT_SETTINGS: |-
+  Overdraft settings
+
+TOP_UP: |-
+  Top-up
+
+MONEY: |-
+  MONEY
+
+POINTS: |-
+  POINTS
+
+EXPIRES: |-
+  Expires
+
+EXPIRES_IN: |-
+  in
+
+DAYS: |-
+  days
+
+OVERDRAFT: |-
+  Overdraft

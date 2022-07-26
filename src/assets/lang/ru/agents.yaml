@@ -9,3 +9,33 @@ SERVICE_BALANCE: |-
 
 DEALER_SHARE: |-
   Баланс
+
+BLOCKED: |-
+  Заблокирован
+
+BALANCE: |-
+  Баланс
+
+OVERDRAFT_SETTINGS: |-
+  Настройки овердрафта
+
+TOP_UP: |-
+  Пополнение
+
+MONEY: |-
+  ДЕНЬГИ
+
+POINTS: |-
+  ОЧКИ
+
+EXPIRES: |-
+  Истекает
+
+EXPIRES_IN: |-
+  через
+
+DAYS: |-
+  д.
+
+OVERDRAFT: |-
+  Овердрафт

@@ -2,7 +2,6 @@
 
     &__head {
         margin-top: 55px;
-
     }
 
     &__balance {
@@ -11,23 +10,23 @@
         font-weight: 700;
         line-height: 35px;
         letter-spacing: 0px;
-        //text-align: center;
         color: var(--special-accent-darked);
+    }
 
+    &__balance.error {
+        color: var(--special-red)
     }
 
     &__settings {
-        padding: 0 10px;
+        border-radius: 50%;
         grid-area: settings;
         justify-self: end;
     }
 
-    &__settings button {
-        padding: 0 10px;
-    }
-
     &__graph {
         grid-area: graph;
+        height: 250px;
+        margin: 15px 0;
     }
 
     &__expiration {
@@ -39,7 +38,6 @@
         letter-spacing: 0px;
 
         color: var(--special-text-cl);
-
     }
 
     &__overdraft {

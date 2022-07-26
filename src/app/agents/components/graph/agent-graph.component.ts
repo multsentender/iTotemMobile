@@ -1,9 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AgentInfo, BasicTreeNode } from '@shared/models/models';
+import { AclPermission, AgentInfo } from '@shared/models/models';
 import { PathService } from '@shared/services/path.service'
 import { hasPermission } from '@shared/utils/SecurityUtils';
 import { MoneyUtils } from '@shared/utils/MoneyUtils';
-import {  } from '@shared/models/basicTreeNode';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { TranslateService } from '@ngx-translate/core';
+
+interface graphLine {
+  name: string,
+  series: graphDot[]
+}
+interface graphDot {
+  name: Date,
+  value: number
+}
 
 @Component({
   selector: 'app-agent-graph',
@@ -11,65 +21,96 @@ import {  } from '@shared/models/basicTreeNode';
   styleUrls: ['./agent-graph.component.scss']
 })
 export class GraphComponent implements OnInit {
-  multi: any[] = [
+  public yAxisTickFormattingFn = this.yAxisTickFormatting.bind(this);
+  multi: graphLine[] = [
     {
-      "name": "GraphName",
-      "series": [
-        {
-          "name": "1990",
-          "value": 62000000
-        },
-        {
-          "name": "2010",
-          "value": 73000000
-        },
-        {
-          "name": "2011",
-          "value": 89400000
-        }
-      ]
-    },]
-    
-    balance: string = '';
+      "name": this.translate.instant('BALANCE'),
+      "series": []
+    }]
+  yAxisTicks: number[] = [];
 
-    @Input() agentInfo?: AgentInfo
-    @Input() basicTreeNode?: BasicTreeNode
-  // view: any[] = [700, 300];
+  balance: string = '';
+  agentBlocked: boolean = false;
+  overdraft: string = '';
+  expiresIn: string = '';
+  show = {
+    overdraftSettings: false,
+    topUp: false,
+  }
+  min?: number;
+  colorScheme = {
+    domain: ['var(--special-accent)']
+  };
 
-  // // options
-  // legend: boolean = true;
-  // showLabels: boolean = true;
-  // animations: boolean = true;
-  // xAxis: boolean = true;
-  // yAxis: boolean = true;
-  // showYAxisLabel: boolean = true;
-  // showXAxisLabel: boolean = true;
-  // xAxisLabel: string = 'Year';
-  // yAxisLabel: string = 'Population';
-  // timeline: boolean = true;
-
-  // colorScheme = {
-  //   domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  // };
+  @Input() agentInfo?: AgentInfo
 
   constructor(
     public pathService: PathService,
+    private translate: TranslateService,
   ) { }
 
-  settingsClick(): void {
-    console.log('settings')
+  ngOnInit(): void {
+    this.getBalance();
+
+    this.getBalanceGraph();
+
+    if (this.agentInfo?.overdraftExpirationDate && this.agentInfo.overdraft != 0
+      && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
+      this.expiresIn = MoneyUtils.format(this.agentInfo.overdraftExpirationDate, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+
+    if (this.agentInfo?.overdraft != 0 && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
+      this.overdraft = MoneyUtils.format(this.agentInfo!.overdraft, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+
+    if (hasPermission(this.agentInfo || {}, 'AGENT_CHANGE_OVERDRAFT')) this.show.overdraftSettings = true;
+    if (hasPermission(this.agentInfo || {}, 'AGENT_TRANSFER_MONEY')) this.show.topUp = true;
   }
 
-  ngOnInit(): void {
-    if (hasPermission(this.basicTreeNode || {}, 'AGENT_VIEW_OVERDRAFT'))
+  getBalance() {
+    if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
       this.balance = MoneyUtils.format(this.agentInfo!.balance || 0 + (this.agentInfo!.overdraft || 0), this.agentInfo?.currency, this.agentInfo?.currencyCode);
     else
-      MoneyUtils.format(this.agentInfo?.balance, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+      this.balance = MoneyUtils.format(this.agentInfo?.balance, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+
+    if (this.agentInfo?.blocked)
+      this.agentBlocked = true;
+  }
+
+  getBalanceGraph() {
+    //random graph data generating
+    let date = new Date();
+    date.setDate(date.getDate() - 7)
+    for (let i = 6; i > 0; i--) {
+      this.multi[0].series.push({
+        name: new Date(date.setDate(date.getDate() + 1)),
+        value: Math.floor(Math.random() * (Math.abs(this.agentInfo?.balance || 500)) * 2)
+      })
+    }
+    this.multi[0].series.push({
+      name: new Date(),
+      value: this.agentInfo?.balance!
+    });
+
+    //get y axis ticks and min border
+    const graphValues = this.multi[0].series.map((item: graphDot) => item.value)
+    if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT')) {
+      this.yAxisTicks = [0, -(this.agentInfo?.overdraft || 0)]//, this.agentInfo?.balance!
+      this.min = Math.min(...graphValues, -(this.agentInfo?.overdraft || 0))
+    } else {
+      this.yAxisTicks = [0, Math.max(...graphValues), Math.min(...graphValues)]
+    }
+  }
+
+  yAxisTickFormatting(value: number) {
+    return (value == 0) ? 0 : MoneyUtils.format(value, this.agentInfo?.currency, this.agentInfo?.currencyCode);
   }
 
 
-  // onSelect(event: Event) {
-  //   console.log(event);
-  // }
+  xAxisTickFormatting(value: number) {
+    //to hide ticks and remain grid lines
+    return ''
+  }
 
+  tabChanged(e: MatTabChangeEvent) {
+    localStorage.setItem('agentGraph', (e.index === 0) ? 'money' : 'points');
+  }
 }

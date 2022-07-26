@@ -15,6 +15,7 @@ import { GraphComponent } from './components/graph/agent-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { MatRippleModule } from '@angular/material/core';
         NgxChartsModule,
         MatTabsModule,
         MatRippleModule,
+        MatMenuModule,
     ],
     declarations: [AgentComponent, NavbarComponent, GraphComponent],
     providers: []
