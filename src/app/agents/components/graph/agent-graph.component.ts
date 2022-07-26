@@ -21,6 +21,7 @@ interface graphDot {
   styleUrls: ['./agent-graph.component.scss']
 })
 export class GraphComponent implements OnInit {
+  componentName = "GraphComponent";
   public yAxisTickFormattingFn = this.yAxisTickFormatting.bind(this);
   multi: graphLine[] = [
     {
