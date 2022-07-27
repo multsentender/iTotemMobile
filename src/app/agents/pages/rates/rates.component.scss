@@ -1,0 +1,47 @@
+.rates{
+	background-color: var(--special-accent);
+	height: 100%;
+	padding: var(--container-pad);
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+
+// Base rate
+:host ::ng-deep .mat-form-field-wrapper {
+	margin: 0;
+	padding: 0;
+
+	.mat-form-field-label-wrapper {
+		top: -17px;
+	}
+}
+
+.rates__base {
+	width: 100%;
+	padding: 30px 16px;
+	background-color: var(--white);
+	border-radius: 12px;
+
+	&_form{
+		width: 100%;
+		color: var(--special-accent);
+	}
+
+	&_input{
+		// font-size: 30px;
+		// font-weight: 800;
+		text-align: center;
+		display: inline-block;
+
+		&::placeholder{
+			color: transparent;
+		}
+	}
+}
+
+.rates__groups{
+	display: grid;
+	gap: 16px;
+}

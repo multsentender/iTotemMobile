@@ -1,0 +1,26 @@
+
+<section *appSpinner="isLoading" class="rates">
+	<div class="rates__base">
+		<mat-form-field hideRequiredMarker appearance="outline" class="rates__base_form" floatLabel="always">
+			<mat-label class="rates__base_input">{{ 'GLOBAL_RATE' | translate}}</mat-label>
+			<input
+			matInput
+			type="number"
+			class="rates__base_input"/>
+		</mat-form-field>
+	</div>
+	<app-slide-btn
+	*ngIf="!isEditing && editor"
+	off_text="Slide to edit"
+	(pending_on)="onEdit()"
+	></app-slide-btn>
+
+	<div class="rates__groups">
+		<div *ngFor="let item of groupTree" class="rates__groups--item">
+			<h1>{{item.group.groupName}}</h1>
+			<div *ngFor="let child of item.children">
+				<p>{{child.group.groupName}}</p>
+			</div>
+		</div>
+	</div>
+</section>
