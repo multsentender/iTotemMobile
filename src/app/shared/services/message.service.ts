@@ -27,6 +27,9 @@ export class MessageService {
     private errorService: ErrorMessageService,
     private translate: TranslateService,
   ) {
+  }
+
+  public init(): void {
     this.errorService.errors.pipe(
       mergeMap(val => {
         if (val.length > 0)
