@@ -1,6 +1,6 @@
 import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 import { AfterViewInit, Component, ElementRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { BehaviorSubject, Observable, pairwise, skip, tap } from 'rxjs';
+import { BehaviorSubject, Observable, pairwise, skip } from 'rxjs';
 
 import { PathService } from '@shared/services/path.service';
 
