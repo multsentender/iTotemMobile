@@ -1,0 +1,38 @@
+<div class="agent_login">
+    <table mat-table color="primary" [dataSource]="logins" class="agent_login__table mat-elevation-z8">
+
+        <ng-container matColumnDef="login">
+            <th mat-header-cell *matHeaderCellDef> {{'LOGIN' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.login}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> {{'ROLE' | translate}}
+                <a class="agent_login__add" routerLink="/login/new" mat-icon-button color="accent">
+                    <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/plus.svg')}}" alt="add">
+                </a>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon class="agent_login__shield" fontSet="material-icons-outlined">shield</mat-icon>
+                {{element.role.roleName}}
+                <div class="agent_login__settings" *ngIf="show.loginSettings">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="graph settings">
+                        <img class="agent_login__settings-btn" src="{{pathService.assetsPath('/icons/three-dots.svg')}}"
+                            alt="settings">
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <a mat-menu-item [routerLink]="'/login/'+element.id" *ngIf="element.canEdit">
+                            <span>{{'EDIT' | translate}}</span>
+                        </a>
+                        <button mat-menu-item routerLink="/overdraft-settings" *ngIf="element.canEdit">
+                            <span>{{'DELETE' | translate}}</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

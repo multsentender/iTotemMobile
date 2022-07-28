@@ -30,7 +30,8 @@ import {
   AgentRateInfo,
   GetNewAgentRateInfoRequest,
   CreateAgentRequest,
-  UpdateAgentRequest} from '@shared/models/models';
+  UpdateAgentRequest,
+  QueryAgentLoginsRequest} from '@shared/models/models';
 import { ErrorMessageService } from './error-message.service';
 
 
@@ -181,6 +182,11 @@ export class ApiService {
   getAgentServiceBalance(agent: AgentTreeNode): Observable<Money>{
     let request: GetAgentServiceBalanceRequest = { agent }
     return this.sendApiRequest(httpTypes.post, 'getAgentServiceBalance', true, request)
+  }
+
+  queryAgentLogins(agent: AgentTreeNode,includeAll: boolean, includeRooms: boolean, includeDeleted: boolean): Observable<AgentLoginInfo[]>{
+    let request: QueryAgentLoginsRequest = { agent, includeAll, includeRooms, includeDeleted }
+    return this.sendApiRequest(httpTypes.post, 'queryAgentLogins', true, request)
   }
 
 
