@@ -1,5 +1,5 @@
 
-<section *appSpinner="isLoading" class="rates">
+<section *appSpinner="isLoading" class="main_section rates">
 	<div class="rates__base">
 		<mat-form-field hideRequiredMarker appearance="outline" class="rates__base_form" floatLabel="always">
 			<mat-label class="rates__base_input">{{ 'GLOBAL_RATE' | translate}}</mat-label>
@@ -15,12 +15,57 @@
 	(pending_on)="onEdit()"
 	></app-slide-btn>
 
-	<div class="rates__groups">
-		<div *ngFor="let item of groupTree" class="rates__groups--item">
-			<h1>{{item.group.groupName}}</h1>
-			<div *ngFor="let child of item.children">
-				<p>{{child.group.groupName}}</p>
-			</div>
-		</div>
-	</div>
+	<!-- Template rate-text -->
+	<ng-template #rateReadOnly><span class="accordion__rate_text">15 %</span></ng-template>
+
+	<!-- Template Subgroup -->
+	<ng-template #subgroup let-items="children">
+		<mat-accordion class="rates__subgroups" multi>
+			<mat-expansion-panel expanded="false" *ngFor="let item of items;" [hideToggle]="!item.children"
+				class="rates__subgroups--item" [ngClass]="{'rates__subgroups--item--hide': !item.children}">
+
+				<mat-expansion-panel-header>
+					<mat-panel-title class="subgroup__header">
+						<!-- <span class="subgroup__header__range">5 - 15%</span> -->
+						<h3 class="subgroup__header__title">{{item.data.groupName}}</h3>
+					</mat-panel-title>
+					<mat-panel-description class="accordion__description">
+						<input type="number" *ngIf="isEditing; else rateReadOnly" class="accordion__rate_inp" value="15" />
+						<mat-slide-toggle (click)="skipAccordionExpanding($event)"></mat-slide-toggle>
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+
+				<ng-container
+					*ngIf="item.children"
+					[ngTemplateOutlet]="subgroup"
+					[ngTemplateOutletContext]="{ children: item.children }"> </ng-container>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</ng-template>
+
+	<!-- Parent Group -->
+	<mat-accordion  class="rates__groups" multi>
+		<mat-expansion-panel
+			expanded="false"
+			*ngFor="let group of groupTree;"
+			[hideToggle]="!group.children"
+			class="rates__groups--item"
+			[ngClass]="{'rates__groups--item--hide': !group.children}">
+
+			<!-- Accordeon header -->
+			<mat-expansion-panel-header>
+				<mat-panel-title class="accordion__header">
+					<span class="accordion__header__range">5 - 15%</span>
+					<h3 class="accordion__header__title">{{group.data.groupName}}</h3>
+				</mat-panel-title>
+				<mat-panel-description class="accordion__description">
+					<input type="number" *ngIf="isEditing; else rateReadOnly" class="accordion__rate_inp" value="15"/>
+					<mat-slide-toggle (click)="skipAccordionExpanding($event)"></mat-slide-toggle>
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+
+			<!-- Accordeon body -->
+			<ng-container *ngIf="group.children" [ngTemplateOutlet]="subgroup" [ngTemplateOutletContext]="{ children: group.children }"> </ng-container>
+		</mat-expansion-panel>
+	</mat-accordion>
 </section>

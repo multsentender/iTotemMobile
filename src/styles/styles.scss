@@ -112,6 +112,10 @@ $dark-theme: mat.define-dark-theme((
   line-height: 27px;
 }
 
+.main_section{
+  min-height: calc(100vh - 56px);
+}
+
 
 router-outlet ~ * {
   position: absolute;

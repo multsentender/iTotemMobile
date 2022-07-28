@@ -7,9 +7,11 @@ import { hasPermission } from '@shared/utils/SecurityUtils';
 import { GameGroup } from '@shared/models/gameGroup';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/models';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
 
 interface RateGroup {
-  group: GameGroup,
+  data: GameGroup,
   rate: RateInfo,
   children?: RateGroup[]
 }
@@ -46,24 +48,28 @@ export class RatesComponent implements OnInit {
     const filtredGroup: RateGroup[] = Object.values(data.gameGroups).filter(item =>
       !item.service &&
       !item.revenueExclude &&
-      (item.groupName !== ('Tournaments' || 'Jackpots' || 'Internet'))
-    ).map(mapItem => ({
-        group: mapItem,
-        rate: data.groupRateInfo[mapItem.groupId]
-    }))
+      (!['tournaments', 'jackpots', 'internet'].includes(item.groupName?.toLowerCase() || ''))
+    ).map(mapItem => {
+      let rate = data.groupRateInfo[mapItem.groupId]
 
+      rate = {...rate, rate: Math.round(AgentRateUtils.getEffectiveRate(data, rate) * 10000)/100}
 
-    const map = new Map(filtredGroup.map(el => [el.group.groupId, el]));
+      return { data: mapItem, rate }
+    })
+
+// (item.groupName !== ('Tournaments' || 'Jackpots' || 'Internet'))
+    const map = new Map(filtredGroup.map(el => [el.data.groupId, el]));
 
     for (let item of map.values()) {
-      if (item.group.parentId === 0) {
+
+      if (item.data.parentId === 0) {
         continue;
       }
-      const parent = map.get(item.group.parentId);
+      const parent = map.get(item.data.parentId);
       parent!.children = [...parent?.children || [], item];
     }
 
-    return [...map.values()].filter(item => item.group.parentId === 0)
+    return [...map.values()].filter(item => item.data.parentId === 0)
   }
 
 
@@ -72,6 +78,8 @@ export class RatesComponent implements OnInit {
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(agent => {
         this.groupTree = this.generateGroupTree(agent.agentRateInfo)
+        console.log(this.groupTree);
+
 
         this.editor = hasPermission(agent, 'AGENT_EDIT')
         this.editorGroup = hasPermission(agent, 'AGENT_EDIT_GROUP_RATES')
@@ -82,4 +90,10 @@ export class RatesComponent implements OnInit {
   onEdit() {
     this.isEditing = true
   }
+
+
+  skipAccordionExpanding(event: PointerEvent) {
+    event.stopPropagation();
+  }
+
 }
