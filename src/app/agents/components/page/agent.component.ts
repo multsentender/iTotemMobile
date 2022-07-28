@@ -31,7 +31,7 @@ export class AgentComponent implements OnInit {
   dealerShare: string = "";
   agentRate: string = "";
   show = {
-    loginComponent: true,
+    loginComponent: false,
   }
 
   isLoading = true;

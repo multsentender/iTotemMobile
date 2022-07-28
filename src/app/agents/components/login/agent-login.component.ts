@@ -10,7 +10,7 @@ import { hasPermission } from '@shared/utils/SecurityUtils';
   styleUrls: ['./agent-login.component.scss']
 })
 export class AgentLoginsComponent implements OnInit {
-  logins: AgentLoginInfo[] = []
+  logins: AgentLoginInfo[] = [{}, {}]
   show = {
     loginSettings: false,
   }  
