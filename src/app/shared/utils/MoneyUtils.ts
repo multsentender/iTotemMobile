@@ -1,5 +1,5 @@
 import { Money } from '@shared/models/money';
-import Big from 'big.js';
+import {Big} from 'big.js';
 
 export class MoneyFormat {
     multplier: Big = new Big(0.01);

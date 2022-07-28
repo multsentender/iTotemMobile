@@ -21,5 +21,8 @@
     "genDir": "compiled",
     "skipMetadataEmit" : true,
     "strictNullChecks": true
-  }
+  },
+  "exclude": [
+    "./test/**/*.ts"
+  ]
 }
