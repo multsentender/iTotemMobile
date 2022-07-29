@@ -27,7 +27,7 @@ const routes: Routes = [
     component: ComingSoonComponent,
   },
   {
-    path: ':id/login/:id',
+    path: ':id/login/:userId',
     pathMatch: 'full',
     component: ComingSoonComponent,
   }

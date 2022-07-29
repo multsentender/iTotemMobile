@@ -29,7 +29,7 @@
                                 src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings">
                         </button>
                         <mat-menu #menu="matMenu">
-                            <a mat-menu-item [routerLink]="'login/'+agentInfo.id" *ngIf="element.canEdit"
+                            <a mat-menu-item [routerLink]="'login/'+ element.userId" *ngIf="element.canEdit"
                                 [clicklog]="{class: componentName, message: 'click agent login edit'}">
                                 <span>{{'EDIT' | translate}}</span>
                             </a>
