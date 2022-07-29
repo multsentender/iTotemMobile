@@ -1,0 +1,88 @@
+.graph {
+
+    &__head {
+        margin-top: 55px;
+    }
+
+    &__balance {
+        grid-area: balance;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 35px;
+        letter-spacing: 0px;
+        color: var(--special-accent-darked);
+    }
+
+    &__balance.error {
+        color: var(--special-red)
+    }
+
+    &__settings {
+        border-radius: 50%;
+        grid-area: settings;
+        justify-self: end;
+    }
+
+    &__graph {
+        grid-area: graph;
+        height: 250px;
+        margin: 15px 0;
+    }
+
+    &__expiration {
+        grid-area: expiration;
+
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0px;
+
+        color: var(--special-text-cl);
+    }
+
+    &__overdraft {
+        justify-self: end;
+        grid-area: overdraft;
+
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0px;
+    }
+
+    &__expiration .bold,
+    &__overdraft .bold {
+        font-weight: 600;
+    }
+
+
+    &__grid {
+        width: 100%;
+        display: grid;
+        grid-template-areas:
+            "balance balance balance settings"
+            "graph graph graph graph"
+            "expiration expiration overdraft overdraft"
+        ;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.graph-component {
+    margin-left: 20px;
+    margin: 55px 16px 0 16px;
+}
+
+.dashboard-card {
+    padding: 20px 14px;
+    border-radius: 8px;
+
+    background-color: var(--white);
+    width: 100%;
+    height: calc(100% - 30px);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
