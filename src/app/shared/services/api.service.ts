@@ -31,7 +31,8 @@ import {
   GetNewAgentRateInfoRequest,
   CreateAgentRequest,
   UpdateAgentRequest,
-  QueryAgentLoginsRequest} from '@shared/models/models';
+  QueryAgentLoginsRequest,
+  DeleteAgentLoginInfoRequest} from '@shared/models/models';
 import { ErrorMessageService } from './error-message.service';
 
 
@@ -184,9 +185,14 @@ export class ApiService {
     return this.sendApiRequest(httpTypes.post, 'getAgentServiceBalance', true, request)
   }
 
-  queryAgentLogins(agent: AgentTreeNode,includeAll: boolean, includeRooms: boolean, includeDeleted: boolean): Observable<AgentLoginInfo[]>{
+  queryAgentLogins(agent?: AgentTreeNode, includeAll?: boolean, includeRooms?: boolean, includeDeleted?: boolean): Observable<AgentLoginInfo[]>{
     let request: QueryAgentLoginsRequest = { agent, includeAll, includeRooms, includeDeleted }
     return this.sendApiRequest(httpTypes.post, 'queryAgentLogins', true, request)
+  }
+
+  deleteAgentLoginInfo(agentId?: number, userId?: number, login?: string): Observable<void> {
+    let request: DeleteAgentLoginInfoRequest = { agentId, userId, login }
+    return this.sendApiRequest(httpTypes.post, 'deleteAgentLoginInfo', true, request)
   }
 
 

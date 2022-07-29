@@ -13,7 +13,8 @@
 
         <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef> {{'ROLE' | translate}}
-                <a class="agent_login__add" routerLink="/login/new" mat-icon-button color="accent">
+                <a class="agent_login__add" routerLink="login/new" mat-icon-button color="accent"
+                    [clicklog]="{class: componentName, message: 'click agent login new'}">
                     <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/plus.svg')}}" alt="add">
                 </a>
             </th>
@@ -28,10 +29,11 @@
                                 src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings">
                         </button>
                         <mat-menu #menu="matMenu">
-                            <a mat-menu-item [routerLink]="'/login/'+element.id" *ngIf="element.canEdit">
+                            <a mat-menu-item [routerLink]="'login/'+agentInfo.id" *ngIf="element.canEdit"
+                                [clicklog]="{class: componentName, message: 'click agent login edit'}">
                                 <span>{{'EDIT' | translate}}</span>
                             </a>
-                            <button mat-menu-item routerLink="/overdraft-settings" *ngIf="element.canEdit">
+                            <button mat-menu-item (click)="confirmDeleteLogin(element)" *ngIf="element.canEdit">
                                 <span>{{'DELETE' | translate}}</span>
                             </button>
                         </mat-menu>

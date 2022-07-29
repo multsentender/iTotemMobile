@@ -21,3 +21,9 @@ LOGIN: |-
 
 ROLE: |-
   Role
+
+LOGIN_DELETE_TITLE: |-
+  Confirm delete
+
+LOGIN_DELETE_MESSAGE: |-
+  Are you sure you want to delete login 
