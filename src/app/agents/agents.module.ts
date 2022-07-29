@@ -13,6 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { ComponentsModule } from '@shared/components/components.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { AgentLoginsComponent } from './components/login/agent-login.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
     imports: [
@@ -29,8 +32,10 @@ import { ComponentsModule } from '@shared/components/components.module';
         MatFormFieldModule,
         MatInputModule,
         ComponentsModule,
+        MatMenuModule,
+        MatTableModule,
     ],
-    declarations: [AgentComponent, NavbarComponent, EditAgentComponent],
+    declarations: [AgentComponent, NavbarComponent, EditAgentComponent, AgentLoginsComponent],
     providers: []
 })
 export class AgentsModule { }

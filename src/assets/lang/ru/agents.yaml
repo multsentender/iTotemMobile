@@ -15,3 +15,15 @@ FIELD_AGENT_NAME: |-
 
 FIELD_AGENT_RATE: |-
   Ставка агента
+
+LOGIN: |-
+  Логин
+
+ROLE: |-
+  Роль
+
+LOGIN_DELETE_TITLE: |-
+  Подтверждение удаления
+
+LOGIN_DELETE_MESSAGE: |-
+  Вы уверены что хотите удалить логин 

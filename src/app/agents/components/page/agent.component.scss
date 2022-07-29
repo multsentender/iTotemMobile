@@ -19,8 +19,9 @@
     }
 
     &__buttons {
-        padding: 33px 16px;
+        padding: 33px 16px 0 16px;
         margin-top: 55px;
+        margin-bottom: 33px;
 
         &__text-outline {
             width: 100%;

@@ -1,0 +1,115 @@
+.agent_login {
+    overflow-wrap: anywhere;
+    margin: 33px 16px;
+    color: var(--white);
+
+    &__table {
+        background-color: transparent;
+        box-shadow: none;
+
+        width: 100%;
+    }
+
+    &__add {
+        background-color: var(--white);
+        border-radius: 8px;
+        height: 42px;
+        width: 42px;
+
+        &-plus {
+            height: 18px;
+        }
+    }
+
+    &__shield {
+        height: 22px;
+        font-size: 22px;
+    }
+
+    &__settings-btn {
+        height: 20px;
+        filter: brightness(100) saturate(100%); //white color of svg
+    }
+}
+
+
+mat-row,
+mat-header-row,
+mat-footer-row,
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+    border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+    padding-right: 0;
+    width: 50%;
+}
+
+th.mat-header-cell {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+
+    align-items: end;
+    padding-bottom: 12px;
+    vertical-align: bottom;
+}
+
+td.mat-cell,
+td.mat-footer-cell {
+    font-size: 16px;
+    font-weight: 400;
+    height: 71px;
+    color: var(--white);
+}
+
+td.mat-cell:last-of-type .role_row,
+td.mat-footer-cell:last-of-type .role_row {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    width: auto;
+    align-items: center;
+    column-gap: 12px;
+}
+
+th.mat-header-cell:last-of-type {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+
+    width: auto;
+    height: inherit;
+}
+
+.ghost {
+    max-width: 55%;
+    height: 18px;
+    color: var(--special-accent-50a);
+    background-color: var(--special-accent-50a);
+    border-radius: var(--radius-def);
+    opacity: 0.4;
+
+    animation: ghost-loading 1s linear infinite alternate;
+}
+td.mat-cell:first-of-type .ghost{
+    max-width: 50%
+}
+
+@keyframes ghost-loading {
+    0% {
+        background-color: hsl(200, 20%, 80%);
+    }
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+}
