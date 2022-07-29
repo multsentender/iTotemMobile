@@ -19,11 +19,16 @@
     }
 
     &__buttons {
-        padding: 33px 16px;
+        padding: 33px 16px 0 16px;
         margin-top: 55px;
+        margin-bottom: 33px;
 
         &__text-outline {
             width: 100%;
+           
+            ::ng-deep .mat-form-field-label {
+                color: rgba($white, .4) !important;
+            }
         }
 
         &__text {
@@ -33,20 +38,13 @@
     }
 
 }
-
-.mat-input-element:disabled {
-    color: var(--white);
+::ng-deep .agent__buttons__text-outline.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgba($white, .4) !important;
 }
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+::ng-deep .agent__buttons__text-outline.mat-form-field-appearance-outline .mat-form-field-infix {
     padding: calc(17px - 0.421875em) 0 17px 0;
 }
 
-//input outline color!!!
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-    color: rgba($white, .4) !important;
-}
-
-::ng-deep .mat-form-field-label {
-    color: rgba($white, .4) !important;
+.mat-input-element:disabled {
+    color: var(--white);
 }

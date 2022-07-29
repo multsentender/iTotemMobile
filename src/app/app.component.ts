@@ -9,6 +9,7 @@ import { LogService, LogConfig, Logger, Log } from '@shared/services/log.service
 import { PathService } from '@shared/services/path.service'
 
 import { fadeAnimation } from './animations';
+import { MessageService } from '@shared/services/message.service';
 
 declare const baseAssetsUrl: string;// – базовый урл к каталогу assets
 declare const baseRouteUrl: string;// – базовый урл для HTML5 роунтина
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit {
     private location: Location,
     protected logService: LogService,
     public pathService: PathService,
+    private messageService: MessageService
     ) {
 
     try { environment.userID = userID; } catch (e) { }
@@ -82,6 +84,8 @@ export class AppComponent implements OnInit {
     this.translate.addLangs(['en', 'ru']);
     this.translate.setDefaultLang('en');
     this.translate.use(environment.lang);
+
+    this.messageService.init()
   }
 
   ngOnInit(): void {

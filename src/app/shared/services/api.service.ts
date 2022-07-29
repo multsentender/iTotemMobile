@@ -5,7 +5,7 @@ import { Observable, of, throwError, mergeMap, retryWhen, delay, delayWhen, tap,
 import { CacheService } from '@shared/cache/cache.service';
 import { cachedRequests } from '@shared/cache/cache-decorator';
 import { environment } from '../../../environments/environment';
-import { Router } from '@angular/router';
+
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
 import { ModalService } from './modal.service';
 
@@ -23,10 +23,16 @@ import {
   ValidateAgentPasswordRequest,
   ValidateEMailRequest,
   ValidationStatus,
-  Notification, 
+  Notification,
   Money,
   GetAgentServiceBalanceRequest,
-  AgentTreeNode} from '@shared/models/models';
+  AgentTreeNode,
+  AgentRateInfo,
+  GetNewAgentRateInfoRequest,
+  CreateAgentRequest,
+  UpdateAgentRequest,
+  QueryAgentLoginsRequest,
+  DeleteAgentLoginInfoRequest} from '@shared/models/models';
 import { ErrorMessageService } from './error-message.service';
 
 
@@ -179,13 +185,23 @@ export class ApiService {
     return this.sendApiRequest(httpTypes.post, 'getAgentServiceBalance', true, request)
   }
 
+  queryAgentLogins(agent?: AgentTreeNode, includeAll?: boolean, includeRooms?: boolean, includeDeleted?: boolean): Observable<AgentLoginInfo[]>{
+    let request: QueryAgentLoginsRequest = { agent, includeAll, includeRooms, includeDeleted }
+    return this.sendApiRequest(httpTypes.post, 'queryAgentLogins', true, request)
+  }
+
+  deleteAgentLoginInfo(agentId?: number, userId?: number, login?: string): Observable<void> {
+    let request: DeleteAgentLoginInfoRequest = { agentId, userId, login }
+    return this.sendApiRequest(httpTypes.post, 'deleteAgentLoginInfo', true, request)
+  }
+
 
   // Notifications
 	@cachedRequests(function() {return this.cache}, true, 20 * 60 * 1000)
   clearSelfNotifications(): Observable<Notification[]>{
     return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
   }
-  
+
 	@cachedRequests(function() {return this.cache}, false, 20 * 60 * 1000)
   getSelfNotifications(): Observable<Notification[]>{
     return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
@@ -202,5 +218,22 @@ export class ApiService {
   getTreeChildren(parent?: BasicTreeNode): Observable<BasicTreeNode[]> {
     let request: GetTreeChildrenRequest = {parent}
     return this.sendApiRequest(httpTypes.post, 'getTreeChildren', true, request)
+  }
+
+
+  // Agent
+  getNewAgentRateInfo(parentAgentId: number): Observable<AgentRateInfo> {
+    let request: GetNewAgentRateInfoRequest = {parentAgentId}
+    return this.sendApiRequest(httpTypes.post, 'getNewAgentRateInfo', true, request)
+  }
+
+  updateAgent(agent: AgentTreeNode, loginInfo?: AgentLoginInfo, rateInfo?: AgentRateInfo, extraFields?: { [key: string]: string; }): Observable<AgentTreeNode> {
+    let request: UpdateAgentRequest = {agent, loginInfo, rateInfo, extraFields}
+    return this.sendApiRequest(httpTypes.post, 'updateAgent', false, request)
+  }
+
+  createAgent(parent: AgentTreeNode, agent: AgentTreeNode, loginInfo?: AgentLoginInfo, rateInfo?: AgentRateInfo, extraFields?: { [key: string]: string; }): Observable<AgentTreeNode> {
+    let request: CreateAgentRequest = { parent, agent, loginInfo, rateInfo, extraFields }
+    return this.sendApiRequest(httpTypes.post, 'createAgent', false, request)
   }
 }

@@ -13,6 +13,7 @@ import { MoneyUtils } from '@shared/utils/MoneyUtils';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/rateInfo';
 import { TranslateService } from '@ngx-translate/core';
+import { hasPermission } from '@shared/utils/SecurityUtils';
 
 @Component({
   selector: 'app-agent',
@@ -29,6 +30,9 @@ export class AgentComponent implements OnInit {
   balanceFail: boolean = false;
   dealerShare: string = "";
   agentRate: string = "";
+  show = {
+    loginComponent: false,
+  }
 
   isLoading = true;
   setLoad(val: boolean) {
@@ -57,6 +61,7 @@ export class AgentComponent implements OnInit {
         if (this.agentInfo?.agentRateInfo)
           this.getAgentRate(this.agentInfo?.agentRateInfo)
 
+        if (hasPermission(this.agentInfo, 'AGENT_ACL_VIEW')) this.show.loginComponent = true;
       })
   }
 

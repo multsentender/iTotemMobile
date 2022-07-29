@@ -12,12 +12,12 @@
 
 
 export interface GameGroup { 
-    groupId?: number;
+    groupId: number;
     groupName?: string;
     revenueExclude?: boolean;
     colorIndex?: number;
     blocked?: boolean;
-    parentId?: number;
+    parentId: number;
     service?: boolean;
     costRate?: number;
     minSaleRate?: number;

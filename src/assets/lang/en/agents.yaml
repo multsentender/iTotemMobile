@@ -39,3 +39,21 @@ DAYS: |-
 
 OVERDRAFT: |-
   Overdraft
+  
+FIELD_AGENT_NAME: |-
+  Agent name
+
+FIELD_AGENT_RATE: |-
+  Agent rate
+
+LOGIN: |-
+  Login
+
+ROLE: |-
+  Role
+
+LOGIN_DELETE_TITLE: |-
+  Confirm delete
+
+LOGIN_DELETE_MESSAGE: |-
+  Are you sure you want to delete login 

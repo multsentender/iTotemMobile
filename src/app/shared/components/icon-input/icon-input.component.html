@@ -1,5 +1,6 @@
 <div class="form" [ngClass]="{error_visible: !hideError}">
     <mat-form-field
+        hideRequiredMarker
         appearance="outline"
         class="input__wrapper">
         <mat-label>{{label ? label : placeholder | translate}}</mat-label>

@@ -10,6 +10,7 @@ import { AgentTreeNode, LanguageInfo, RoomTreeNode } from '@shared/models/models
 import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
+import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
 
 @Component({
   selector: 'app-menu',
@@ -42,6 +43,10 @@ export class MenuComponent implements OnInit {
   ) {
     this.treeNodeService.agents$.subscribe((val) => this.agents = val)
     this.treeNodeService.rooms$.subscribe((val) => this.rooms = val)
+  }
+
+  public get modeSlideBtn(): typeof ModeSlideBtn {
+    return ModeSlideBtn;
   }
 
   ngOnInit(): void {

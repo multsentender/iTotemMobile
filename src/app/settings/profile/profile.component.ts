@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BehaviorSubject, catchError, filter, finalize, skip, tap } from 'rxjs';
+import { BehaviorSubject, filter, skip } from 'rxjs';
 
 import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';

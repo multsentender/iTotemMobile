@@ -39,3 +39,21 @@ DAYS: |-
 
 OVERDRAFT: |-
   Овердрафт
+  
+FIELD_AGENT_NAME: |-
+  Имя агента
+
+FIELD_AGENT_RATE: |-
+  Ставка агента
+
+LOGIN: |-
+  Логин
+
+ROLE: |-
+  Роль
+
+LOGIN_DELETE_TITLE: |-
+  Подтверждение удаления
+
+LOGIN_DELETE_MESSAGE: |-
+  Вы уверены что хотите удалить логин 
