@@ -171,20 +171,25 @@
 
 
 // Subgroups
-.rates__subgroups--item{
-	box-sizing: border-box;
-	margin: 0;
-	background-color: transparent;
-	border-top: 1px solid var(--white);
-	height: 75px;
-
+.rates__subgroups{
+	gap: 0;
+	.rates__groups--item{
+		box-sizing: border-box;
+		margin: 0;
+		background-color: transparent;
+		border-top: 1px solid var(--white);
+		height: 75px;
+	}
 	.accordion__rate_text{
 		font-weight: 500 !important;
 	}
-}
-.subgroup__header__title{
-	font-size: 14px;
-	font-weight: 400;
+	.accordion__header__title{
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.accordion__header{
+		transform: translate(0);
+	}
 }
 
 :host ::ng-deep .rates__subgroups{

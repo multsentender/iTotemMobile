@@ -7,7 +7,6 @@ import { hasPermission } from '@shared/utils/SecurityUtils';
 import { GameGroup } from '@shared/models/gameGroup';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/models';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
 
 interface RateGroup {
@@ -52,7 +51,7 @@ export class RatesComponent implements OnInit {
     ).map(mapItem => {
       let rate = data.groupRateInfo[mapItem.groupId]
 
-      rate = {...rate, rate: Math.round(AgentRateUtils.getEffectiveRate(data, rate) * 10000)/100}
+      rate = {...rate, rate: AgentRateUtils.getEffectiveRate(data, rate)}
 
       return { data: mapItem, rate }
     })
@@ -95,5 +94,4 @@ export class RatesComponent implements OnInit {
   skipAccordionExpanding(event: PointerEvent) {
     event.stopPropagation();
   }
-
 }
