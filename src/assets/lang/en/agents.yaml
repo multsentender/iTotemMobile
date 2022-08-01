@@ -57,3 +57,12 @@ LOGIN_DELETE_TITLE: |-
 
 LOGIN_DELETE_MESSAGE: |-
   Are you sure you want to delete login 
+
+NEW_AGENT: |-
+  New Agent
+
+NEW_ROOM: |-
+  New Room
+
+SUB_STRUCTURE: |-
+  Sub-structure

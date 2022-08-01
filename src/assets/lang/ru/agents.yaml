@@ -57,3 +57,12 @@ LOGIN_DELETE_TITLE: |-
 
 LOGIN_DELETE_MESSAGE: |-
   Вы уверены что хотите удалить логин 
+
+NEW_AGENT: |-
+  Новый агент
+
+NEW_ROOM: |-
+  Новая комната
+
+SUB_STRUCTURE: |-
+  Субструктуры
