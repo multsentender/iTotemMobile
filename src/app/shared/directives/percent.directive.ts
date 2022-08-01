@@ -9,7 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     multi: true
   }],
   host: {
-    "[value]": 'ngModel',
+    "[(value)]": 'ngModel',
     '(blur)': 'onBlur()'
   }
 })
@@ -21,7 +21,8 @@ export class PercentDirective implements ControlValueAccessor {
   private toNumber!: number;
   private toPercent!: number;
 
-  public onChangeCallback: any = (_: any) => { console.log(_) }
+  public onChangeCallback: any = (val: any) => console.log(val);
+
   public onTouched: any = () => { /*Empty*/ }
 
   onBlur() {
@@ -34,7 +35,6 @@ export class PercentDirective implements ControlValueAccessor {
   }
 
   get value(): any {
-    console.log(this.innerValue);
     return this.innerValue;
   };
 

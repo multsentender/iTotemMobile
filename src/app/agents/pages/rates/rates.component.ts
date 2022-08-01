@@ -8,10 +8,16 @@ import { GameGroup } from '@shared/models/gameGroup';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/models';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
+import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
+import { rateValidator } from '@shared/utils/formValidators';
 
+
+interface GroupRateOptions extends RateInfo {
+  defaultRate?: boolean
+}
 interface RateGroup {
   data: GameGroup,
-  rate: RateInfo,
+  rateInfo: GroupRateOptions,
   children?: RateGroup[]
 }
 
@@ -29,16 +35,22 @@ export class RatesComponent implements OnInit {
     this.isLoading = val
   }
 
+  private agentRateInfo?: AgentRateInfo
+
   // Permitions
   public editor: boolean = false
   public editorGroup: boolean = false
   public radioEditor: boolean = false
 
+  public forms: FormGroup
 
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService
-  ) { }
+    private api: ApiService,
+    private fb: FormBuilder
+  ) {
+    this.forms = fb.group({})
+  }
 
 
   generateGroupTree(data?: AgentRateInfo) {
@@ -49,18 +61,22 @@ export class RatesComponent implements OnInit {
       !item.revenueExclude &&
       (!['tournaments', 'jackpots', 'internet'].includes(item.groupName?.toLowerCase() || ''))
     ).map(mapItem => {
-      let rate = data.groupRateInfo[mapItem.groupId]
+      let rateInfo: GroupRateOptions = data.groupRateInfo[mapItem.groupId]
+      rateInfo = {
+        ...rateInfo,
+        rate: AgentRateUtils.getEffectiveRate(data, rateInfo),
+        defaultRate: AgentRateUtils.checkRateForDefault(data, rateInfo)
+      }
 
-      rate = {...rate, rate: AgentRateUtils.getEffectiveRate(data, rate)}
-
-      return { data: mapItem, rate }
+      return { data: mapItem, rateInfo }
     })
 
-// (item.groupName !== ('Tournaments' || 'Jackpots' || 'Internet'))
+    // generate formGroups
+    this.buildFormFromData(filtredGroup)
+
     const map = new Map(filtredGroup.map(el => [el.data.groupId, el]));
 
     for (let item of map.values()) {
-
       if (item.data.parentId === 0) {
         continue;
       }
@@ -72,11 +88,22 @@ export class RatesComponent implements OnInit {
   }
 
 
+  addFormGroup(id: number, rateInfo: RateInfo) {
+    this.forms.addControl(String(id), this.fb.group({
+      rate: this.fb.control(rateInfo.rate),
+      excluded: this.fb.control(rateInfo.excluded || false)
+    }))
+  }
+  buildFormFromData(data: RateGroup[]) {
+    data.forEach((el) => this.addFormGroup(el.data.groupId, el.rateInfo))
+  }
+
   ngOnInit(): void {
     this.api.getAgentInfo(this.route.snapshot.params['id'])
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(agent => {
-        this.groupTree = this.generateGroupTree(agent.agentRateInfo)
+        this.agentRateInfo = agent.agentRateInfo
+        this.groupTree = this.generateGroupTree(this.agentRateInfo)
         console.log(this.groupTree);
 
 
@@ -93,5 +120,9 @@ export class RatesComponent implements OnInit {
 
   skipAccordionExpanding(event: PointerEvent) {
     event.stopPropagation();
+  }
+
+  onSubmit() {
+    console.log(this.forms.value);
   }
 }

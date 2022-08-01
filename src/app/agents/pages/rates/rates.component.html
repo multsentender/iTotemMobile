@@ -17,7 +17,7 @@
 
 	<!-- Template Group -->
 	<ng-template #group let-items="children" let-isSubgroup="isSubgroup">
-		<mat-accordion class="rates__groups" [ngClass]="{'rates__subgroups': isSubgroup, 'rates--edit': isEditing}"  multi>
+		<mat-accordion [formGroup]="forms" class="rates__groups" [ngClass]="{'rates__subgroups': isSubgroup, 'rates--edit': isEditing}"  multi>
 			<mat-expansion-panel
 				expanded="false" *ngFor="let item of items;"
 				[hideToggle]="!item.children"
@@ -29,16 +29,21 @@
 						<span class="accordion__header__range" *ngIf="!isSubgroup">5 - 15%</span>
 						<h3 class="accordion__header__title">{{item.data.groupName}}</h3>
 					</mat-panel-title>
-					<mat-panel-description class="accordion__description">
-
-						<input type="number"
+					<mat-panel-description [formGroupName]="item.data.groupId" class="accordion__description">
+						<input
+							type="text"
 							*ngIf="isEditing; else rateReadOnly"
 							appPercentDirective
+							formControlName="rate"
 							(click)="skipAccordionExpanding($event)"
 							class="accordion__rate_inp" />
-						<ng-template #rateReadOnly><span class="accordion__rate_text">{{0.15 | percent}}</span></ng-template>
+						<ng-template #rateReadOnly>
+							<span class="accordion__rate_text">{{item.rateInfo.rate | percent}}</span>
+						</ng-template>
 
-						<mat-slide-toggle (click)="skipAccordionExpanding($event)"></mat-slide-toggle>
+						<mat-slide-toggle
+							formControlName="excluded"
+							(click)="skipAccordionExpanding($event)"></mat-slide-toggle>
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 
@@ -52,4 +57,6 @@
 
 
 	<ng-container [ngTemplateOutlet]="group" [ngTemplateOutletContext]="{ children: groupTree, isSubgroup: false }"> </ng-container>
+
+	<button (click)="onSubmit()">Submit</button>
 </section>
