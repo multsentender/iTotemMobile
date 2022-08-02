@@ -32,7 +32,9 @@ import {
   CreateAgentRequest,
   UpdateAgentRequest,
   QueryAgentLoginsRequest,
-  DeleteAgentLoginInfoRequest} from '@shared/models/models';
+  DeleteAgentLoginInfoRequest,
+  SetAgentBlockedRequest,
+  DeleteTreeItemRequest} from '@shared/models/models';
 import { ErrorMessageService } from './error-message.service';
 
 
@@ -193,6 +195,17 @@ export class ApiService {
   deleteAgentLoginInfo(agentId?: number, userId?: number, login?: string): Observable<void> {
     let request: DeleteAgentLoginInfoRequest = { agentId, userId, login }
     return this.sendApiRequest(httpTypes.post, 'deleteAgentLoginInfo', true, request)
+  }
+
+  setAgentBlocked(agent: AgentTreeNode, blocked?: boolean): Observable<void> {
+    let request: SetAgentBlockedRequest = {agent, blocked}
+    return this.sendApiRequest(httpTypes.post, 'setAgentBlocked', true, request)
+  }
+
+  //can delete room/agent
+  deleteTreeItem(node: BasicTreeNode): Observable<void> {
+    let request: DeleteTreeItemRequest = {node}
+    return this.sendApiRequest(httpTypes.post, 'deleteTreeItem', true, request)
   }
 
 

@@ -55,7 +55,7 @@ export class AgentLoginsComponent implements OnInit {
 
     this.modalService.initingModal({
       submitText: 'CONFIRM',
-      title: "LOGIN_DELETE_TITLE",
+      title: "DELETE_TITLE",
       message: `${this.translate.instant("LOGIN_DELETE_MESSAGE")} ${login.login}?`,
       submitFunc: this.deleteLogin.bind(this, login)
     })

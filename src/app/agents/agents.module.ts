@@ -22,6 +22,10 @@ import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { ComponentsModule } from '@shared/components/components.module';
 import { AgentLoginsComponent } from './components/login/agent-login.component';
 import { MatTableModule } from '@angular/material/table';
+import { AgentSubStructureComponent } from './components/agent-sub-structure/agent-sub-structure.component';
+
+import { FormatMoneyPointsPipe } from './formatMoneyPoints.pipe';
+import { RatesPipe } from './rates.pipe';
 
 @NgModule({
     imports: [
@@ -44,7 +48,16 @@ import { MatTableModule } from '@angular/material/table';
         ComponentsModule,
         MatTableModule,
     ],
-    declarations: [AgentComponent, NavbarComponent, GraphComponent, EditAgentComponent, AgentLoginsComponent],
+    declarations: [
+        AgentComponent, 
+        NavbarComponent, 
+        GraphComponent, 
+        EditAgentComponent, 
+        AgentLoginsComponent, 
+        AgentSubStructureComponent,
+        FormatMoneyPointsPipe,
+        RatesPipe,
+    ],
     providers: []
 })
 export class AgentsModule { }

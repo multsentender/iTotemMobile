@@ -30,7 +30,12 @@ const routes: Routes = [
     path: ':id/login/:userId',
     pathMatch: 'full',
     component: ComingSoonComponent,
-  }
+  },
+  //TODO  
+  {
+    path: ':id/add-room',
+    component: ComingSoonComponent,
+  },
 ];
 
 @NgModule({

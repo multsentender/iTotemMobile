@@ -1,0 +1,122 @@
+<div class="agent sub_struct">
+
+  <div class="sub_struct__head">
+    <div class="sub_struct__head-text">
+      {{'SUB_STRUCTURE' | translate}}
+    </div>
+    <div class="sub_struct__add" *ngIf="show.addAgent || show.addRoom">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="graph settings">
+        <!-- <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/plus.svg')}}" alt="add"> -->
+        <mat-icon class="sub_struct__add-plus">add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item routerLink="add-sub-agent/" *ngIf="show.addAgent"
+          [clicklog]="{class: componentName, message: 'click new agent'}">
+          <span>{{'NEW_AGENT' | translate}}</span>
+        </a>
+        <a mat-menu-item routerLink="add-room/" *ngIf="show.addRoom"
+          [clicklog]="{class: componentName, message: 'click new room'}">
+          <span>{{'NEW_ROOM' | translate}}</span>
+        </a>
+      </mat-menu>
+    </div>
+  </div>
+
+
+
+  <div class="sub_struct__cards">
+    <div *ngFor="let sub of subs">
+
+      <div [ngSwitch]="sub._c">
+        <div *ngSwitchCase="'RoomTreeNode'" class="sub_struct__card" routerLink = "/room/{{sub.id}}" 
+          [clicklog]="{class: componentName, message: 'click agent substructure room'}">
+          <div class="sub_struct__card-icon">
+            <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/device-room.svg')}}" alt="icon">
+          </div>
+          <div class="sub_struct__card-name">{{sub.label}}</div>
+          <div class="sub_struct__card-balance"></div>
+          <div class="sub_struct__card-settings">
+            <button mat-icon-button [matMenuTriggerFor]="submenu" aria-label="sub settings"
+              class="sub_struct__card-settings-btn" (click)="$event.stopPropagation()">
+              <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings"
+                class="sub_struct__card-settings-icon">
+            </button>
+            <mat-menu #submenu="matMenu">
+              <a mat-menu-item [routerLink]="'/room/'+sub.id+'/edit'" *ngIf="show.editRoom"
+                [clicklog]="{class: componentName, message: 'click substructure room edit in settings'}">
+                <span>{{'EDIT' | translate}}</span>
+              </a>
+              <button mat-menu-item (click)="deleteRoom(sub)" *ngIf="show.deleteRoom"
+                [clicklog]="{class: componentName, message: 'click substructure room delete in settings'}">
+                <span>{{'DELETE' | translate}}</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div class="sub_struct__card__rate">
+            <div class="sub_struct__card__rate-text">
+              {{sub.kioskCnt + sub.pcCnt + sub.usbCnt + sub.rechargerCnt + sub.phoneUserCnt}}
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngSwitchCase="'AgentTreeNode'" class="sub_struct__card" 
+          [class.blocked]="sub.blocked || sub.deleted"  routerLink = "/agent/{{sub.id}}"
+          [clicklog]="{class: componentName, message: 'click agent substructure agent'}">
+          <div class="sub_struct__card-icon">
+            <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/subagent.svg')}}" alt="icon">
+          </div>
+          <div class="sub_struct__card-name">{{sub.label}}</div>
+          <div class="sub_struct__card-balance">{{sub.balance + (show.overdraft ? sub.overdraft : 0) | formatMoneyPoints:0:agentInfo}}</div>
+          <div class="sub_struct__card-settings">
+            <button mat-icon-button [matMenuTriggerFor]="submenu" aria-label="sub settings"
+              class="sub_struct__card-settings-btn" (click)="$event.stopPropagation()">
+              <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings"
+                class="sub_struct__card-settings-icon">
+            </button>
+            <mat-menu #submenu="matMenu">
+              <a mat-menu-item [routerLink]="'/agent/'+sub.id+'/edit'" *ngIf="show.editAgent"
+                [clicklog]="{class: componentName, message: 'click substructure agent edit in settings'}">
+                <span>{{'EDIT' | translate}}</span>
+              </a>
+              <button mat-menu-item (click)="unBlockAgentConfirm(sub)" *ngIf="show.unBlockAgent"
+                [clicklog]="{class: componentName, message: 'click substructure agent block/unblock in settings'}">
+                <span>{{(sub.blocked ? 'UNBLOCK' : 'BLOCK') | translate}}</span>
+              </button>
+              <button mat-menu-item (click)="deleteAgent(sub)" *ngIf="show.deleteAgent"
+                [clicklog]="{class: componentName, message: 'click substructure agent delete in settings'}">
+                <span>{{'DELETE' | translate}}</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div class="sub_struct__card__rate">
+            <div class="sub_struct__card__rate-text">
+              {{sub | rates:true:0}}
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngSwitchCase="undefined" class="sub_struct__card">
+          <div class="sub_struct__card-icon ghost"></div>
+          <div class="sub_struct__card-name">
+            <div class="sub_struct__card-name-block ghost"></div>
+          </div>
+          <div class="sub_struct__card-balance ghost"></div>
+          <div class="sub_struct__card-settings">
+            <button mat-icon-button aria-label="sub settings" class="sub_struct__card-settings-btn">
+              <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings"
+                class="sub_struct__card-settings-icon">
+            </button>
+            <mat-menu #submenu="matMenu">
+            </mat-menu>
+          </div>
+          <div class="sub_struct__card__rate ghost"></div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

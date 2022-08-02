@@ -52,8 +52,41 @@ LOGIN: |-
 ROLE: |-
   Role
 
-LOGIN_DELETE_TITLE: |-
+CONFIRM_DELETE_TITLE: |-
   Confirm delete
 
 LOGIN_DELETE_MESSAGE: |-
   Are you sure you want to delete login 
+
+NEW_AGENT: |-
+  New Agent
+
+NEW_ROOM: |-
+  New Room
+
+SUB_STRUCTURE: |-
+  Sub-structure
+
+AGENT_DELETE_MESSAGE: |-
+  Are you sure you want to delete agent
+
+ROOM_DELETE_MESSAGE: |-
+  Are you sure you want to delete room
+
+CONFIRM_UNBLOCK_TITLE: |-
+  Confirm unblock
+
+CONFIRM_BLOCK_TITLE: |-
+  Confirm block
+
+CONFIRM_BLOCK_AGENT_MESSAGE: |-
+  Are you sure you want to block agent
+
+CONFIRM_UNBLOCK_AGENT_MESSAGE: |-
+  Are you sure you want to unblock agent
+
+BLOCK: |-
+  Block
+
+UNBLOCK: |-
+  Unlock

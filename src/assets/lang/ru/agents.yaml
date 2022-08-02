@@ -52,8 +52,41 @@ LOGIN: |-
 ROLE: |-
   Роль
 
-LOGIN_DELETE_TITLE: |-
+CONFIRM_DELETE_TITLE: |-
   Подтверждение удаления
 
 LOGIN_DELETE_MESSAGE: |-
   Вы уверены что хотите удалить логин 
+
+NEW_AGENT: |-
+  Новый агент
+
+NEW_ROOM: |-
+  Новая комната
+
+SUB_STRUCTURE: |-
+  Субструктуры
+
+AGENT_DELETE_MESSAGE: |-
+  Вы уверены что хотите удалить агента 
+
+ROOM_DELETE_MESSAGE: |-
+  Вы уверены что хотите удалить комнату
+
+CONFIRM_UNBLOCK_TITLE: |-
+  Подтверждение разблокировки
+
+CONFIRM_BLOCK_TITLE: |-
+  Подтверждение блокировки
+
+CONFIRM_BLOCK_AGENT_MESSAGE: |-
+  Вы уверены что хотите заблокировать агента
+
+CONFIRM_UNBLOCK_AGENT_MESSAGE: |-
+  Вы уверены что хотите разблокировать агента
+
+BLOCK: |-
+  Заблокировать
+
+UNBLOCK: |-
+  Разблокировать
