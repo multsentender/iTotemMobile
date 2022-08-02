@@ -45,6 +45,9 @@ export class AgentComponent implements OnInit {
     private translateService: TranslateService,
   ) {
     this.id = this.route.snapshot.params['id'];
+  }
+
+  getAgentData() {
     this.balance = this.translateService.instant('LOADING_');
     this.api.getAgentInfo(Number.parseInt(this.id))
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
@@ -98,7 +101,12 @@ export class AgentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.route.params.subscribe(
+      params => {
+        this.id = params['id'];
+        this.getAgentData();
+      }
+    );
   }
 
 

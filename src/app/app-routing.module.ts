@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ComingSoonComponent } from './core/coming-soon/coming-soon.component';
 
 @NgModule({
   imports: [RouterModule.forRoot([
@@ -18,6 +19,10 @@ import { RouterModule } from '@angular/router';
   {
     path: 'agent',
     loadChildren: () => import('./agents/agents.module').then(module => module.AgentsModule),
+  },
+  {
+    path: 'room',
+    loadChildren: () => import('./rooms/rooms.module').then(module => module.RoomsModule),
   },
   {
     path: '**',

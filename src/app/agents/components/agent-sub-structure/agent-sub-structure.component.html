@@ -28,24 +28,25 @@
     <div *ngFor="let sub of subs">
 
       <div [ngSwitch]="sub._c">
-        <div *ngSwitchCase="'RoomTreeNode'" class="sub_struct__card">
+        <div *ngSwitchCase="'RoomTreeNode'" class="sub_struct__card" routerLink = "/room/{{sub.id}}" 
+          [clicklog]="{class: componentName, message: 'click agent substructure room'}">
           <div class="sub_struct__card-icon">
             <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/device-room.svg')}}" alt="icon">
           </div>
           <div class="sub_struct__card-name">{{sub.label}}</div>
-          <div class="sub_struct__card-balance">{{sub.balance}}</div>
+          <div class="sub_struct__card-balance"></div>
           <div class="sub_struct__card-settings">
             <button mat-icon-button [matMenuTriggerFor]="submenu" aria-label="sub settings"
-              class="sub_struct__card-settings-btn">
+              class="sub_struct__card-settings-btn" (click)="$event.stopPropagation()">
               <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings"
                 class="sub_struct__card-settings-icon">
             </button>
             <mat-menu #submenu="matMenu">
-              <a mat-menu-item [routerLink]="'/room/'+sub.id+'/edit'"
+              <a mat-menu-item [routerLink]="'/room/'+sub.id+'/edit'" *ngIf="show.editRoom"
                 [clicklog]="{class: componentName, message: 'click substructure room edit in settings'}">
                 <span>{{'EDIT' | translate}}</span>
               </a>
-              <button mat-menu-item (click)="deleteRoom(sub)" *ngIf="show.overdraftSettings"
+              <button mat-menu-item (click)="deleteRoom(sub)" *ngIf="show.deleteRoom"
                 [clicklog]="{class: componentName, message: 'click substructure room delete in settings'}">
                 <span>{{'DELETE' | translate}}</span>
               </button>
@@ -59,29 +60,30 @@
         </div>
 
 
-        <div *ngSwitchCase="'AgentTreeNode'" class="sub_struct__card" [class.blocked]="sub.blocked || sub.deleted">
+        <div *ngSwitchCase="'AgentTreeNode'" class="sub_struct__card" 
+          [class.blocked]="sub.blocked || sub.deleted"  routerLink = "/agent/{{sub.id}}"
+          [clicklog]="{class: componentName, message: 'click agent substructure agent'}">
           <div class="sub_struct__card-icon">
             <img class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/subagent.svg')}}" alt="icon">
-            <!-- <img *ngIf="false" class="agent_login__add-plus" src="{{pathService.assetsPath('/icons/subagent-second.svg')}}" alt="icon"> -->
           </div>
           <div class="sub_struct__card-name">{{sub.label}}</div>
-          <div class="sub_struct__card-balance">{{sub.balance | formatMoneyPoints:0:agentInfo}}</div>
+          <div class="sub_struct__card-balance">{{sub.balance + (show.overdraft ? sub.overdraft : 0) | formatMoneyPoints:0:agentInfo}}</div>
           <div class="sub_struct__card-settings">
             <button mat-icon-button [matMenuTriggerFor]="submenu" aria-label="sub settings"
-              class="sub_struct__card-settings-btn">
+              class="sub_struct__card-settings-btn" (click)="$event.stopPropagation()">
               <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings"
                 class="sub_struct__card-settings-icon">
             </button>
             <mat-menu #submenu="matMenu">
-              <a mat-menu-item [routerLink]="'/agent/'+sub.id+'/edit'"
+              <a mat-menu-item [routerLink]="'/agent/'+sub.id+'/edit'" *ngIf="show.editAgent"
                 [clicklog]="{class: componentName, message: 'click substructure agent edit in settings'}">
                 <span>{{'EDIT' | translate}}</span>
               </a>
-              <button mat-menu-item(click)="unBlockAgent(sub)" *ngIf="show.overdraftSettings"
+              <button mat-menu-item (click)="unBlockAgentConfirm(sub)" *ngIf="show.unBlockAgent"
                 [clicklog]="{class: componentName, message: 'click substructure agent block/unblock in settings'}">
-                <span>{{sub.blocked ? 'BLOCK' : 'UNBLOCK' | translate}}</span>
+                <span>{{(sub.blocked ? 'UNBLOCK' : 'BLOCK') | translate}}</span>
               </button>
-              <button mat-menu-item(click)="deleteAgent(sub)" *ngIf="show.topUp"
+              <button mat-menu-item (click)="deleteAgent(sub)" *ngIf="show.deleteAgent"
                 [clicklog]="{class: componentName, message: 'click substructure agent delete in settings'}">
                 <span>{{'DELETE' | translate}}</span>
               </button>
@@ -89,13 +91,13 @@
           </div>
           <div class="sub_struct__card__rate">
             <div class="sub_struct__card__rate-text">
-              {{sub.minRate.toFixed(2)}}-{{sub.maxRate.toFixed(2)}}
+              {{sub | rates:true:0}}
             </div>
           </div>
         </div>
 
 
-        <div *ngSwitchDefault class="sub_struct__card">
+        <div *ngSwitchCase="undefined" class="sub_struct__card">
           <div class="sub_struct__card-icon ghost"></div>
           <div class="sub_struct__card-name">
             <div class="sub_struct__card-name-block ghost"></div>

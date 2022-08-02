@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { AgentSubStructureComponent } from './components/agent-sub-structure/agent-sub-structure.component';
 
 import { FormatMoneyPointsPipe } from './formatMoneyPoints.pipe';
+import { RatesPipe } from './rates.pipe';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { FormatMoneyPointsPipe } from './formatMoneyPoints.pipe';
         AgentLoginsComponent, 
         AgentSubStructureComponent,
         FormatMoneyPointsPipe,
+        RatesPipe,
     ],
     providers: []
 })
