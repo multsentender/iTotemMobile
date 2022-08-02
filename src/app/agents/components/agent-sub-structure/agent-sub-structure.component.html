@@ -42,11 +42,11 @@
                 class="sub_struct__card-settings-icon">
             </button>
             <mat-menu #submenu="matMenu">
-              <a mat-menu-item [routerLink]="'/room/'+sub.id+'/edit'" *ngIf="show.editRoom"
+              <a mat-menu-item [routerLink]="'/room/'+sub.id+'/edit'"  *ngIf="sub.permissions?.includes('ROOM_EDIT')"
                 [clicklog]="{class: componentName, message: 'click substructure room edit in settings'}">
                 <span>{{'EDIT' | translate}}</span>
               </a>
-              <button mat-menu-item (click)="deleteRoom(sub)" *ngIf="show.deleteRoom"
+              <button mat-menu-item (click)="deleteRoom(sub)"  *ngIf="sub.permissions?.includes('ROOM_DELETE')"
                 [clicklog]="{class: componentName, message: 'click substructure room delete in settings'}">
                 <span>{{'DELETE' | translate}}</span>
               </button>
@@ -75,15 +75,15 @@
                 class="sub_struct__card-settings-icon">
             </button>
             <mat-menu #submenu="matMenu">
-              <a mat-menu-item [routerLink]="'/agent/'+sub.id+'/edit'" *ngIf="show.editAgent"
+              <a mat-menu-item [routerLink]="'/agent/'+sub.id+'/edit'" *checkPermission="'AGENT_EDIT'; permissions: sub.permissions"
                 [clicklog]="{class: componentName, message: 'click substructure agent edit in settings'}">
                 <span>{{'EDIT' | translate}}</span>
               </a>
-              <button mat-menu-item (click)="unBlockAgentConfirm(sub)" *ngIf="show.unBlockAgent"
+              <button mat-menu-item (click)="unBlockAgentConfirm(sub)" *checkPermission="'AGENT_BLOCK'; permissions: sub.permissions"
                 [clicklog]="{class: componentName, message: 'click substructure agent block/unblock in settings'}">
                 <span>{{(sub.blocked ? 'UNBLOCK' : 'BLOCK') | translate}}</span>
               </button>
-              <button mat-menu-item (click)="deleteAgent(sub)" *ngIf="show.deleteAgent"
+              <button mat-menu-item (click)="deleteAgent(sub)" *checkPermission="'AGENT_DELETE'; permissions: sub.permissions"
                 [clicklog]="{class: componentName, message: 'click substructure agent delete in settings'}">
                 <span>{{'DELETE' | translate}}</span>
               </button>

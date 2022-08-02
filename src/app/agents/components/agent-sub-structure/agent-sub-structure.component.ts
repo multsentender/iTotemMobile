@@ -21,13 +21,6 @@ export class AgentSubStructureComponent implements OnInit {
     addAgent: false,
     addRoom: false,
 
-    editAgent: false,
-    unBlockAgent: false,
-    deleteAgent: false,
-
-    editRoom: false,
-    deleteRoom: false,
-
     overdraft: false,
   }
 
@@ -50,13 +43,6 @@ export class AgentSubStructureComponent implements OnInit {
     if (hasPermission(this.agentInfo || {}, 'AGENT_CREATE_SUB_AGENT')) this.show.addAgent = true;
     if (hasPermission(this.agentInfo || {}, 'AGENT_CREATE_ROOM')) this.show.addRoom = true;
 
-    if (hasPermission(this.agentInfo || {}, 'AGENT_EDIT')) this.show.editAgent = true;
-    if (hasPermission(this.agentInfo || {}, 'AGENT_BLOCK')) this.show.unBlockAgent = true;
-    if (hasPermission(this.agentInfo || {}, 'AGENT_DELETE')) this.show.deleteAgent = true;
-
-    if (hasPermission(this.agentInfo || {}, 'ROOM_EDIT')) this.show.editRoom = true;
-    if (hasPermission(this.agentInfo || {}, 'ROOM_DELETE')) this.show.deleteRoom = true;
-
     if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT')) this.show.overdraft = true;
   }
 
@@ -75,7 +61,7 @@ export class AgentSubStructureComponent implements OnInit {
   unBlockAgent(node: AgentTreeNode) {
     this._log.info(`confirmation agent substructure agent block`);
 
-    this.api.setAgentBlocked(node, node.blocked).subscribe(() => {
+    this.api.setAgentBlocked(node, !node.blocked).subscribe(() => {
       node.blocked = !node.blocked
     })
   }
