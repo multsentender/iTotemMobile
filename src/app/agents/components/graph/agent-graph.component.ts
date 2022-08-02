@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AclPermission, AgentInfo } from '@shared/models/models';
 import { PathService } from '@shared/services/path.service'
 import { hasPermission } from '@shared/utils/SecurityUtils';
@@ -22,6 +22,8 @@ interface graphDot {
 })
 export class GraphComponent implements OnInit {
   componentName = "GraphComponent";
+  formatType: number = 0;
+
   public yAxisTickFormattingFn = this.yAxisTickFormatting.bind(this);
   multi: graphLine[] = [
     {
@@ -30,10 +32,10 @@ export class GraphComponent implements OnInit {
     }]
   yAxisTicks: number[] = [];
 
-  balance: string = '';
+  balance?: number;
   agentBlocked: boolean = false;
-  overdraft: string = '';
-  expiresIn: string = '';
+  overdraft?: number;
+  expiresIn?: number;
   show = {
     overdraftSettings: false,
     topUp: false,
@@ -44,39 +46,60 @@ export class GraphComponent implements OnInit {
   };
 
   @Input() agentInfo?: AgentInfo
+  @Output() formatTypeChange: EventEmitter<number> = new EventEmitter();
 
   constructor(
     public pathService: PathService,
     private translate: TranslateService,
-  ) { }
+  ) {
+    this.getBalanceMode()
+  }
+
+  getBalanceMode() {
+    const mode = localStorage.getItem('agentGraph');
+    this.formatType = (mode === 'money') ? 0 : 1;
+  }
 
   ngOnInit(): void {
     this.getBalance();
 
     this.getBalanceGraph();
-
-    if (this.agentInfo?.overdraftExpirationDate && this.agentInfo.overdraft != 0
-      && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
-      this.expiresIn = MoneyUtils.format(this.agentInfo.overdraftExpirationDate, this.agentInfo?.currency, this.agentInfo?.currencyCode);
-
-    if (this.agentInfo?.overdraft != 0 && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
-      this.overdraft = MoneyUtils.format(this.agentInfo!.overdraft, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+    this.getExpiration();
+    this.getOverdraft();
 
     if (hasPermission(this.agentInfo || {}, 'AGENT_CHANGE_OVERDRAFT')) this.show.overdraftSettings = true;
     if (hasPermission(this.agentInfo || {}, 'AGENT_TRANSFER_MONEY')) this.show.topUp = true;
   }
 
+
+  getExpiration() {
+    if (this.agentInfo?.overdraftExpirationDate && this.agentInfo.overdraft != 0
+      && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
+      this.expiresIn = this.agentInfo.overdraftExpirationDate
+  }
+
+  getOverdraft() {
+    if (this.agentInfo?.overdraft != 0 && hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
+      this.overdraft = this.agentInfo!.overdraft//this.formatMoneyPoints(this.agentInfo!.overdraft!, this.agentInfo?.currency, this.agentInfo?.currencyCode, this.agentInfo?.rate);
+  }
+
   getBalance() {
+
     if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
-      this.balance = MoneyUtils.format(this.agentInfo!.balance || 0 + (this.agentInfo!.overdraft || 0), this.agentInfo?.currency, this.agentInfo?.currencyCode);
+      this.balance = (this.agentInfo!.balance || 0) + (this.agentInfo!.overdraft || 0)
     else
-      this.balance = MoneyUtils.format(this.agentInfo?.balance, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+      this.balance = this.agentInfo?.balance
 
     if (this.agentInfo?.blocked)
       this.agentBlocked = true;
   }
 
   getBalanceGraph() {
+    this.multi = [{
+      "name": this.translate.instant('BALANCE'),
+      "series": []
+    }]
+
     //random graph data generating
     let date = new Date();
     date.setDate(date.getDate() - 7)
@@ -90,21 +113,32 @@ export class GraphComponent implements OnInit {
       name: new Date(),
       value: this.agentInfo?.balance!
     });
-
     //get y axis ticks and min border
     const graphValues = this.multi[0].series.map((item: graphDot) => item.value)
     if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT')) {
-      this.yAxisTicks = [0, -(this.agentInfo?.overdraft || 0)]//, this.agentInfo?.balance!
-      this.min = Math.min(...graphValues, -(this.agentInfo?.overdraft || 0))
+      this.yAxisTicks = [0, this.agentInfo?.balance!]// -(this.agentInfo?.overdraft || 0),
+      this.min = Math.min(...graphValues, (0 - (this.agentInfo?.overdraft || 0)))
     } else {
-      this.yAxisTicks = [0, Math.max(...graphValues), Math.min(...graphValues)]
+      this.yAxisTicks = [0, Math.max(...graphValues), Math.min(...graphValues), this.agentInfo?.balance!]
+      this.min = Math.min(...graphValues, this.agentInfo?.balance!, 0)
+    }
+  }
+
+  formatMoneyPoints(value?: number, currency?: string, currencyCode?: string, rate?: number): string {
+    if (this.formatType === 0) return MoneyUtils.format(value, currency, currencyCode);
+    if (rate == undefined || value === undefined) return '';
+    try {
+      const moneyValue = MoneyUtils.pointsToMoney(value, rate, currency, currencyCode);
+      return MoneyUtils.formatPoints(moneyValue, currency, currencyCode);
+    } catch (e) {
+      return '-'
     }
   }
 
   yAxisTickFormatting(value: number) {
-    return (value == 0) ? 0 : MoneyUtils.format(value, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+    this.formatMoneyPoints(value, this.agentInfo?.currency, this.agentInfo?.currencyCode, this.agentInfo?.rate);
+    return (value == 0) ? 0 : this.formatMoneyPoints(value, this.agentInfo?.currency, this.agentInfo?.currencyCode, this.agentInfo?.rate);
   }
-
 
   xAxisTickFormatting(value: number) {
     //to hide ticks and remain grid lines
@@ -113,5 +147,11 @@ export class GraphComponent implements OnInit {
 
   tabChanged(e: MatTabChangeEvent) {
     localStorage.setItem('agentGraph', (e.index === 0) ? 'money' : 'points');
+    this.formatTypeChange.emit(this.formatType)
+
+    //to update ticks format
+    this.multi = [...this.multi]
+    //this.getBalanceGraph()
   }
+
 }

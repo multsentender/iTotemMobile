@@ -14,6 +14,7 @@ import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/rateInfo';
 import { TranslateService } from '@ngx-translate/core';
 import { hasPermission } from '@shared/utils/SecurityUtils';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-agent',
@@ -25,8 +26,9 @@ export class AgentComponent implements OnInit {
   componentName: string = 'AgentComponent';
   id: string;
   agentInfo?: AgentInfo;
-  serviceBalance?: Money;
-  balance: string = '';
+  formatType: number = 0;
+
+  balance?: number;
   balanceFail: boolean = false;
   dealerShare: string = "";
   agentRate: string = "";
@@ -48,7 +50,6 @@ export class AgentComponent implements OnInit {
   }
 
   getAgentData() {
-    this.balance = this.translateService.instant('LOADING_');
     this.api.getAgentInfo(Number.parseInt(this.id))
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(agentInfo => {
@@ -74,11 +75,9 @@ export class AgentComponent implements OnInit {
 
   getServiceBalance(agent: AgentInfo) {
     this.api.getAgentServiceBalance(agent).subscribe(serviceBalance => {
-      this.serviceBalance = serviceBalance;
-      this.balance = MoneyUtils.format(serviceBalance?.cashable, this.agentInfo?.currency, this.agentInfo?.currencyCode);
+      this.balance = serviceBalance?.cashable//MoneyUtils.format(serviceBalance?.cashable, this.agentInfo?.currency, this.agentInfo?.currencyCode);
       this.balanceFail = false;
     }, err => {
-      this.balance = this.translateService.instant('FAILURE');
       this.balanceFail = true;
     })
   }
@@ -90,14 +89,22 @@ export class AgentComponent implements OnInit {
     let rateInfo: RateInfo[] = Object.values(agentRateInfo.groupRateInfo || {}) || []
     if (agentRateInfo.rateInfo) rateInfo.push(agentRateInfo.rateInfo)
 
-    const max = rateInfo.reduce((prev, current) => (current?.rate == null) ? prev : (Number(prev.rate) > current.rate ? prev : current)).rate//((Number(prev.rate)) > current.rate) ? prev: current : current ).rate
-    const min = rateInfo.reduce((prev, current) =>
+    let max = rateInfo.reduce((prev, current) => (current?.rate == null) ? prev : (Number(prev.rate) > current.rate ? prev : current)).rate//((Number(prev.rate)) > current.rate) ? prev: current : current ).rate
+    max = this.formatPercent(max)
+
+    let min = rateInfo.reduce((prev, current) =>
       (current?.rate == null) ? prev : (Number(prev.rate) < current?.rate ? prev : current)
     ).rate
+    min = this.formatPercent(min)
 
     if (min == null) this.agentRate = (max == null) ? '' : max + '%'
     else if (max == null) this.agentRate = min + '%'
     else this.agentRate = (min === max) ? `${min}%` : `${min}-${max}%`
+  }
+
+  formatPercent(num?: number) {
+    if (num === undefined) return
+    return Math.round(num * 10000) / 100
   }
 
   ngOnInit(): void {
@@ -108,6 +115,9 @@ export class AgentComponent implements OnInit {
       }
     );
   }
-
+  
+  formatTypeChange(formatType: number) {
+    this.formatType = formatType;
+  }
 
 }

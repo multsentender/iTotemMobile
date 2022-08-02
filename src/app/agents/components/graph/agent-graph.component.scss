@@ -1,7 +1,8 @@
 .graph {
 
-    &__head {
+    &__value_type {
         margin-top: 55px;
+        margin-bottom: 28px;
     }
 
     &__balance {
@@ -25,7 +26,7 @@
 
     &__graph {
         grid-area: graph;
-        height: 250px;
+        min-height: 250px;
         margin: 15px 0;
     }
 

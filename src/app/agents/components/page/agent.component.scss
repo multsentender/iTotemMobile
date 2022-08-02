@@ -3,6 +3,10 @@
 .agent {
     background-color: var(--special-accent);
 
+    &__value_type {
+        margin-top: 55px;
+    }
+
     &__btn {
         font-weight: 700;
         font-size: 18px;
@@ -20,7 +24,6 @@
 
     &__buttons {
         padding: 33px 16px 0 16px;
-        margin-top: 55px;
         margin-bottom: 33px;
 
         &__text-outline {
