@@ -10,20 +10,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   }],
   host: {
     "[(value)]": 'ngModel',
-    '(blur)': 'onBlur()'
+    '(blur)': 'onBlur()',
   }
 })
 export class PercentDirective implements ControlValueAccessor {
 
   constructor(private el: ElementRef) { }
 
-  private innerValue!: string;
-  private toNumber!: number;
-  private toPercent!: number;
+  private innerValue: string | undefined;
+  private toNumber?: number;
+  private toPercent?: number;
 
-  public onChangeCallback: any = (val: any) => console.log(val);
-
-  public onTouched: any = () => { /*Empty*/ }
+  public onChangeCallback!: (value: number) => void;
+  public onTouched!: () => void;
 
   onBlur() {
     let input = this.el.nativeElement.value;
@@ -47,15 +46,20 @@ export class PercentDirective implements ControlValueAccessor {
   }
 
   writeValue(val: string): void {
-    this.toNumber = parseFloat(val) * 100;
+    this.toNumber = +(parseFloat(val) * 100).toFixed(2);
+
     this.el.nativeElement.value = this.toNumber;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: number) => void): void {
     this.onChangeCallback = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.el.nativeElement.disabled = isDisabled
   }
 }

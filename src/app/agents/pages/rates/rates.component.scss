@@ -84,6 +84,8 @@
 	}
 }
 :host ::ng-deep .mat-slide-toggle {
+	opacity: 1 !important;
+
 	.mat-slide-toggle-bar {
 		background-color: var(--special-gray);
 	}
@@ -92,6 +94,7 @@
 		background-color: var(--white);
 	}
 }
+
 
 :host ::ng-deep .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
 	background-color: transparent;
