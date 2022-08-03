@@ -18,8 +18,8 @@ export const checkConfirmPassword = (group: FormGroup) => {
 
 export const rateValidator = (agentRateInfo: AgentRateInfo, rateInfo: RateInfo) => {
   return (control: FormControl) => {
-    const rate = control.value / 100;
-    const message = AgentRateUtils.validateRate(agentRateInfo, rateInfo, rate)
+    const message = AgentRateUtils.validateRate(agentRateInfo, rateInfo, control.value)
+
     return message ? { rate: message} as ValidationErrors : null
   }
 }
