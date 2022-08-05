@@ -19,6 +19,7 @@ import { AgentComponent } from './components/page/agent.component';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { RatesComponent } from './pages/rates/rates.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 
 @NgModule({
@@ -39,7 +40,13 @@ import { NavbarComponent } from './components/navbar/navbar.component';
         MatExpansionModule,
         MatSlideToggleModule,
     ],
-    declarations: [AgentComponent, NavbarComponent, EditAgentComponent, RatesComponent],
+    declarations: [
+        AgentComponent,
+        NavbarComponent,
+        EditAgentComponent,
+        RatesComponent,
+        GroupsComponent,
+    ],
     providers: []
 })
 export class AgentsModule { }

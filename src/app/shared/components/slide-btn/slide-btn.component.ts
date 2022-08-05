@@ -1,5 +1,5 @@
 import { CdkDragDrop, CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable, pairwise, skip } from 'rxjs';
 
 import { PathService } from '@shared/services/path.service';
@@ -7,12 +7,12 @@ import { PathService } from '@shared/services/path.service';
 export enum ModeSlideBtn { button, switch };
 
 @Component({
-  selector: 'app-slide-btn',
+  selector: 'app-slide-btn[mode]',
   templateUrl: './slide-btn.component.html',
-  styleUrls: ['./slide-btn.component.scss']
+  styleUrls: ['./slide-btn.component.scss'],
 })
 export class SlideBtnComponent implements AfterViewInit {
-  @Input() mode: ModeSlideBtn = ModeSlideBtn.button;
+  @Input() mode!: ModeSlideBtn;
   @Input() off_text: string = 'SLIDE_CONFIRM'
   @Input() pending_on_text: string = 'CONFIRMING'
   @Input() on_text?: string;

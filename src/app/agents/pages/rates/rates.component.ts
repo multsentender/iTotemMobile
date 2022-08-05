@@ -8,15 +8,16 @@ import { GameGroup } from '@shared/models/gameGroup';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/models';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { rateValidator } from '@shared/utils/formValidators';
+import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
 import { BehaviorSubject } from 'rxjs';
 
 
 interface GroupRateOptions extends RateInfo {
   defaultRate?: boolean
 }
-interface RateGroup {
+export interface RateGroup {
   data: GameGroup,
   rateInfo: GroupRateOptions,
   children?: RateGroup[]
@@ -29,33 +30,34 @@ interface RateGroup {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RatesComponent implements OnInit {
-  public isEditing: boolean = false
-
-  private filtredGroups: RateGroup[] = []
-  public groupTree: RateGroup[] = []
-
+  public isEditing: boolean = true
   isLoading = new BehaviorSubject<boolean>(true)
   setLoad(val: boolean) {
     this.isLoading.next(val)
   }
 
+  public ModeSlideBtn = ModeSlideBtn
+
   private agentRateInfo?: AgentRateInfo
+  private filtredGroups: RateGroup[] = []
+  public groupTree: RateGroup[] = []
+
+  public forms: FormGroup;
 
   // Permitions
   public editor: boolean = false
   public editorGroup: boolean = false
   public editorCheck: boolean = false
 
-  public forms: FormGroup
+
+
 
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
     private fb: FormBuilder
   ) {
-    this.forms = fb.group({
-      globalRate: fb.control(0)
-    })
+    this.forms = fb.group({globalRate: 0})
   }
 
 
@@ -89,16 +91,22 @@ export class RatesComponent implements OnInit {
   }
 
 
-  addFormGroup(id: number, rateInfo: RateInfo) {
-    this.forms.addControl(String(id), this.fb.group({
+  addFormGroup(id: number, rateInfo: RateInfo): FormGroup {
+    return this.fb.group({
+      id: id,
       rate: [{value: rateInfo.rate, disabled: false}, [this.agentRateInfo && rateValidator(this.agentRateInfo, rateInfo)]],
       excluded: [{value: !rateInfo.excluded, disabled: !this.editorCheck}]
-    }))
+    })
   }
 
   buildFormFromData(data: RateGroup[]) {
-    data.forEach((el) => this.addFormGroup(el.data.groupId, {...el.rateInfo}))
+    const groups: FormArray = this.fb.array([])
+    data.forEach((el) => groups.push(this.addFormGroup(el.data.groupId, {...el.rateInfo})))
+
+    this.forms.addControl('groups', groups)
   }
+
+
 
   ngOnInit(): void {
     this.api.getAgentInfo(this.route.snapshot.params['id'])
@@ -145,28 +153,8 @@ export class RatesComponent implements OnInit {
   }
 
 
-  skipAccordionExpanding(event: PointerEvent) {
-    event.stopPropagation();
-  }
-
   onSubmit() {
-    console.log('submit');
-  }
-
-
-
-
-
-
-
-
-
-
-  private count = 0
-
-  testLog() {
-    this.count++
-    console.log(this.count);
-    return 'bolt'
+    console.log(this.forms.valid);
+    console.log(this.forms.value);
   }
 }
