@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BehaviorSubject, filter, skip } from 'rxjs';
 
-import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
+import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/FormValidators';
 import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';

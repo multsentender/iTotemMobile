@@ -15,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class PercentDirective implements ControlValueAccessor {
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {}
 
   private innerValue: string | undefined;
   private toNumber?: number;

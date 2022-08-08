@@ -5,7 +5,7 @@ import { AgentTreeNode } from '@shared/models/agentTreeNode';
 
 import { ApiService } from '@shared/services/api.service';
 import { MessageService } from '@shared/services/message.service';
-import { rateValidator } from '@shared/utils/formValidators';
+import { rateValidator } from '@shared/utils/FormValidators';
 
 import { BehaviorSubject, first, tap } from 'rxjs';
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { RateGroup } from '../../pages/rates/rates.component';
 
@@ -14,7 +14,20 @@ export class GroupsComponent{
   @Input() formName!: string;
   @Input() isEditing = false
 
+  // private errorRateMessages$ = new BehaviorSubject<{[key: string]: ValidationErrors}>({})
+
   constructor() { }
+
+  // ngOnInit(): void {
+    // const form = this.parentForm.get(this.formName)
+
+    // form?.statusChanges
+    // .subscribe(valid => {
+    //   if(valid === 'VALID') return
+    //   this.errorRateMessages$.next(getFormValidationErrors(form as FormArray))
+    // })
+  // }
+
 
   findFormGroup(id: number) {
     const array: any[] = this.parentForm?.get(this.formName)?.value
