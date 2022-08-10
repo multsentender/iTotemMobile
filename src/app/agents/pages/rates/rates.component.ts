@@ -9,7 +9,7 @@ import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/models';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { rateValidator } from '@shared/utils/FormValidators';
+import { rateValidator } from '@shared/utils/formValidators';
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
 import { BehaviorSubject } from 'rxjs';
 
