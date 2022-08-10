@@ -9,12 +9,12 @@ export class AgentRateUtils {
 
     /**
      * Gets parent RateInfo for specified RateInfo.
-     * 
+     *
      * If rateInfo is subGroup rate info, then it return RateInfo for parent game group.
      * If rateInfo is root game group rate info, then it returns Agent base rate info.
      * If rateInfo is agent base rate, then it returns underfined - no parent.
-     * 
-     * @param agentRateInfo agent rate info 
+     *
+     * @param agentRateInfo agent rate info
      * @param rateInfo subGroup, group or base rate info
      * @returns group rate info, base rate info or undefined if no parent.
      */
@@ -32,12 +32,12 @@ export class AgentRateUtils {
 
     /**
      * Gets children RateInfo for specified RateInfo.
-     * 
+     *
      * If rateInfo is subGroup rate info, then it returns empty array
      * If rateInfo is root game group rate info, then it returns subGroup rates info.
      * If rateInfo is agent base rate, then it returns root game group rates info.
-     * 
-     * @param agentRateInfo agent rate info 
+     *
+     * @param agentRateInfo agent rate info
      * @param rateInfo subGroup, group or base rate info
      * @returns list of children rate info
      */
@@ -50,13 +50,13 @@ export class AgentRateUtils {
             ret.push(childRateInfo);
           }
         }
-        return ret;    
+        return ret;
     }
 
     /**
      * Gets rate for specified RateInfo or rate for its parent RateInfo,
      * if rate is null.
-     * @param agentRateInfo agent rate info  
+     * @param agentRateInfo agent rate info
      * @param rateInfo subGroup, group or base rate info
      * @returns value between 0.0 and 1.0
      */
@@ -69,34 +69,35 @@ export class AgentRateUtils {
               return AgentRateUtils.getEffectiveRate(agentRateInfo, pri);
         } else {
             return rateInfo.rate;
-        }            
+        }
     }
 
     /**
      * Set rate for specified RateInfo. This method compares rate with parent RateInfo
      * and set it as null if rates are same.
-     * @param agentRateInfo agent rate info  
-     * @param rateInfo subGroup, group or base rate info 
-     * @param rate value between 0.0 and 1.0 
+     * @param agentRateInfo agent rate info
+     * @param rateInfo subGroup, group or base rate info
+     * @param rate value between 0.0 and 1.0
      */
     public static setEffectiveRate(agentRateInfo: AgentRateInfo, rateInfo: RateInfo, rate?: number) : void {
         let pri : RateInfo | undefined = AgentRateUtils.getParentRateInfo(agentRateInfo, rateInfo);
+
         if (rate == null) {
            if (pri == null) {
              rate = 0.0;
            }
         } else {
-           if (pri != null && AgentRateUtils.isRateEqual(rate, AgentRateUtils.getEffectiveRate(agentRateInfo, pri))) {
-             rate = undefined;
-           }      
+          if (pri != null && AgentRateUtils.isRateEqual(rate, AgentRateUtils.getEffectiveRate(agentRateInfo, pri))) {
+            rate = undefined;
+          }
         }
-        rateInfo.rate = rate;       
+        rateInfo.rate = rate;
     }
 
     /**
      * Safelly compare rate values considering rounding.
      * @param rate1 value between 0.0 and 1.0
-     * @param rate2 value between 0.0 and 1.0 
+     * @param rate2 value between 0.0 and 1.0
      * @returns true if rates are same
      */
     public static isRateEqual(rate1: number, rate2: number) : boolean {
@@ -116,11 +117,11 @@ export class AgentRateUtils {
           return rateInfo.minRate;
         }
     }
-      
+
     /**
      * Gets minimal rate value for specified RateInfo
-     * @param agentRateInfo agent rate info  
-     * @param rateInfo subGroup, group or base rate info  
+     * @param agentRateInfo agent rate info
+     * @param rateInfo subGroup, group or base rate info
      * @returns value between 0.0 and 1.0
      */
     public static getEffectiveMinRate(agentRateInfo: AgentRateInfo, rateInfo: RateInfo) : number {
@@ -145,11 +146,11 @@ export class AgentRateUtils {
           return rateInfo.maxRate;
         }
     }
-    
+
     /**
      * Gets maximum rate value for specified RateInfo
-     * @param agentRateInfo agent rate info  
-     * @param rateInfo subGroup, group or base rate info  
+     * @param agentRateInfo agent rate info
+     * @param rateInfo subGroup, group or base rate info
      * @returns value between 0.0 and 1.0
      */
     public static getEffectiveMaxRate(agentRateInfo: AgentRateInfo, rateInfo: RateInfo) : number {
@@ -162,17 +163,17 @@ export class AgentRateUtils {
         });
         return ret;
     }
-    
+
     /**
      * Field validator example.
-     * 
-     * @param agentRateInfo agent rate info   
-     * @param rateInfo subGroup, group or base rate info   
+     *
+     * @param agentRateInfo agent rate info
+     * @param rateInfo subGroup, group or base rate info
      * @param fieldValue current field value
      * @returns error message or undefined in case of valid rate
      */
     public static validateRate(agentRateInfo: AgentRateInfo, rateInfo: RateInfo, fieldValue?: number) : String | undefined {
-        AgentRateUtils.setEffectiveRate(agentRateInfo, rateInfo, fieldValue);         
+        AgentRateUtils.setEffectiveRate(agentRateInfo, rateInfo, fieldValue);
         let effectiveRate : number = AgentRateUtils.getEffectiveRate(agentRateInfo, rateInfo);
         let effectiveMinRate : number = AgentRateUtils.getEffectiveMinRate(agentRateInfo, rateInfo);
         let effectiveMaxRate : number = AgentRateUtils.getEffectiveMaxRate(agentRateInfo, rateInfo);
@@ -180,16 +181,16 @@ export class AgentRateUtils {
           return AgentRateUtils.rateMasterAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveMinRate));
         } else if (effectiveRate > effectiveMaxRate) {
           return AgentRateUtils.rateSubAgentRestrictionMsg(AgentRateUtils.formateRate(effectiveMaxRate));
-        } 
+        }
         return undefined;
     }
 
     /**
      * Field onchange example. Checks if field values must be shown in gray color
      * due to same parent and self rate.
-     * 
-     * @param agentRateInfo agent rate info   
-     * @param rateInfo subGroup, group or base rate info   
+     *
+     * @param agentRateInfo agent rate info
+     * @param rateInfo subGroup, group or base rate info
      * @param fieldValue current field value
      * @returns true if rate equals to parent and must be shown by gray color, false otherwise.
      */
@@ -204,16 +205,16 @@ export class AgentRateUtils {
         return (rate * 100.0).toFixed(1);
     }
 
-    // TODO: remove this method and use localization 
+    // TODO: remove this method and use localization
     protected static rateMasterAgentRestrictionMsg(formattedRate: string) {
         return "Due to master agent restriction, rate can not be lower than: " + formattedRate + "%";
     }
 
-    // TODO: remove this method and use localization 
+    // TODO: remove this method and use localization
     protected static rateSubAgentRestrictionMsg(formattedRate: string) {
         return "Due to sub-agents restriction, rate can not be greater than: " + formattedRate + "%";
     }
-        
 
-    
+
+
 }

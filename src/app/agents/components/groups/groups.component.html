@@ -1,4 +1,4 @@
-<form [formGroup]="parentForm">
+<div [formGroup]="parentForm">
 	<ng-template #group let-list="children" let-isSubgroup="isSubgroup">
 		<mat-accordion formArrayName="groups" class="rates__groups"
 			[ngClass]="{'rates__subgroups': isSubgroup, 'rates--edit': isEditing}" multi>
@@ -8,19 +8,31 @@
 
 				<mat-expansion-panel-header>
 					<mat-panel-title class="accordion__header">
-						<span class="accordion__header__range" *ngIf="!isSubgroup">5 - 15%</span>
+						<span class="accordion__header__range" *ngIf="!isSubgroup && item.children">{{getRangeRate(item)}}</span>
 						<h3 class="accordion__header__title">{{item.data.groupName}}</h3>
 					</mat-panel-title>
 					<mat-panel-description [formGroupName]="findFormGroup(item.data.groupId)"
 						class="accordion__description">
-						<input type="number" *ngIf="isEditing; else rateReadOnly" appPercentDirective formControlName="rate"
+						<input
+							type="number"
+							[disableControl]="!isEditing || !permitions.editorGroup"
+							*ngIf="isEditing; else rateReadOnly"
+							appPercentDirective
+							formControlName="rate"
 							(click)="skipAccordionExpanding($event)"
 							class="accordion__rate_inp" />
-
 						<ng-template #rateReadOnly>
-							<span class="accordion__rate_text">{{ item.rateInfo.rate | percent:'1.0-3'}}</span>
+							<span
+								class="accordion__rate_text"
+								[class.accordion__rate_text--default]="item.rateInfo.defaultRate">
+									{{ item.rateInfo.rate | percent:'1.0-3'}}
+							</span>
 						</ng-template>
-						<mat-slide-toggle formControlName="excluded" (click)="skipAccordionExpanding($event)">
+
+						<mat-slide-toggle
+							[disableControl]="!isEditing || !permitions.editorCheck"
+							formControlName="excluded"
+							(click)="skipAccordionExpanding($event)">
 						</mat-slide-toggle>
 					</mat-panel-description>
 				</mat-expansion-panel-header>
@@ -35,4 +47,4 @@
 		[ngTemplateOutlet]="group"
 		[ngTemplateOutletContext]="{ children: dataTree, isSubgroup: false }">
 	</ng-container>
-</form>
+</div>

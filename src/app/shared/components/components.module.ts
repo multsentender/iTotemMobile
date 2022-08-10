@@ -14,6 +14,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MessageComponent } from './message/message.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SlideBtnComponent } from './slide-btn/slide-btn.component';
+import { ControlErrorComponent } from './control-error/control-error.component';
 
 @NgModule({
   imports: [
@@ -32,13 +33,15 @@ import { SlideBtnComponent } from './slide-btn/slide-btn.component';
     MessageComponent,
     SpinnerComponent,
     SlideBtnComponent,
+    ControlErrorComponent,
   ],
   exports: [
     IconInputComponent,
     CheckboxComponent,
     ModalComponent,
     MessageComponent,
-    SlideBtnComponent
+    SlideBtnComponent,
+    ControlErrorComponent,
   ],
 })
 export class ComponentsModule { }

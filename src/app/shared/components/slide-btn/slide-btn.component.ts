@@ -10,6 +10,7 @@ export enum ModeSlideBtn { button, switch };
   selector: 'app-slide-btn[mode]',
   templateUrl: './slide-btn.component.html',
   styleUrls: ['./slide-btn.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SlideBtnComponent implements AfterViewInit {
   @Input() mode!: ModeSlideBtn;
