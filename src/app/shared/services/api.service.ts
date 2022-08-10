@@ -249,4 +249,9 @@ export class ApiService {
     let request: CreateAgentRequest = { parent, agent, loginInfo, rateInfo, extraFields }
     return this.sendApiRequest(httpTypes.post, 'createAgent', false, request)
   }
+
+  updateAgentRateInfo(agent: AgentTreeNode): Observable<AgentTreeNode> {
+    let request: AgentTreeNode = agent
+    return this.sendApiRequest(httpTypes.post, 'updateAgentRateInfo', false, request)
+  }
 }

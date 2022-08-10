@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 
 import { ApiService } from '@shared/services/api.service';
 import { MessageService } from '@shared/services/message.service';
+import { rateValidator } from '@shared/utils/formValidators';
 
 import { BehaviorSubject, first, tap } from 'rxjs';
 
@@ -28,13 +29,10 @@ export class EditAgentComponent implements OnInit {
     private fb: FormBuilder,
     private api: ApiService,
     private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
     private messageService: MessageService
   ) {
     this.route.data.pipe(first())
       .subscribe(val => this.isSubAgent = val.isSubAgent || false)
-    this.activatedRoute.paramMap
-      .subscribe(() => this.agent.next(window.history.state.agent || {}))
 
     this.agent.subscribe(val => {
       if(!this.isSubAgent) this.agentEditForm.patchValue({
@@ -42,6 +40,8 @@ export class EditAgentComponent implements OnInit {
         rate: val.rate
       })
     })
+
+
 
     this.agentEditForm.valueChanges.subscribe(formControls => {
       let valid = this.agentEditForm.valid
@@ -57,7 +57,7 @@ export class EditAgentComponent implements OnInit {
     })
   }
 
-  // TODO Исправить валидатор, добавить errorMessage
+  // TODO добавить errorMessage
   ngOnInit(): void {
     const id = this.route.snapshot.params['id']
 
@@ -71,8 +71,8 @@ export class EditAgentComponent implements OnInit {
       next: () => this.disableBtn = false
     }))
     .subscribe(val => {
-      this.agentEditForm.get('percent')?.addValidators(
-        Validators.min(val.rateInfo?.minRate || 0)
+      this.agentEditForm.get('rate')?.addValidators(
+        rateValidator(val, val.rateInfo) as ValidatorFn
       )
     })
   }
@@ -81,7 +81,8 @@ export class EditAgentComponent implements OnInit {
   editAgent() {
     const updateAgent: AgentTreeNode = {
       ...this.agent.value,
-      ...this.agentEditForm.value
+      ...this.agentEditForm.value,
+      rate: this.agentEditForm.get('rate')?.value / 100
     }
 
     this.api.updateAgent(updateAgent)
@@ -93,7 +94,8 @@ export class EditAgentComponent implements OnInit {
   createSubAgent() {
     const subAgent: AgentTreeNode = {
       _c: "AgentTreeNode",
-      ...this.agentEditForm.value
+      ...this.agentEditForm.value,
+      rate: this.agentEditForm.get('rate')?.value / 100
     }
 
     this.api.createAgent(this.agent.value, subAgent)

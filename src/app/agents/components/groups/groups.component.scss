@@ -1,0 +1,170 @@
+// Groups
+:host ::ng-deep .mat-expansion-panel-header {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: flex-end;
+	justify-content: center;
+	height: 100%;
+	max-height: 95px;
+
+	.mat-content {
+		width: 100%;
+		overflow: visible;
+		display: grid;
+
+		// Don't touch. For text ellipsis
+		grid-template-columns: 1fr max-content;
+		gap: 12px;
+	}
+
+
+	.mat-expansion-indicator {
+		margin-top: 16px;
+	}
+
+}
+
+:host ::ng-deep .rates__groups--item--hide {
+	max-height: 58px;
+
+	.mat-expansion-panel-header {
+		cursor: auto;
+	}
+}
+
+:host ::ng-deep .rates--edit .mat-checked {
+	.mat-slide-toggle-bar {
+		background-color: var(--special-accent-darked);
+	}
+
+	.mat-slide-toggle-thumb {
+		background-color: var(--special-accent);
+	}
+}
+
+:host ::ng-deep .mat-slide-toggle {
+	opacity: 1 !important;
+
+	.mat-slide-toggle-bar {
+		background-color: var(--special-gray);
+	}
+
+	.mat-slide-toggle-thumb {
+		background-color: var(--white);
+	}
+}
+
+
+:host ::ng-deep .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+	background-color: transparent;
+}
+
+.rates__groups {
+	display: grid;
+	gap: 16px;
+
+	&--item {
+		border-radius: 8px !important;
+		margin: 0;
+		background-color: var(--special-accent-50a);
+	}
+
+	.accordion__header {
+		position: relative;
+		margin: 18px 0;
+
+		&__range {
+			position: absolute;
+			top: -20px;
+			left: 0;
+			font-size: 14px;
+			color: var(--special-gray);
+		}
+
+		&__title {
+			font-weight: 700;
+			font-size: 16px;
+			color: var(--special-text-cl);
+			width: 100%;
+			display: inline-block;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+	}
+
+	.accordion__description {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+
+		.accordion__rate_text {
+			font-size: 16px;
+			font-weight: 700;
+			color: var(--special-text-cl);
+		}
+		.accordion__rate_text--default{
+			color: var(--special-gray);
+		}
+
+		.accordion__rate_inp__wrapper{
+			position: relative;
+		}
+
+		.accordion__rate_inp {
+			background-color: var(--white);
+			width: 60px;
+			height: 32px;
+			border-radius: 16px;
+			border: 1px solid var(--special-accent);
+			color: var(--special-accent);
+			font-weight: 700;
+			text-align: center;
+
+			&:disabled {
+				border-color: var(--special-gray);
+				color: var(--special-gray);
+			}
+		}
+	}
+}
+
+
+
+// Subgroups
+.rates__subgroups {
+	gap: 0;
+
+	.rates__groups--item {
+		box-sizing: border-box;
+		margin: 0;
+		background-color: transparent;
+		border-top: 1px solid var(--white);
+		height: 75px;
+	}
+
+	.accordion__rate_text {
+		font-weight: 500 !important;
+	}
+
+	.accordion__header__title {
+		font-size: 14px;
+		font-weight: 400;
+	}
+
+	.accordion__header {
+		transform: translate(0);
+	}
+}
+
+:host ::ng-deep .rates__subgroups {
+	.mat-expansion-panel {
+		box-shadow: none;
+	}
+
+	.mat-expansion-panel-header {
+		padding: 0;
+		padding-left: 22px;
+	}
+}

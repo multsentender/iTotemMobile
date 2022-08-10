@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ComingSoonComponent } from '../core/coming-soon/coming-soon.component';
 import { AgentComponent } from './components/page/agent.component';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
+import { RatesComponent } from './pages/rates/rates.component';
 
 const routes: Routes = [
   {
@@ -12,15 +13,17 @@ const routes: Routes = [
   },
   {
     path: ':id/add-sub-agent',
+    pathMatch: 'full',
     component: EditAgentComponent,
     data: {isSubAgent: true}
   },
   {
     path: ':id/edit',
+    pathMatch: 'full',
     component: EditAgentComponent,
     data: {isSubAgent: false}
   },
-  //TODO - replace within of the task of login pages 
+  //TODO - replace within of the task of login pages
   {
     path: ':id/login/new',
     pathMatch: 'full',
@@ -31,11 +34,16 @@ const routes: Routes = [
     pathMatch: 'full',
     component: ComingSoonComponent,
   },
-  //TODO  
+  //TODO
   {
     path: ':id/add-room',
     component: ComingSoonComponent,
   },
+  {
+    path: ":id/rates",
+    pathMatch: 'full',
+    component: RatesComponent
+  }
 ];
 
 @NgModule({
