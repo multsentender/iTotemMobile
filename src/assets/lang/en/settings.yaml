@@ -45,3 +45,9 @@ MODAL_MESSAGE: |-
 
 SWITCH_TO_DESKTOP: |-
   Switch to decktop version
+
+MENU: |-
+  Menu
+
+PROFILE: |-
+  Profile

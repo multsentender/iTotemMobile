@@ -11,6 +11,7 @@ import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-menu',
@@ -28,6 +29,8 @@ export class MenuComponent implements OnInit {
 
   public languages: Array<LanguageInfo> = []
   public langListVisible = false
+
+  public HeaderMode = HeaderMode
 
   isLoading = true
   setLoad(val: boolean) {

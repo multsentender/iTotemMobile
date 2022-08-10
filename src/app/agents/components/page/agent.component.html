@@ -1,8 +1,9 @@
+<navbar
+  [mode]="HeaderMode.main"
+  [title]="agentInfo?.label"
+  [isRoot]="true">
+</navbar>
 <section *appSpinner="isLoading" class="agent agent__container">
-  <agents-navbar [title]="agentInfo?.label" [isRoot]="!agentInfo?.parentAgentId"></agents-navbar>
- 
-
-
   <!--graph section-->
   <app-agent-graph [agentInfo]="agentInfo" (formatTypeChange)="formatTypeChange($event)"></app-agent-graph>
 
@@ -11,11 +12,11 @@
     <p *ngIf="!agentInfo?.dealer && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1">
       <mat-form-field appearance="outline" class="agent__buttons__text-outline">
         <mat-label>{{'SERVICE_BALANCE' | translate}}</mat-label>
-        <input matInput [value]="balance ? (balance | formatMoneyPoints:formatType:agentInfo) : (balanceFail ? 'FAILURE' :'LOADING_'| translate)" [style.color]="balanceFail ? 'var(--special-red)' : ''" 
+        <input matInput [value]="balance ? (balance | formatMoneyPoints:formatType:agentInfo) : (balanceFail ? 'FAILURE' :'LOADING_'| translate)" [style.color]="balanceFail ? 'var(--special-red)' : ''"
           class="agent__buttons__text" disabled="true">
       </mat-form-field>
     </p>
-    <p *ngIf="!!agentInfo?.dealer 
+    <p *ngIf="!!agentInfo?.dealer
     && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1
     && agentInfo?.dealerBalance !== null">
       <mat-form-field appearance="outline" class="agent__buttons__text-outline">

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, catchError, filter, finalize, skip, tap } from 'rxjs';
 
 import { Logger, Log } from '@shared/services/log.service';
 
@@ -8,13 +7,12 @@ import { ApiService } from '@shared/services/api.service';
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { ActivatedRoute } from '@angular/router';
 import { AgentInfo } from '@shared/models/agentInfo';
-import { Money } from '@shared/models/money';
 import { MoneyUtils } from '@shared/utils/MoneyUtils';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/rateInfo';
 import { TranslateService } from '@ngx-translate/core';
 import { hasPermission } from '@shared/utils/SecurityUtils';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-agent',
@@ -40,6 +38,8 @@ export class AgentComponent implements OnInit {
   setLoad(val: boolean) {
     this.isLoading = val
   }
+
+  public HeaderMode = HeaderMode
 
   constructor(
     private route: ActivatedRoute,
@@ -115,9 +115,8 @@ export class AgentComponent implements OnInit {
       }
     );
   }
-  
+
   formatTypeChange(formatType: number) {
     this.formatType = formatType;
   }
-
 }

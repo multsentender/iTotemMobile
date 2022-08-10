@@ -17,7 +17,7 @@
 							type="number"
 							[disableControl]="!isEditing || !permitions.editorGroup"
 							*ngIf="isEditing; else rateReadOnly"
-							appPercentDirective
+							[appPercentDirective]
 							formControlName="rate"
 							(click)="skipAccordionExpanding($event)"
 							class="accordion__rate_inp" />

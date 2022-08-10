@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +30,6 @@ import { RatesPipe } from './rates.pipe';
 import { AgentComponent } from './components/page/agent.component';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { RatesComponent } from './pages/rates/rates.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { GroupsComponent } from './components/groups/groups.component';
 
 
@@ -42,10 +40,8 @@ import { GroupsComponent } from './components/groups/groups.component';
         FormsModule,
         TranslateModule,
         AgentsRoutingModule,
-        CommonModule,
         DirectiveModule,
         MatButtonModule,
-        MatToolbarModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
@@ -59,16 +55,12 @@ import { GroupsComponent } from './components/groups/groups.component';
         MatSlideToggleModule,
     ],
     declarations: [
-        AgentComponent,
-        NavbarComponent,
         GraphComponent,
-        EditAgentComponent,
         AgentLoginsComponent,
         AgentSubStructureComponent,
         FormatMoneyPointsPipe,
         RatesPipe,
         AgentComponent,
-        NavbarComponent,
         EditAgentComponent,
         RatesComponent,
         GroupsComponent,

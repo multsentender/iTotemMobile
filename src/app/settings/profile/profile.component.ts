@@ -13,6 +13,7 @@ import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 import { MessageService } from '@shared/services/message.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ProfileComponent implements OnInit {
   private profile: BehaviorSubject<AgentLoginInfo> = new BehaviorSubject<AgentLoginInfo>({})
 
   public disabledBtn: boolean = true
+  public HeaderMode = HeaderMode
 
   profileForm: FormGroup = this.fb.group({
     login: [{ value: '', disabled: true }],

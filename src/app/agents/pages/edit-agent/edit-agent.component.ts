@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 
 import { ApiService } from '@shared/services/api.service';
@@ -25,6 +26,9 @@ export class EditAgentComponent implements OnInit {
   public disableBtn: boolean = true
   public formValid: boolean = false;
 
+  public label: string = 'NEW_AGENT'
+  public HeaderMode = HeaderMode
+
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
@@ -35,10 +39,14 @@ export class EditAgentComponent implements OnInit {
       .subscribe(val => this.isSubAgent = val.isSubAgent || false)
 
     this.agent.subscribe(val => {
-      if(!this.isSubAgent) this.agentEditForm.patchValue({
-        label: val.label,
-        rate: val.rate
-      })
+      if(!this.isSubAgent) {
+        this.agentEditForm.patchValue({
+          label: val.label,
+          rate: val.rate
+        })
+
+        this.label = `AGENT ${val.label}`
+      }
     })
 
 
