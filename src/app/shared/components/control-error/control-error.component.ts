@@ -2,20 +2,22 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@a
 
 @Component({
   selector: 'app-control-error',
-  template: `<span class="input__error" [class.hide]="hide">{{_text | translate}}</span>`,
+  template: `<span *ngIf="_text" class="input__error" (click)="hide(!_hide)" [class.error_visible]="!_hide">{{_text | translate}}</span>`,
+  styleUrls: ['./control-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlErrorComponent {
   _text: string = '';
-  _hide: boolean = true
+  _hide: boolean = true;
 
-  @Input() set text(value: string | null) {
+  @Input() text(value: string | null) {
     if(value !== this._text) {
-      this.text = value ? value : ''
+      this._text = value ? value : ''
       this.changeDetector.detectChanges()
     }
   }
-  @Input() set hide(value: boolean) {
+
+  @Input() hide(value: boolean) {
     if(value !== this._hide) {
       this._hide = value
       this.changeDetector.detectChanges()

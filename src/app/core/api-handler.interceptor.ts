@@ -39,7 +39,7 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
             this.logger.error(`500 - Application Error\n${error.url}\n${error.error?.errorMessage}`)
             this.errorMessageService.addError(
               this.errorMessageService.generateErrorMessage(error.status, error.error?.errorMessage)
-            );
+            )
             break
           }
           case 503: {

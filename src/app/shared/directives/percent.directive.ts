@@ -26,6 +26,10 @@ export class PercentDirective implements ControlValueAccessor {
 
   onBlur() {
     let input = this.el.nativeElement.value;
+    if(input === '') {
+      this.el.nativeElement.value = 0;
+      input = 0
+    }
     this.toPercent = parseFloat(input) / 100;
 
     if (input != this.toNumber) {

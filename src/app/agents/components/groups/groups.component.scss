@@ -67,10 +67,6 @@
 		border-radius: 8px !important;
 		margin: 0;
 		background-color: var(--special-accent-50a);
-
-		&--hide .accordion__header {
-			transform: translateY(10px);
-		}
 	}
 
 	.accordion__header {
@@ -108,6 +104,13 @@
 			font-weight: 700;
 			color: var(--special-text-cl);
 		}
+		.accordion__rate_text--default{
+			color: var(--special-gray);
+		}
+
+		.accordion__rate_inp__wrapper{
+			position: relative;
+		}
 
 		.accordion__rate_inp {
 			background-color: var(--white);
@@ -126,6 +129,7 @@
 		}
 	}
 }
+
 
 
 // Subgroups

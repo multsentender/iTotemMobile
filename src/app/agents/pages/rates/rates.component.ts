@@ -1,17 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { hasPermission } from '@shared/utils/SecurityUtils';
 import { GameGroup } from '@shared/models/gameGroup';
 import { AgentRateInfo } from '@shared/models/agentRateInfo';
-import { RateInfo } from '@shared/models/models';
+import { AgentTreeNode, RateInfo } from '@shared/models/models';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { rateValidator } from '@shared/utils/formValidators';
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, tap } from 'rxjs';
+import { MessageService } from '@shared/services/message.service';
+
 
 
 interface GroupRateOptions extends RateInfo {
@@ -22,6 +24,18 @@ export interface RateGroup {
   rateInfo: GroupRateOptions,
   children?: RateGroup[]
 }
+export interface IPermitions {
+  editor: boolean,
+  editorGroup: boolean,
+  editorCheck: boolean
+}
+interface IGroupFormValue {
+  id?: number,
+  rate?: number,
+  excluded?: boolean
+}
+
+
 
 @Component({
   selector: 'app-rates',
@@ -30,40 +44,42 @@ export interface RateGroup {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RatesComponent implements OnInit {
-  public isEditing: boolean = true
+  public isEditing = false
   isLoading = new BehaviorSubject<boolean>(true)
   setLoad(val: boolean) {
     this.isLoading.next(val)
   }
 
-  public ModeSlideBtn = ModeSlideBtn
-
-  private agentRateInfo?: AgentRateInfo
-  private filtredGroups: RateGroup[] = []
-  public groupTree: RateGroup[] = []
-
+  public ModeSlideBtn = ModeSlideBtn;
   public forms: FormGroup;
 
-  // Permitions
-  public editor: boolean = false
-  public editorGroup: boolean = false
-  public editorCheck: boolean = false
+  private agent?: AgentTreeNode;
+  private filtredGroups: RateGroup[] = [];
+  public groupTree: RateGroup[] = [];
 
+  get agentRateInfo(): AgentRateInfo | undefined {
+    return this.agent?.agentRateInfo
+  }
+
+
+  public permitions: IPermitions = {
+    editor: false,
+    editorGroup: false,
+    editorCheck: false
+  }
 
 
 
   constructor(
-    private route: ActivatedRoute,
+    private activeRouter: ActivatedRoute,
     private api: ApiService,
-    private fb: FormBuilder
-  ) {
-    this.forms = fb.group({globalRate: 0})
-  }
+    private fb: FormBuilder,
+    private messageService: MessageService
+  ) { this.forms = fb.group({globalRate: 0}) }
 
 
-  generateGroupTree(data?: AgentRateInfo) {
-    if(!data) return []
 
+  getfilterGroups(data: AgentRateInfo) {
     const filtredGroups: RateGroup[] = Object.values(data.gameGroups).filter(item =>
       !item.service &&
       !item.revenueExclude &&
@@ -75,10 +91,16 @@ export class RatesComponent implements OnInit {
       return { data: mapItem, rateInfo }
     })
     this.filtredGroups = filtredGroups
+  }
 
-    const map = new Map(filtredGroups.map(el => [el.data.groupId, {...el}]));
+  generateGroupTree(data?: AgentRateInfo) {
+    if(!data) return []
 
+    this.getfilterGroups(data)
+
+    const map = new Map(this.filtredGroups.map(el => [el.data.groupId, {...el}]));
     for (let item of map.values()) {
+      // item.rateInfo.defaultRate = AgentRateUtils.checkRateForDefault(data, {...item.rateInfo})
       if (item.data.parentId === 0) {
         continue;
       }
@@ -91,11 +113,12 @@ export class RatesComponent implements OnInit {
   }
 
 
+  // Create group's FormGroup
   addFormGroup(id: number, rateInfo: RateInfo): FormGroup {
     return this.fb.group({
       id: id,
-      rate: [{value: rateInfo.rate, disabled: false}, [this.agentRateInfo && rateValidator(this.agentRateInfo, rateInfo)]],
-      excluded: [{value: !rateInfo.excluded, disabled: !this.editorCheck}]
+      rate: [rateInfo.rate, [this.agentRateInfo && rateValidator(this.agentRateInfo, rateInfo)]],
+      excluded: !rateInfo.excluded
     })
   }
 
@@ -104,41 +127,36 @@ export class RatesComponent implements OnInit {
     data.forEach((el) => groups.push(this.addFormGroup(el.data.groupId, {...el.rateInfo})))
 
     this.forms.addControl('groups', groups)
+    this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate})
+    this.forms.get('globalRate')?.addValidators(rateValidator(this.agentRateInfo!, this.agentRateInfo!.rateInfo) as ValidatorFn)
   }
 
 
 
   ngOnInit(): void {
-    this.api.getAgentInfo(this.route.snapshot.params['id'])
+    this.api.getAgentInfo(this.activeRouter.snapshot.params['id'])
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(agent => {
-        this.editor = hasPermission(agent, 'AGENT_EDIT')
-        this.editorGroup = hasPermission(agent, 'AGENT_EDIT_GROUP_RATES')
-        this.editorCheck = hasPermission(agent, 'AGENT_EXCLUDE_GROUP_RATES')
+        this.permitions = {
+          editor: hasPermission(agent, 'AGENT_EDIT'),
+          editorGroup: hasPermission(agent, 'AGENT_EDIT_GROUP_RATES'),
+          editorCheck: hasPermission(agent, 'AGENT_EXCLUDE_GROUP_RATES')
+        }
 
-        this.agentRateInfo = agent.agentRateInfo
+        this.agent = agent
         this.groupTree = this.generateGroupTree(agent.agentRateInfo)
-        this.buildFormFromData(this.filtredGroups)
+        console.log(this.groupTree);
 
-        this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate})
+        this.buildFormFromData(this.filtredGroups)
       })
   }
+
+
 
   toEdit(val: boolean) {
     this.isEditing = val
   }
 
-  resetChanges() {
-    this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate})
-    this.filtredGroups.forEach(el => {
-      const id = el.data.groupId
-      const {rate, excluded} = el.rateInfo
-
-      this.forms.patchValue({[id]: {rate, excluded: !excluded}})
-    })
-
-    this.toEdit(false)
-  }
 
   updateRate(id: string) {
     let rateVal = this.forms.get(String(id))?.value.rate
@@ -153,8 +171,54 @@ export class RatesComponent implements OnInit {
   }
 
 
+
+  resetChanges() {
+    const groups = this.filtredGroups.map(el => (
+      {
+        id: el.data.groupId,
+        rate: el.rateInfo.rate,
+        excluded: !el.rateInfo.excluded
+      }
+    ))
+
+    this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate, groups})
+    this.toEdit(false)
+  }
+
   onSubmit() {
-    console.log(this.forms.valid);
-    console.log(this.forms.value);
+    if(this.forms.valid && this.agent) {
+      const {globalRate, groups} = this.forms.controls
+      const groupInfo = this.agentRateInfo?.groupRateInfo
+
+      groups.value.forEach((el: IGroupFormValue) => {
+        if(!el.id) return
+        const id = el.id
+        delete el['id']
+
+        if(el.rate) {
+          AgentRateUtils.setEffectiveRate(this.agentRateInfo!, groupInfo![id], el.rate)
+          delete el['rate']
+        }
+        if(el.excluded != null) el.excluded = !el.excluded
+        return groupInfo![id] = {...groupInfo![id], ...el}
+      });
+
+      AgentRateUtils.setEffectiveRate(this.agentRateInfo!, this.agentRateInfo!.rateInfo, globalRate.value)
+
+      this.api.updateAgentRateInfo(this.agent)
+        .pipe(
+          spinnerHandlerPipe(this.setLoad.bind(this)),
+          tap({
+            next: () => {this.messageService.showSuccess()},
+          })
+        )
+        .subscribe((data: AgentTreeNode) => {
+          if(data.agentRateInfo) {
+            this.getfilterGroups(data.agentRateInfo)
+            this.buildFormFromData(this.filtredGroups)
+          }
+          this.isEditing = false
+        })
+    }
   }
 }
