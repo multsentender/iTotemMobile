@@ -139,6 +139,8 @@ module.exports = (env) => {
       }
     },
 
+    externals: [ 'big.js' ],
+    
     plugins: [
       new webpack.LoaderOptionsPlugin({
         options: {
