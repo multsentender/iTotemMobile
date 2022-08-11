@@ -1,7 +1,8 @@
 <navbar
 	[mode]="HeaderMode.modal"
 	[title]="label"
-	[confirmFn]="confirm"
+	withConfirm="true"
+	(confirm)="confirm"
 	[disabledConfirm]="disableBtn || !formValid">
 </navbar>
 <section class="main_section agent-edit">

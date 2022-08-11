@@ -54,7 +54,7 @@
                 </div>
             </some-element>
             <some-element *ngSwitchCase="HeaderMode.modal">
-                <button *ngIf="confirmFn" class="header__main__confirm" [disabled]="disabledConfirm">{{'CONFIRM' | translate}}</button>
+                <button *ngIf="withConfirm" (click)="onConfirm()" class="header__main__confirm" [disabled]="disabledConfirm">{{'CONFIRM' | translate}}</button>
             </some-element>
         </container-element>
     </div>

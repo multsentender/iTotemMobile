@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PathService } from '@shared/services/path.service';
 import { Location } from '@angular/common';
 import { ApiService } from '@shared/services/api.service';
@@ -14,10 +14,13 @@ export class NavbarComponent implements OnInit {
   @Input() title: string = "";
   @Input() isRoot: boolean = false;
   @Input() mode!: HeaderMode;
-  @Input() confirmFn?: () => void;
+  @Input() withConfirm?: boolean;
+  @Input() withCancel?: boolean;
   @Input() disabledConfirm?: boolean;
   @Input() notifications: boolean = false;
 
+  @Output('confirm') confirmEvent = new EventEmitter();
+  @Output('cancel') cancelEvent = new EventEmitter<null>();
 
   public HeaderMode = HeaderMode
   componentName = "NavbarComponent";
@@ -26,14 +29,19 @@ export class NavbarComponent implements OnInit {
     public pathService: PathService,
     public location: Location,
     private api: ApiService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.api.getSelfNotifications()
       .subscribe(notifications => this.notifications = !!notifications.find(notification => notification.viewCount == 0))
   }
 
+  onConfirm() {
+    this.confirmEvent.emit()
+  }
+
   previousPage() {
-    this.location.back()
+    this.withCancel ? this.cancelEvent.emit() : this.location.back()
   }
 }

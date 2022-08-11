@@ -1,18 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '@shared/services/api.service';
-
-import { spinnerHandlerPipe } from '@shared/extensions';
-import { hasPermission } from '@shared/utils/SecurityUtils';
-import { GameGroup } from '@shared/models/gameGroup';
-import { AgentRateInfo } from '@shared/models/agentRateInfo';
-import { AgentTreeNode, RateInfo } from '@shared/models/models';
-import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, tap } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
-import { rateValidator } from '@shared/utils/formValidators';
+
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
-import { BehaviorSubject, catchError, tap } from 'rxjs';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
+
+import { ApiService } from '@shared/services/api.service';
 import { MessageService } from '@shared/services/message.service';
+
+import { AgentTreeNode, RateInfo, AgentRateInfo, GameGroup } from '@shared/models/models';
+import { spinnerHandlerPipe } from '@shared/extensions';
+
+import { hasPermission } from '@shared/utils/SecurityUtils';
+import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
+import { rateValidator } from '@shared/utils/formValidators';
+
 
 
 
@@ -59,6 +62,10 @@ export class RatesComponent implements OnInit {
 
   get agentRateInfo(): AgentRateInfo | undefined {
     return this.agent?.agentRateInfo
+  }
+
+  get headerMode(): HeaderMode {
+    return this.isEditing ? HeaderMode.modal : HeaderMode.default
   }
 
 
@@ -145,7 +152,6 @@ export class RatesComponent implements OnInit {
 
         this.agent = agent
         this.groupTree = this.generateGroupTree(agent.agentRateInfo)
-        console.log(this.groupTree);
 
         this.buildFormFromData(this.filtredGroups)
       })
@@ -208,9 +214,7 @@ export class RatesComponent implements OnInit {
       this.api.updateAgentRateInfo(this.agent)
         .pipe(
           spinnerHandlerPipe(this.setLoad.bind(this)),
-          tap({
-            next: () => {this.messageService.showSuccess()},
-          })
+          tap(() => this.messageService.showSuccess())
         )
         .subscribe((data: AgentTreeNode) => {
           if(data.agentRateInfo) {

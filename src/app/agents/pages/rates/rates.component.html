@@ -1,4 +1,11 @@
-
+<navbar
+	[mode]="headerMode"
+	title="AGENT_RATE"
+	withConfirm="true"
+	withCancel="true"
+	(confirm)="onSubmit()"
+	(cancel)="resetChanges()">
+</navbar>
 <form
 	*appSpinner="isLoading | async"
 	[formGroup]="forms"
