@@ -1,0 +1,50 @@
+<div [formGroup]="parentForm">
+	<ng-template #group let-list="children" let-isSubgroup="isSubgroup">
+		<mat-accordion formArrayName="groups" class="rates__groups"
+			[ngClass]="{'rates__subgroups': isSubgroup, 'rates--edit': isEditing}" multi>
+			<mat-expansion-panel expanded="false" *ngFor="let item of list; trackBy: trackByFunc"
+				[hideToggle]="!item.children" class="rates__groups--item"
+				[ngClass]="{'rates__groups--item--hide': !item.children}">
+
+				<mat-expansion-panel-header>
+					<mat-panel-title class="accordion__header">
+						<span class="accordion__header__range" *ngIf="!isSubgroup && item.children">{{getRangeRate(item)}}</span>
+						<h3 class="accordion__header__title">{{item.data.groupName}}</h3>
+					</mat-panel-title>
+					<mat-panel-description [formGroupName]="findFormGroup(item.data.groupId)"
+						class="accordion__description">
+						<input
+							type="number"
+							[disableControl]="!isEditing || !permitions.editorGroup"
+							*ngIf="isEditing; else rateReadOnly"
+							appPercentDirective
+							formControlName="rate"
+							(click)="skipAccordionExpanding($event)"
+							class="accordion__rate_inp" />
+						<ng-template #rateReadOnly>
+							<span
+								class="accordion__rate_text"
+								[class.accordion__rate_text--default]="item.rateInfo.defaultRate">
+									{{ item.rateInfo.rate | percent:'1.0-3'}}
+							</span>
+						</ng-template>
+
+						<mat-slide-toggle
+							[disableControl]="!isEditing || !permitions.editorCheck"
+							formControlName="excluded"
+							(click)="skipAccordionExpanding($event)">
+						</mat-slide-toggle>
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+
+				<ng-container *ngIf="item.children" [ngTemplateOutlet]="group"
+				[ngTemplateOutletContext]="{ children: item.children, isSubgroup: true }"></ng-container>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</ng-template>
+
+	<ng-container
+		[ngTemplateOutlet]="group"
+		[ngTemplateOutletContext]="{ children: dataTree, isSubgroup: false }">
+	</ng-container>
+</div>

@@ -1,0 +1,16 @@
+.input__error {
+	display: block;
+	color: var(--special-red);
+	font-size: 12px;
+	// position: absolute;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	line-height: 16px;
+}
+
+.error_visible {
+	position: relative;
+	white-space: normal;
+}

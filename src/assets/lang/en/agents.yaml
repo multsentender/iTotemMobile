@@ -39,12 +39,15 @@ DAYS: |-
 
 OVERDRAFT: |-
   Overdraft
-  
+
 FIELD_AGENT_NAME: |-
   Agent name
 
 FIELD_AGENT_RATE: |-
   Agent rate
+
+GLOBAL_RATE: |-
+  Glodal rate
 
 LOGIN: |-
   Login
@@ -56,7 +59,7 @@ CONFIRM_DELETE_TITLE: |-
   Confirm delete
 
 LOGIN_DELETE_MESSAGE: |-
-  Are you sure you want to delete login 
+  Are you sure you want to delete login
 
 NEW_AGENT: |-
   New Agent
