@@ -138,7 +138,7 @@ module.exports = (env) => {
         },
       }
     },
-
+    
     plugins: [
       new webpack.LoaderOptionsPlugin({
         options: {
@@ -172,7 +172,7 @@ module.exports = (env) => {
 
       new AngularWebpackPlugin({
         tsconfig: path.resolve(__dirname, "tsconfig.json"),
-        jitMode: env.baseAssetsUrl ? true : false,
+        jitMode: env.baseAssetsUrl ? true : false,//true for docker build
         fileReplacements: env.production ? {
           [path.resolve(__dirname, "src/environments/environment.ts")]:
           path.resolve(__dirname, "src/environments/environment.prod.ts")
