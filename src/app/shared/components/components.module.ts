@@ -9,12 +9,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { MessageComponent } from './message/message.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SlideBtnComponent } from './slide-btn/slide-btn.component';
 import { ControlErrorComponent } from './control-error/control-error.component';
+import { NavbarComponent } from './navbar/navbar.component'
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -25,6 +29,9 @@ import { ControlErrorComponent } from './control-error/control-error.component';
     MatInputModule,
     MatFormFieldModule,
     DragDropModule,
+    MatToolbarModule,
+    MatIconModule,
+    RouterModule,
   ],
   declarations: [
     IconInputComponent,
@@ -34,6 +41,7 @@ import { ControlErrorComponent } from './control-error/control-error.component';
     SpinnerComponent,
     SlideBtnComponent,
     ControlErrorComponent,
+    NavbarComponent,
   ],
   exports: [
     IconInputComponent,
@@ -42,6 +50,7 @@ import { ControlErrorComponent } from './control-error/control-error.component';
     MessageComponent,
     SlideBtnComponent,
     ControlErrorComponent,
+    NavbarComponent,
   ],
 })
 export class ComponentsModule { }

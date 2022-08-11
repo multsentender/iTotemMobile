@@ -45,3 +45,9 @@ CONFIRM_NEW_PASSWORD: |-
 
 SWITCH_TO_DESKTOP: |-
   Версия для компьютера
+
+MENU: |-
+  Меню
+
+PROFILE: |-
+  Профиль

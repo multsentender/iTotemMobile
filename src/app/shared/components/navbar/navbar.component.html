@@ -1,0 +1,61 @@
+<mat-toolbar class="header" color="primary">
+    <ng-template #prevPageButton>
+        <a class="header__btn" (click)="previousPage()" color="primary"
+            [clicklog]="{class: componentName, message: 'click `previos page` button'}">
+            <img class="header__btn_arrow" src="{{pathService.assetsPath('/icons/arrow.svg')}}">
+        </a>
+    </ng-template>
+
+
+    <container-element [ngSwitch]="mode">
+        <some-element *ngSwitchCase="HeaderMode.default">
+            <ng-container [ngTemplateOutlet]="prevPageButton"></ng-container>
+        </some-element>
+
+        <some-element *ngSwitchCase="HeaderMode.main">
+            <a *ngIf="isRoot; else prevPageButton" routerLink="/settings" class="header__btn" color="primary"
+                [clicklog]="{class: componentName, message: 'click menu'}">
+                <img src="{{pathService.assetsPath('/icons/burger.svg')}}" width="24px" height="24px">
+            </a>
+        </some-element>
+
+        <some-element *ngSwitchCase="HeaderMode.modal">
+            <a mat-icon-button class="header__btn" aria-label="search" (click)="previousPage()"
+                [clicklog]="{class: componentName, message: 'click `close modal` button'}">
+                <mat-icon class="header__btn_cross">close</mat-icon>
+            </a>
+        </some-element>
+    </container-element>
+
+
+    <span *ngIf="title.length > 0" class="header__title">{{title | translate}}</span>
+
+    <div>
+        <container-element [ngSwitch]="mode">
+            <some-element *ngSwitchCase="HeaderMode.default">
+                <ng-content></ng-content>
+            </some-element>
+            <some-element *ngSwitchCase="HeaderMode.main">
+                <div class="header__main">
+                    <a
+                        mat-icon-button
+                        aria-label="search"
+                        routerLink="/search"
+                        [clicklog]="{class: componentName, message: 'click search button'}">
+                        <mat-icon class="header__main__search">search</mat-icon>
+                    </a>
+                    <a
+                        mat-icon-button
+                        routerLink="/notifications"
+                        [clicklog]="{class: componentName, message: 'click notifications button'}">
+                        <img class="header__main__notifications"
+                        src="{{pathService.assetsPath('/icons/notification.svg')}}">
+                    </a>
+                </div>
+            </some-element>
+            <some-element *ngSwitchCase="HeaderMode.modal">
+                <button *ngIf="confirmFn" class="header__main__confirm" [disabled]="disabledConfirm">{{'CONFIRM' | translate}}</button>
+            </some-element>
+        </container-element>
+    </div>
+</mat-toolbar>

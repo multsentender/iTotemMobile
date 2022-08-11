@@ -1,6 +1,8 @@
 <main *appSpinner="isLoading" class="menu__wrapper">
-	<nav *ngIf="agents.length + rooms.length > 0" class="agent">
-		<ul class="agent__list">
+	<navbar [mode]="HeaderMode.modal" title="MENU"></navbar>
+	<div class="main_section">
+		<nav *ngIf="agents.length + rooms.length > 0" class="agent">
+			<ul class="agent__list">
 			<!-- FIXME Исправить логику темы "item_current" -->
 			<li *ngFor="let item of agents" [clicklog]="{class: componentName, message: 'click agent ' + item.id}">
 				<a [ngClass]="{
@@ -42,9 +44,9 @@
 			</li>
 			<li class="menu__list--item menu__lang" [ngClass]="{lang__list_visible: langListVisible}">
 				<div class="munu--item__wrapper" (click)="langListVisible = !langListVisible"
-					[clicklog]="{class: componentName, message: 'click FIELD_LANGUAGE'}" matRipple
-					matRippleColor="transparentize(var(--light-bg), .3);">
-					<div class="menu__icon">
+				[clicklog]="{class: componentName, message: 'click FIELD_LANGUAGE'}" matRipple
+				matRippleColor="transparentize(var(--light-bg), .3);">
+				<div class="menu__icon">
 						<img src="{{pathService.assetsPath('/icons/language.svg')}}" alt="lang">
 					</div>
 					<p class="menu__title">
@@ -55,12 +57,12 @@
 				</div>
 				<ul class="lang__list">
 					<li *ngFor="let lang of languages" class="lang__list--item"
-						(click)="changeLocale(lang.code!.toString())"
-						[clicklog]="{class: componentName, message: 'click lang ' + lang.code}" matRipple
-						matRippleColor="transparentize(var(--light-bg), .3);">
-						<p>{{lang.localeName}}</p>
-						<span>{{lang.code}}</span>
-					</li>
+					(click)="changeLocale(lang.code!.toString())"
+					[clicklog]="{class: componentName, message: 'click lang ' + lang.code}" matRipple
+					matRippleColor="transparentize(var(--light-bg), .3);">
+					<p>{{lang.localeName}}</p>
+					<span>{{lang.code}}</span>
+				</li>
 				</ul>
 			</li>
 			<li class="menu__list--item" (click)="support()" *ngIf="freshchatToken"
@@ -78,4 +80,5 @@
 			{{"SWITCH_TO_DESKTOP" | translate}}
 		</a>
 	</section>
+</div>
 </main>

@@ -39,7 +39,6 @@ const routes: Routes = [
     pathMatch: 'full',
     component: ComingSoonComponent,
   },
-  //TODO
   {
     path: ':id/add-room',
     component: ComingSoonComponent,

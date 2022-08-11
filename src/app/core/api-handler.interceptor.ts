@@ -4,7 +4,6 @@ import { Observable, throwError, catchError } from 'rxjs';
 
 import { Log, Logger } from '../shared/services/log.service';
 import { ErrorMessageService } from '../shared/services/error-message.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ApiHandlerInterceptor implements HttpInterceptor {
@@ -13,7 +12,6 @@ export class ApiHandlerInterceptor implements HttpInterceptor {
 
   constructor(
     private errorMessageService: ErrorMessageService,
-    private translate: TranslateService,
   ) {}
 
 
