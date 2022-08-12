@@ -28,7 +28,7 @@
     </container-element>
 
 
-    <span *ngIf="title.length > 0" class="header__title">{{title | translate}}</span>
+    <span *ngIf="title?.length > 0" class="header__title">{{title | translate}}</span>
 
     <div>
         <container-element [ngSwitch]="mode">
