@@ -1,6 +1,6 @@
 <div class="graph">
   <div class="graph-component">
-    <div class="graph__value_type dark-theme">
+    <div class="graph__value_type dark-theme" *ngIf="agentInfo?.rate > 0">
       <mat-tab-group mat-stretch-tabs color="primary" [(selectedIndex)]="formatType" (selectedTabChange)="tabChanged($event)">
         <mat-tab [label]="'MONEY' | translate"></mat-tab>
         <mat-tab [label]="'POINTS' | translate"></mat-tab>
@@ -18,15 +18,15 @@
             <img src="{{pathService.assetsPath('/icons/three-dots.svg')}}" alt="settings">
           </button>
           <mat-menu #menu="matMenu">
-            <a mat-menu-item routerLink="/balance"
+            <a mat-menu-item routerLink="balance"
               [clicklog]="{class: componentName, message: 'click balance in settings'}">
               <span>{{'BALANCE' | translate}}</span>
             </a>
-            <button mat-menu-item routerLink="/overdraft-settings" *ngIf="show.overdraftSettings"
+            <button mat-menu-item routerLink="overdraft-settings" *ngIf="show.overdraftSettings"
               [clicklog]="{class: componentName, message: 'click overdraft settings in settings'}">
               <span>{{'OVERDRAFT_SETTINGS' | translate}}</span>
             </button>
-            <button mat-menu-item routerLink="/top-up" *ngIf="show.topUp"
+            <button mat-menu-item routerLink="top-up" *ngIf="show.topUp"
               [clicklog]="{class: componentName, message: 'click top-up in settings'}">
               <span>{{'TOP_UP' | translate}}</span>
             </button>

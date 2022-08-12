@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { NotificationsComponent } from './list/notifications.component';
+import { ComponentsModule } from '@shared/components/components.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { NotificationsComponent } from './list/notifications.component';
         redirectTo: ''
       }
     ]),
+    ComponentsModule,
   ]
 })
 export class NotificationsModule { }
