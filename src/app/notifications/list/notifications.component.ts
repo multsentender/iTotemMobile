@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Notification } from '@shared/models/notification';
 import { ApiService } from '@shared/services/api.service';
+import { HeaderMode } from '@shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-notifications',
@@ -9,6 +10,7 @@ import { ApiService } from '@shared/services/api.service';
 })
 export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
+  public HeaderMode = HeaderMode
 
   constructor(
     private api: ApiService,

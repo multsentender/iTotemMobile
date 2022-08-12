@@ -13,6 +13,7 @@ import { RateInfo } from '@shared/models/rateInfo';
 import { TranslateService } from '@ngx-translate/core';
 import { hasPermission } from '@shared/utils/SecurityUtils';
 import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-agent',
@@ -45,17 +46,19 @@ export class AgentComponent implements OnInit {
     private route: ActivatedRoute,
     private api: ApiService,
     private translateService: TranslateService,
+    private location: Location,
   ) {
     this.id = this.route.snapshot.params['id'];
   }
 
   getAgentData() {
+    this.resetInfo();
     this.api.getAgentInfo(Number.parseInt(this.id))
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe(agentInfo => {
         this.agentInfo = agentInfo
 
-        if (!this.agentInfo?.dealer && this.agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1) {
+        if (!this.agentInfo?.dealer && this.agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1 && !!this.agentInfo?.walletNumber) {
           this.getServiceBalance(agentInfo)
         }
 
@@ -66,7 +69,20 @@ export class AgentComponent implements OnInit {
           this.getAgentRate(this.agentInfo?.agentRateInfo)
 
         if (hasPermission(this.agentInfo, 'AGENT_ACL_VIEW')) this.show.loginComponent = true;
-      })
+      }, error => {
+        if (error.error?.error === true) this.location.back()
+    })
+  }
+
+  resetInfo(){
+    this.agentInfo = undefined;
+    this.formatType = 0;
+
+    this.balance = undefined;
+    this.balanceFail = false;
+    this.dealerShare = "";
+    this.agentRate = "";
+    this.show.loginComponent = false;
   }
 
   getDealerShare(agent: AgentInfo) {

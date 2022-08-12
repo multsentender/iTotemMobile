@@ -14,7 +14,9 @@ import { ComingSoonComponent } from './core/coming-soon/coming-soon.component';
   },
   {
     path: 'search',
-    loadChildren: () => import('./search/search.module').then(module => module.SearchModule),
+    component: ComingSoonComponent,
+    //TODO
+    //loadChildren: () => import('./search/search.module').then(module => module.SearchModule),
   },
   {
     path: 'agent',

@@ -43,6 +43,23 @@ const routes: Routes = [
     path: ':id/add-room',
     component: ComingSoonComponent,
   },
+  {
+    path: ':id/balance',
+    component: ComingSoonComponent,
+  },
+  {
+    path: ':id/overdraft-settings',
+    component: ComingSoonComponent,
+  },
+  {
+    path: ':id/top-up',
+    component: ComingSoonComponent,
+  },
+  {
+    path: ':id/reports',
+    pathMatch: 'full',
+    component: ComingSoonComponent,
+  },
 ];
 
 @NgModule({
