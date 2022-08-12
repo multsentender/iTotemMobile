@@ -1,16 +1,18 @@
-<navbar
-	[mode]="HeaderMode.modal"
-	[title]="label"
-	withConfirm="true"
-	(confirm)="confirm"
-	[disabledConfirm]="disableBtn || !formValid">
-</navbar>
-<section class="main_section agent-edit">
-	<h3 class="main-title">Agent details</h3>
-	<div class="agent-edit__form" [formGroup]="agentEditForm">
-		<app-icon-input type="text" [formControl]="agentEditForm.get('label')" icon="person" alt="person"
-			placeholder="FIELD_AGENT_NAME"></app-icon-input>
-		<app-icon-input type="number" [formControl]="agentEditForm.get('rate')" icon="percent" alt="percent"
-			placeholder="FIELD_AGENT_RATE"></app-icon-input>
+<section *appSpinner="isLoading | async">
+	<app-header
+		[mode]="HeaderMode.default"
+		[title]="headerTitle"
+		[subTitle]="headerSubTitle"
+		(confirm)="confirm"
+		[disabledConfirm]="disableBtn || !formValid">
+	</app-header>
+	<div class="main_section agent-edit">
+		<h3 class="main-title">Agent details</h3>
+		<div class="agent-edit__form" [formGroup]="agentEditForm">
+			<app-icon-input type="text" [formControl]="agentEditForm.get('label')" icon="person" alt="person"
+				placeholder="FIELD_AGENT_NAME"></app-icon-input>
+			<app-icon-input type="number" [formControl]="agentEditForm.get('rate')" icon="percent" alt="percent"
+				placeholder="FIELD_AGENT_RATE"></app-icon-input>
+		</div>
 	</div>
 </section>

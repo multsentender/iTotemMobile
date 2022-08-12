@@ -13,7 +13,7 @@ import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 import { MessageService } from '@shared/services/message.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
-import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { HeaderMode } from '@shared/components/header/header.component';
 
 
 @Component({

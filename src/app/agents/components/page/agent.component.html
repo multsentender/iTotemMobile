@@ -1,8 +1,8 @@
-<navbar
+<app-header
   [mode]="HeaderMode.main"
   [title]="agentInfo?.label"
   [isRoot]="true">
-</navbar>
+</app-header>
 <section *appSpinner="isLoading" class="agent agent__container">
   <!--graph section-->
   <app-agent-graph [agentInfo]="agentInfo" (formatTypeChange)="formatTypeChange($event)"></app-agent-graph>

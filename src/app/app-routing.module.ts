@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ComingSoonComponent } from './core/coming-soon/coming-soon.component';
+import { HeaderComponent } from '@shared/components/header/header.component';
 
 @NgModule({
   imports: [RouterModule.forRoot([
@@ -9,21 +9,31 @@ import { ComingSoonComponent } from './core/coming-soon/coming-soon.component';
     loadChildren: () => import('./settings/settings.module').then(module => module.SettingsModule),
   },
   {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then(module => module.NotificationsModule),
-  },
-  {
-    path: 'search',
-    loadChildren: () => import('./search/search.module').then(module => module.SearchModule),
-  },
-  {
     path: 'agent',
     loadChildren: () => import('./agents/agents.module').then(module => module.AgentsModule),
   },
+
+  // Plugs
   {
-    path: 'room',
-    loadChildren: () => import('./rooms/rooms.module').then(module => module.RoomsModule),
+    path: 'notifications',
+    component: HeaderComponent,
   },
+  {
+    path: 'search',
+    component: HeaderComponent,
+  },
+
+  // Plugs: rooms
+  {
+    path: 'room/:id',
+    pathMatch: 'full',
+    component: HeaderComponent
+  },
+  {
+    path: 'room/:id/edit',
+    component: HeaderComponent,
+  },
+
   {
     path: '**',
     pathMatch: 'full',

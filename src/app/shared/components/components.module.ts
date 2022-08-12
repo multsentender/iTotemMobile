@@ -17,7 +17,7 @@ import { MessageComponent } from './message/message.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SlideBtnComponent } from './slide-btn/slide-btn.component';
 import { ControlErrorComponent } from './control-error/control-error.component';
-import { NavbarComponent } from './navbar/navbar.component'
+import { HeaderComponent } from './header/header.component'
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -41,7 +41,7 @@ import { RouterModule } from '@angular/router';
     SpinnerComponent,
     SlideBtnComponent,
     ControlErrorComponent,
-    NavbarComponent,
+    HeaderComponent,
   ],
   exports: [
     IconInputComponent,
@@ -50,7 +50,7 @@ import { RouterModule } from '@angular/router';
     MessageComponent,
     SlideBtnComponent,
     ControlErrorComponent,
-    NavbarComponent,
+    HeaderComponent,
   ],
 })
 export class ComponentsModule { }
