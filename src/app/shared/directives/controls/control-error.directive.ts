@@ -1,6 +1,7 @@
-import { ComponentRef, Directive, Host, OnInit, Optional, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Directive, Host, Inject, OnInit, Optional, ViewContainerRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { ControlErrorComponent } from '@shared/components/control-error/control-error.component';
+import { FORM_ERRORS } from '@shared/services/form-errors.service';
 import { EMPTY, merge, Observable } from 'rxjs';
 import { ControlErrorContainerDirective } from './control-error-container.directive';
 import { FormSubmitDirective } from './form-submit.directive';
@@ -17,7 +18,8 @@ export class ControlErrorDirective implements OnInit {
     private vcr: ViewContainerRef,
     private control: NgControl,
     @Optional() @Host() private form: FormSubmitDirective,
-    @Optional() controlContainer: ControlErrorContainerDirective) {
+    @Optional() controlContainer: ControlErrorContainerDirective,
+    @Inject(FORM_ERRORS) private errors: any) {
 
       // Receiving an event 'submit'
       this.submit$ = form ? form.submit$ : EMPTY
@@ -27,7 +29,7 @@ export class ControlErrorDirective implements OnInit {
 
 
   ngOnInit(): void {
-    const control$ = this.control.valueChanges ? this.control.valueChanges : EMPTY
+    const control$ = this.control.statusChanges ? this.control.statusChanges : EMPTY
 
     merge(
       this.submit$,
@@ -36,7 +38,8 @@ export class ControlErrorDirective implements OnInit {
       const controlErrors = this.control.errors;
       if (controlErrors) {
         const firstKey = Object.keys(controlErrors)[0];
-        const text = controlErrors[firstKey]
+        const getError = this.errors[firstKey]
+        const text = getError ? getError(controlErrors[firstKey]) : controlErrors[firstKey]
         this.setError(text)
       } else if(this.ref) {
         this.setError(null)

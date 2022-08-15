@@ -4,7 +4,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
-import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { HeaderMode } from '@shared/components/header/header.component';
 
 import { ApiService } from '@shared/services/api.service';
 import { MessageService } from '@shared/services/message.service';
@@ -14,7 +14,8 @@ import { spinnerHandlerPipe } from '@shared/extensions';
 
 import { hasPermission } from '@shared/utils/SecurityUtils';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
-import { rateValidator } from '@shared/utils/formValidators';
+import { FormValidator } from '@shared/utils/formValidators';
+import { bindContext } from '@shared/decorators/bind-context-decorator';
 
 
 
@@ -60,6 +61,13 @@ export class RatesComponent implements OnInit {
   private filtredGroups: RateGroup[] = [];
   public groupTree: RateGroup[] = [];
 
+  public permitions: IPermitions = {
+    editor: false,
+    editorGroup: false,
+    editorCheck: false
+  }
+
+
   get agentRateInfo(): AgentRateInfo | undefined {
     return this.agent?.agentRateInfo
   }
@@ -69,22 +77,12 @@ export class RatesComponent implements OnInit {
   }
 
 
-  public permitions: IPermitions = {
-    editor: false,
-    editorGroup: false,
-    editorCheck: false
-  }
-
-
-
   constructor(
     private activeRouter: ActivatedRoute,
     private api: ApiService,
     private fb: FormBuilder,
     private messageService: MessageService
   ) { this.forms = fb.group({globalRate: 0}) }
-
-
 
   getfilterGroups(data: AgentRateInfo) {
     const filtredGroups: RateGroup[] = Object.values(data.gameGroups).filter(item =>
@@ -124,7 +122,7 @@ export class RatesComponent implements OnInit {
   addFormGroup(id: number, rateInfo: RateInfo): FormGroup {
     return this.fb.group({
       id: id,
-      rate: [rateInfo.rate, [this.agentRateInfo && rateValidator(this.agentRateInfo, rateInfo)]],
+      rate: [rateInfo.rate, [this.agentRateInfo && FormValidator.rateValidator(this.agentRateInfo, rateInfo)]],
       excluded: !rateInfo.excluded
     })
   }
@@ -135,7 +133,7 @@ export class RatesComponent implements OnInit {
 
     this.forms.addControl('groups', groups)
     this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate})
-    this.forms.get('globalRate')?.addValidators(rateValidator(this.agentRateInfo!, this.agentRateInfo!.rateInfo) as ValidatorFn)
+    this.forms.get('globalRate')?.addValidators(FormValidator.rateValidator(this.agentRateInfo!, this.agentRateInfo!.rateInfo) as ValidatorFn)
   }
 
 
@@ -177,8 +175,9 @@ export class RatesComponent implements OnInit {
   }
 
 
-
+  @bindContext
   resetChanges() {
+    console.log('res', this.isEditing);
     const groups = this.filtredGroups.map(el => (
       {
         id: el.data.groupId,
@@ -191,6 +190,7 @@ export class RatesComponent implements OnInit {
     this.toEdit(false)
   }
 
+  @bindContext
   onSubmit() {
     if(this.forms.valid && this.agent) {
       const {globalRate, groups} = this.forms.controls

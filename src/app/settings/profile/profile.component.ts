@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AsyncValidatorFn } from '@angular/forms';
 import { BehaviorSubject, filter, skip } from 'rxjs';
 
-import { atLeastOneValidator, checkConfirmPassword } from '@shared/utils/formValidators';
+import { FormValidator } from '@shared/utils/formValidators';
 import { Logger, Log } from '@shared/services/log.service';
 
 import { ValidationStatus } from '@shared/models/validationStatus';
@@ -13,7 +13,7 @@ import { AgentLoginInfo } from '@shared/models/agentLoginInfo';
 import { MessageService } from '@shared/services/message.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
-import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { HeaderMode } from '@shared/components/header/header.component';
 
 
 @Component({
@@ -40,10 +40,10 @@ export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup = this.fb.group({
     login: [{ value: '', disabled: true }],
-    email: ['', [Validators.pattern(/.+@.+\..+/)]],
-    password: ['', [Validators.minLength(5)]],
+    email: ['', {validators: Validators.pattern(/.+@.+\..+/), asyncValidators: FormValidator.emailAsyncValidator(this.api)}],
+    password: ['', {validators: Validators.minLength(5), asyncValidators: FormValidator.passwordAsyncValidator(this.api)}],
     passwordConf: '',
-  }, { validators: [checkConfirmPassword, atLeastOneValidator(['email', 'password'])] });
+  }, { validators: [FormValidator.checkConfirmPassword, FormValidator.atLeastOneValidator(['email', 'password'])] });
 
 
 
@@ -58,54 +58,22 @@ export class ProfileComponent implements OnInit {
       .subscribe(agent => this.profileForm.patchValue(agent))
   }
 
+
   ngOnInit(): void {
     this.api.getCurrentUserProfile()
       .pipe(spinnerHandlerPipe(this.setLoad.bind(this)))
       .subscribe((data) => this.profile.next(data))
 
-    // Совмещение клиентской и серверной валдации
-    this.profileForm.valueChanges
-    .pipe(skip(1))
-    .subscribe((data) => {
-      if(
-        this.profileForm.valid &&
-        (data.email !== this.profile.value.email ||
-        data.password.length > 0)
-      ) {
-        this.disabledBtn = false
-
-        Object.keys(this.formValidation).forEach(key => delete this.formValidation[key]) //Очистка клиентских ошибок
-        if(data.email) {
-          this.api.validateEMail(data.email)
-            .subscribe(data => this.validQueryHandler('email', data))
-        }
-        if (data.password) {
-          this.api.validateCurrentUserPassword({password: data.password})
-            .subscribe(data => this.validQueryHandler('password', data))
-          }
-      } else {
-        this.disabledBtn = true
-
-        // Error message на клиентскую валидацию
-        this.formValidation['email'] = !this.getFormControl('email').valid ? 'VALIDATION_MESSAGE_EMAIL' : ''
-        this.formValidation['password'] = !this.getFormControl('password').valid ? 'VALIDATION_MESSAGE_PASSWORD' : ''
-      }
-    })
+      this.profileForm.statusChanges.subscribe(status => {
+        const disable = status === 'VALID' ? false : true
+        this.disabledBtn = disable
+      })
   }
-
-
 
 
   getFormControl(name: string): FormControl {
     return this.profileForm.get(name) as FormControl
   }
-
-  // Обработчик серверной валидации
-  validQueryHandler(key: string, status: ValidationStatus) {
-    if (!status.isValid) this.formValidation[key] = status.message || ''
-    else delete this.formValidation[key]
-  }
-
 
   checkCurrentPassword(currentPassword: string) {
     this._log.info("confirm old password confirmation modal");

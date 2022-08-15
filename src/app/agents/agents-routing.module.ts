@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ComingSoonComponent } from '../core/coming-soon/coming-soon.component';
+import { HeaderComponent } from '@shared/components/header/header.component';
 import { AgentComponent } from './components/page/agent.component';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { RatesComponent } from './pages/rates/rates.component';
@@ -32,33 +32,33 @@ const routes: Routes = [
   {
     path: ':id/login/new',
     pathMatch: 'full',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/login/:userId',
     pathMatch: 'full',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/add-room',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/balance',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/overdraft-settings',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/top-up',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
   {
     path: ':id/reports',
     pathMatch: 'full',
-    component: ComingSoonComponent,
+    component: HeaderComponent,
   },
 ];
 

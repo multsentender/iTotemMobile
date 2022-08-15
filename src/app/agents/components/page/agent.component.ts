@@ -12,7 +12,7 @@ import { AgentRateInfo } from '@shared/models/agentRateInfo';
 import { RateInfo } from '@shared/models/rateInfo';
 import { TranslateService } from '@ngx-translate/core';
 import { hasPermission } from '@shared/utils/SecurityUtils';
-import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { HeaderMode } from '@shared/components/header/header.component';
 import { Location } from '@angular/common';
 
 @Component({

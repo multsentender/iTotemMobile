@@ -11,7 +11,7 @@ import { ApiService } from '@shared/services/api.service';
 
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { ModeSlideBtn } from '@shared/components/slide-btn/slide-btn.component';
-import { HeaderMode } from '@shared/components/navbar/navbar.component';
+import { HeaderMode } from '@shared/components/header/header.component';
 
 @Component({
   selector: 'app-menu',

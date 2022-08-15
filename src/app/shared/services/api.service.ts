@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError, mergeMap, retryWhen, delay, delayWhen, tap, fromEvent, race } from 'rxjs';
 
-import { CacheService } from '@shared/cache/cache.service';
-import { cachedRequests } from '@shared/cache/cache-decorator';
+import { CacheService } from '@shared/decorators/cache/cache.service';
+import { cachedRequests } from '@shared/decorators/cache/cache-decorator';
 import { environment } from '../../../environments/environment';
 
 import { reqValidErrorHandlerPipe } from '@shared/extensions';
@@ -210,12 +210,6 @@ export class ApiService {
 
 
   // Notifications
-	@cachedRequests(function() {return this.cache}, true, 20 * 60 * 1000)
-  clearSelfNotifications(): Observable<Notification[]>{
-    return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
-  }
-
-	@cachedRequests(function() {return this.cache}, false, 20 * 60 * 1000)
   getSelfNotifications(): Observable<Notification[]>{
     return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
   }
