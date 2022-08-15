@@ -13,12 +13,6 @@ RETRY: |-
 INTERNAL_ERROR: |-
   Произошла внутренняя ошибка {{statusCode}}. Если проблема не устранена, не стесняйтесь обращаться в нашу службу поддержки.
 
-VALIDATION_MESSAGE_EMAIL: |-
-  Неверный формат E-Mail адреса
-
-VALIDATION_MESSAGE_PASSWORD: |-
-  Минимальная длина пароля 5 cимволов
-
 CHANGES_SAVED: |-
   Ваши изменения были успешно сохранены
 
@@ -45,3 +39,16 @@ NEW_AGENT: |-
 
 AGENT: |-
   Агент
+
+
+
+# Validation message
+
+REQUEIRED_ERROR: |-
+  Данное поле является обязательным
+
+MINLENGTH_ERROR: |-
+  Минимальная длина 6 символов
+
+PATTERN_ERROR: |-
+  Не верный формат поля

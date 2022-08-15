@@ -4,48 +4,49 @@
   [isRoot]="true">
 </app-header>
 <section *appSpinner="isLoading" class="agent agent__container">
-  <!--graph section-->
-  <app-agent-graph [agentInfo]="agentInfo" (formatTypeChange)="formatTypeChange($event)"></app-agent-graph>
+  <div *ngIf="agentInfo">
+    <!--graph section-->
+    <app-agent-graph [agentInfo]="agentInfo" (formatTypeChange)="formatTypeChange($event)"></app-agent-graph>
 
-  <!--buttons section-->
-  <div class="agent__buttons">
-    <p *ngIf="!agentInfo?.dealer && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1">
-      <mat-form-field appearance="outline" class="agent__buttons__text-outline">
-        <mat-label>{{'SERVICE_BALANCE' | translate}}</mat-label>
-        <input matInput [value]="balance ? (balance | formatMoneyPoints:formatType:agentInfo) : (balanceFail ? 'FAILURE' :'LOADING_'| translate)" [style.color]="balanceFail ? 'var(--special-red)' : ''"
-          class="agent__buttons__text" disabled="true">
-      </mat-form-field>
-    </p>
-    <p *ngIf="!!agentInfo?.dealer
-    && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1
-    && agentInfo?.dealerBalance !== null">
-      <mat-form-field appearance="outline" class="agent__buttons__text-outline">
-        <mat-label>{{'DEALER_SHARE' | translate}}</mat-label>
-        <input matInput [value]="dealerShare" class="agent__buttons__text" disabled="true">
-      </mat-form-field>
-    </p>
+    <!--buttons section-->
+    <div class="agent__buttons">
+      <p *ngIf="!agentInfo?.dealer && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1 && !!agentInfo?.walletNumber">
+        <mat-form-field appearance="outline" class="agent__buttons__text-outline">
+          <mat-label>{{'SERVICE_BALANCE' | translate}}</mat-label>
+          <input matInput [value]="balance ? (balance | formatMoneyPoints:formatType:agentInfo) : (balanceFail ? 'FAILURE' :'LOADING_'| translate)" 
+          [style.color]="balanceFail ? 'var(--special-red)' : ''" class="agent__buttons__text" disabled="true">
+        </mat-form-field>
+      </p>
+      <p *ngIf="!!agentInfo?.dealer
+      && agentInfo?.permissions?.indexOf('AGENT_VIEW_SERVICE_BALANCE') != -1
+      && agentInfo?.dealerBalance !== null">
+        <mat-form-field appearance="outline" class="agent__buttons__text-outline">
+          <mat-label>{{'DEALER_SHARE' | translate}}</mat-label>
+          <input matInput [value]="dealerShare" class="agent__buttons__text" disabled="true">
+        </mat-form-field>
+      </p>
 
-    <div class="dark-theme">
-      <a class="agent__btn" routerLink="/rates" mat-flat-button color="primary"
-        [clicklog]="{class: componentName, message: 'click agent rate'}">
-        {{'AGENT_RATE' | translate}} {{agentRate}}
-      </a>
+      <div class="dark-theme">
+        <a class="agent__btn" routerLink="rates" mat-flat-button color="primary"
+          [clicklog]="{class: componentName, message: 'click agent rate'}">
+          {{'AGENT_RATE' | translate}} {{agentRate}}
+        </a>
+      </div>
+      <div class="dark-theme agent__between-buttons" *ngIf="agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_KIOSK') != -1
+      || agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_SERVICE') != -1">
+        <a class="agent__btn" routerLink="reports" (click)="confirm()" mat-flat-button color="primary"
+          [clicklog]="{class: componentName, message: 'click report'}">
+          {{'REPORT' | translate}}
+        </a>
+      </div>
     </div>
-    <div class="dark-theme agent__between-buttons" *ngIf="agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_KIOSK') != -1
-    || agentInfo?.permissions?.indexOf('AGENT_VIEW_REPORT_BY_SERVICE') != -1">
-      <a class="agent__btn" routerLink="/reports" (click)="confirm()" mat-flat-button color="primary"
-        [clicklog]="{class: componentName, message: 'click report'}">
-        {{'REPORT' | translate}}
-      </a>
-    </div>
+    <agent-buttons></agent-buttons>
+
+    <!--login section-->
+    <app-agent-login *ngIf="show.loginComponent" [agentInfo]="agentInfo"></app-agent-login>
+
+
+    <!--sub-structure section-->
+    <app-agent-sub-structure [agentInfo]="agentInfo"></app-agent-sub-structure>
   </div>
-  <agent-buttons></agent-buttons>
-
-  <!--login section-->
-  <app-agent-login *ngIf="show.loginComponent" [agentInfo]="agentInfo"></app-agent-login>
-
-
-  <!--sub-structure section-->
-  <app-agent-sub-structure [agentInfo]="agentInfo"></app-agent-sub-structure>
-
 </section>

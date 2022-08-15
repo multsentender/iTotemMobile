@@ -10,9 +10,6 @@ RETRY: |-
 INTERNAL_ERROR: |-
   Internal error occurred {{statusCode}}. If issue persists, feel free to contact with our support team.
 
-VALIDATION_MESSAGE_EMAIL: |-
-  Invalid format E-Mail address
-
 VALIDATION_MESSAGE_PASSWORD: |-
   Minimum password length 5 characters
 
@@ -42,3 +39,15 @@ NEW_AGENT: |-
 
 AGENT: |-
   Agent
+
+
+# Validation message
+
+REQUEIRED_ERROR: |-
+  This field is required
+
+MINLENGTH_ERROR: |-
+  Minimum length 6 characters
+
+PATTERN_ERROR: |-
+  Invalid field format

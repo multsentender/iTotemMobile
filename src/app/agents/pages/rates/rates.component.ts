@@ -14,7 +14,7 @@ import { spinnerHandlerPipe } from '@shared/extensions';
 
 import { hasPermission } from '@shared/utils/SecurityUtils';
 import { AgentRateUtils } from '@shared/utils/AgentRateUtils';
-import { rateValidator } from '@shared/utils/formValidators';
+import { FormValidator } from '@shared/utils/formValidators';
 import { bindContext } from '@shared/decorators/bind-context-decorator';
 
 
@@ -122,7 +122,7 @@ export class RatesComponent implements OnInit {
   addFormGroup(id: number, rateInfo: RateInfo): FormGroup {
     return this.fb.group({
       id: id,
-      rate: [rateInfo.rate, [this.agentRateInfo && rateValidator(this.agentRateInfo, rateInfo)]],
+      rate: [rateInfo.rate, [this.agentRateInfo && FormValidator.rateValidator(this.agentRateInfo, rateInfo)]],
       excluded: !rateInfo.excluded
     })
   }
@@ -133,7 +133,7 @@ export class RatesComponent implements OnInit {
 
     this.forms.addControl('groups', groups)
     this.forms.patchValue({globalRate: this.agentRateInfo?.rateInfo.rate})
-    this.forms.get('globalRate')?.addValidators(rateValidator(this.agentRateInfo!, this.agentRateInfo!.rateInfo) as ValidatorFn)
+    this.forms.get('globalRate')?.addValidators(FormValidator.rateValidator(this.agentRateInfo!, this.agentRateInfo!.rateInfo) as ValidatorFn)
   }
 
 

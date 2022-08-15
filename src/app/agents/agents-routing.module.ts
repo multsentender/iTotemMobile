@@ -43,6 +43,23 @@ const routes: Routes = [
     path: ':id/add-room',
     component: HeaderComponent,
   },
+  {
+    path: ':id/balance',
+    component: HeaderComponent,
+  },
+  {
+    path: ':id/overdraft-settings',
+    component: HeaderComponent,
+  },
+  {
+    path: ':id/top-up',
+    component: HeaderComponent,
+  },
+  {
+    path: ':id/reports',
+    pathMatch: 'full',
+    component: HeaderComponent,
+  },
 ];
 
 @NgModule({

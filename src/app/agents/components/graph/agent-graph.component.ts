@@ -52,18 +52,21 @@ export class GraphComponent implements OnInit {
     public pathService: PathService,
     private translate: TranslateService,
   ) {
-    this.getBalanceMode()
   }
 
   getBalanceMode() {
-    const mode = localStorage.getItem('agentGraph');
-    this.formatType = (mode === 'money') ? 0 : 1;
+    if (this.agentInfo?.rate && this.agentInfo.rate > 0){
+      const mode = localStorage.getItem('agentGraph');
+      this.formatType = (mode === 'points') ? 1 : 0;
+    }
   }
 
   ngOnInit(): void {
+    if (!this.agentInfo) return
+    this.getBalanceMode()
     this.getBalance();
 
-    this.getBalanceGraph();
+    if (this.agentInfo.balance) this.getBalanceGraph();
     this.getExpiration();
     this.getOverdraft();
 
@@ -86,7 +89,7 @@ export class GraphComponent implements OnInit {
   getBalance() {
 
     if (hasPermission(this.agentInfo || {}, 'AGENT_VIEW_OVERDRAFT'))
-      this.balance = (this.agentInfo!.balance || 0) + (this.agentInfo!.overdraft || 0)
+      this.balance = (this.agentInfo?.balance || 0) + (this.agentInfo?.overdraft || 0)
     else
       this.balance = this.agentInfo?.balance
 
