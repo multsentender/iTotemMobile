@@ -6,7 +6,7 @@ import { AgentTreeNode } from '@shared/models/agentTreeNode';
 
 import { ApiService } from '@shared/services/api.service';
 import { MessageService } from '@shared/services/message.service';
-import { rateValidator } from '@shared/utils/formValidators';
+import { FormValidator } from '@shared/utils/formValidators';
 
 import { BehaviorSubject, first, tap } from 'rxjs';
 
@@ -80,7 +80,7 @@ export class EditAgentComponent implements OnInit {
     }))
     .subscribe(val => {
       this.agentEditForm.get('rate')?.addValidators(
-        rateValidator(val, val.rateInfo) as ValidatorFn
+        FormValidator.rateValidator(val, val.rateInfo) as ValidatorFn
       )
     })
   }
