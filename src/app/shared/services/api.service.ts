@@ -210,12 +210,6 @@ export class ApiService {
 
 
   // Notifications
-	@cachedRequests(function() {return this.cache}, true, 20 * 60 * 1000)
-  clearSelfNotifications(): Observable<Notification[]>{
-    return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
-  }
-
-	@cachedRequests(function() {return this.cache}, false, 20 * 60 * 1000)
   getSelfNotifications(): Observable<Notification[]>{
     return this.sendApiRequest(httpTypes.get, 'getSelfNotifications', true)
   }
