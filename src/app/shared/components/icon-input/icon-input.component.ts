@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { PathService } from '@shared/services/path.service';
@@ -15,15 +15,17 @@ import { PathService } from '@shared/services/path.service';
   }]
 })
 
-export class IconInputComponent implements ControlValueAccessor, OnInit {
+export class IconInputComponent implements ControlValueAccessor {
   @Input() type: string = "text";
-  @Input() formControl!: FormControl;
+  @Input('form') formControl!: FormControl;
 
   @Input() errorMessage?: string;
   @Input() label?: string;
   @Input() placeholder: string = "";
   @Input() icon?: string;
   @Input() alt?: string;
+
+  @Input() percent?: boolean
 
   hideError = true;
   hidePass: boolean = true;
@@ -33,8 +35,6 @@ export class IconInputComponent implements ControlValueAccessor, OnInit {
   constructor(
     public pathService: PathService,
   ) { }
-
-  ngOnInit(): void {}
 
   registerOnChange(fn: any) {
   }
