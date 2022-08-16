@@ -47,7 +47,7 @@ REQUEIRED_ERROR: |-
   This field is required
 
 MINLENGTH_ERROR: |-
-  Minimum length 6 characters
+  Minimum length 5 characters
 
 PATTERN_ERROR: |-
   Invalid field format

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HeaderMode } from '@shared/components/header/header.component';
+import { bindContext } from '@shared/decorators/bind-context-decorator';
 import { spinnerHandlerPipe } from '@shared/extensions';
 import { AgentTreeNode } from '@shared/models/agentTreeNode';
 
@@ -127,6 +128,7 @@ export class EditAgentComponent implements OnInit {
     })
   }
 
+  @bindContext
   confirm() {
     this.isSubAgent ? this.createSubAgent() : this.editAgent()
   }

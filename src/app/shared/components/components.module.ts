@@ -19,6 +19,7 @@ import { SlideBtnComponent } from './slide-btn/slide-btn.component';
 import { ControlErrorComponent } from './control-error/control-error.component';
 import { HeaderComponent } from './header/header.component'
 import { RouterModule } from '@angular/router';
+import { DirectiveModule } from '@shared/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatIconModule,
     RouterModule,
+    DirectiveModule
   ],
   declarations: [
     IconInputComponent,

@@ -1,4 +1,4 @@
-<div class="form" [ngClass]="{error_visible: !hideError}">
+<div controlErrorContainer class="form" [ngClass]="{error_visible: !hideError}">
     <mat-form-field
         hideRequiredMarker
         appearance="outline"
@@ -10,12 +10,21 @@
             src="{{pathService.assetsPath('/icons/'+ icon +'.svg')}}"
             [alt]=alt>
         <input
+            *ngIf="!percent"
             matInput
             [ngClass]="{'input__form': true, 'input__form__no_icon': !icon}"
             [placeholder]="placeholder | translate"
             [type]="type === 'password'
                 ? hidePass ? 'password' : 'text'
                 : type"
+            [formControl]="formControl"/>
+        <input
+            *ngIf="percent"
+            appPercentDirective
+            matInput
+            [ngClass]="{'input__form': true, 'input__form__no_icon': !icon}"
+            [placeholder]="placeholder | translate"
+            type="number"
             [formControl]="formControl"/>
         <img
             *ngIf="type === 'password'"
@@ -24,7 +33,4 @@
             src="{{pathService.assetsPath('/icons/eye.svg')}}"
             alt="eye">
     </mat-form-field>
-    <span
-        class="input__error"
-        (click)="hideError = !hideError">{{errorMessage | translate}}</span>
 </div>
