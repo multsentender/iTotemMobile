@@ -1,7 +1,7 @@
 <mat-toolbar class="header" color="primary">
     <ng-template #prevPageButton>
         <a class="header__btn" (click)="previousPage()" color="primary"
-            [clicklog]="{class: componentName, message: 'click `previos page` button'}">
+            [clicklog]="{class: componentName, message: backLog}">
             <img class="header__btn_arrow" src="{{pathService.assetsPath('/icons/arrow.svg')}}">
         </a>
     </ng-template>
@@ -14,14 +14,14 @@
 
         <some-element *ngSwitchCase="HeaderMode.main">
             <a *ngIf="isRoot; else prevPageButton" routerLink="/settings" class="header__btn" color="primary"
-                [clicklog]="{class: componentName, message: 'click menu'}">
+                [clicklog]="{class: componentName, message: 'Open /settings'}">
                 <img src="{{pathService.assetsPath('/icons/burger.svg')}}" width="24px" height="24px">
             </a>
         </some-element>
 
         <some-element *ngSwitchCase="HeaderMode.modal">
             <a mat-icon-button class="header__btn" aria-label="search" (click)="previousPage()"
-                [clicklog]="{class: componentName, message: 'click `close modal` button'}">
+                [clicklog]="{class: componentName, message: backLog}">
                 <mat-icon class="header__btn_cross">close</mat-icon>
             </a>
         </some-element>
@@ -41,13 +41,13 @@
                         mat-icon-button
                         aria-label="search"
                         routerLink="/search"
-                        [clicklog]="{class: componentName, message: 'click search button'}">
+                        [clicklog]="{class: componentName, message: 'Open /search from ' + currentPage}">
                         <mat-icon class="header__main__search">search</mat-icon>
                     </a>
                     <a
                         mat-icon-button
                         routerLink="/notifications"
-                        [clicklog]="{class: componentName, message: 'click notifications button'}">
+                        [clicklog]="{class: componentName, message: 'Open /notifications from ' + currentPage}">
                         <img class="header__main__notifications" [src]="notificationIcon">
                     </a>
                 </div>

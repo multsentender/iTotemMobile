@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PathService } from '@shared/services/path.service';
 import { Location } from '@angular/common';
 import { NotificationService } from '@shared/services/notification.service';
+import { RoutingService } from '@shared/services/routing.service';
+import { Router } from '@angular/router';
 
 export enum HeaderMode {main, modal, default}
 @Component({
@@ -28,7 +30,9 @@ export class HeaderComponent {
   constructor(
     public pathService: PathService,
     private location: Location,
-    private notificationService: NotificationService
+    private router: Router,
+    private notificationService: NotificationService,
+    private routingService: RoutingService
   ) { }
 
   get notificationIcon(): URL {
@@ -37,6 +41,22 @@ export class HeaderComponent {
   }
 
   previousPage() {
-    this.onCancel && this.mode === HeaderMode.modal ? this.onCancel() : this.location.back()
+    if(this.onCancel && this.mode === HeaderMode.modal) {
+      this.onCancel()
+      return
+    }
+
+    this.prevPage ? this.location.back() : this.router.navigateByUrl('/')
+  }
+
+  get currentPage() {
+    return this.routingService.currentRoute
+  }
+  get prevPage() {
+    return this.routingService.previosRoute
+  }
+
+  get backLog() {
+    return `Back to ${this.prevPage ? this.prevPage : '/'} from ${this.currentPage}`
   }
 }
