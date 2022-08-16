@@ -1,4 +1,4 @@
-<mat-toolbar class="header" color="primary">
+<mat-toolbar class="header" [class.header--scroll]="scrollClass | async" color="primary">
     <ng-template #prevPageButton>
         <a class="header__btn" (click)="previousPage()" color="primary"
             [clicklog]="{class: componentName, message: backLog}">

@@ -106,7 +106,7 @@ export class EditAgentComponent implements OnInit {
     const updateAgent: AgentTreeNode = {
       ...this.agent.value,
       ...this.agentEditForm.value,
-      rate: this.agentEditForm.get('rate')?.value / 100
+      rate: this.agentEditForm.get('rate')?.value
     }
 
     this.api.updateAgent(updateAgent)
@@ -119,7 +119,7 @@ export class EditAgentComponent implements OnInit {
     const subAgent: AgentTreeNode = {
       _c: "AgentTreeNode",
       ...this.agentEditForm.value,
-      rate: this.agentEditForm.get('rate')?.value / 100
+      rate: this.agentEditForm.get('rate')?.value
     }
 
     this.api.createAgent(this.agent.value, subAgent)
